@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>リスティング広告初期設定ツール v29</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh}
+.header{background:#1a1a1a;color:#f5f4f0;padding:16px 24px;display:flex;align-items:center}
+.header h1{font-size:15px;font-weight:500;letter-spacing:0.05em}
+.header span{font-size:11px;color:#888;margin-left:auto}
+.container{max-width:960px;margin:0 auto;padding:24px}
+.api-bar{background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.api-bar label{font-size:12px;color:#666;white-space:nowrap;font-weight:500}
+.api-bar input{flex:1;padding:7px 10px;border:1px solid #ddd;border-radius:5px;font-size:13px;font-family:monospace}
+.api-bar button{padding:7px 14px;background:#1a1a1a;color:#fff;border:none;border-radius:5px;font-size:12px;cursor:pointer}
+.api-status{font-size:11px;color:#27500a;white-space:nowrap}
+.mode-select{background:#fff;border:1px solid #ddd;border-radius:8px;padding:20px;margin-bottom:16px}
+.mode-select h2{font-size:13px;font-weight:500;margin-bottom:12px;color:#666}
+.mode-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mode-btn{padding:14px;border:1.5px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;text-align:center;transition:all 0.15s}
+.mode-btn:hover{border-color:#1a1a1a}
+.mode-btn.selected{border-color:#1a1a1a;background:#1a1a1a;color:#fff}
+.mode-btn .mode-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.mode-btn .mode-desc{font-size:11px;color:#888}
+.mode-btn.selected .mode-desc{color:#ccc}
+.step-nav{display:flex;gap:0;margin-bottom:16px;border:1px solid #ddd;border-radius:6px;overflow:hidden;background:#fff}
+.step-btn{flex:1;padding:10px 8px;font-size:12px;background:#fff;border:none;border-right:1px solid #ddd;cursor:pointer;color:#888}
+.step-btn:last-child{border-right:none}
+.step-btn.active{background:#1a1a1a;color:#fff}
+.screen{display:none}
+.screen.active{display:block}
+.card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:20px;margin-bottom:16px}
+.section-label{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;color:#666;margin-bottom:4px;font-weight:500}
+.field label .req{color:#e24b4a;margin-left:2px}
+.field input,.field textarea,.field select{width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:5px;font-size:14px;background:#fff;color:#1a1a1a;font-family:inherit;transition:border 0.15s}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:#1a1a1a}
+.field textarea{resize:vertical;min-height:72px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.checkbox-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
+.checkbox-item{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+.checkbox-item input{width:14px;height:14px;cursor:pointer}
+.time-row{display:flex;align-items:center;gap:8px;margin-top:4px;flex-wrap:wrap}
+.time-row select{width:auto;flex:1;min-width:80px}
+.time-row span{font-size:13px;color:#666}
+.bidding-options{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.bidding-option{display:flex;align-items:flex-start;gap:8px;padding:10px;border:1px solid #ddd;border-radius:6px;cursor:pointer}
+.bidding-option input[type=radio]{margin-top:2px;width:14px;height:14px;flex-shrink:0}
+.bidding-option .b-title{font-size:13px;font-weight:500}
+.bidding-option .b-desc{font-size:11px;color:#888;margin-top:2px}
+.btn-primary{width:100%;padding:12px;background:#1a1a1a;color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:500;cursor:pointer;margin-top:8px}
+.btn-primary:hover{opacity:0.85}
+.btn-secondary{padding:9px 18px;background:#fff;color:#1a1a1a;border:1px solid #ddd;border-radius:6px;font-size:13px;cursor:pointer}
+.gen-area{text-align:center;padding:60px 0}
+.spinner{width:32px;height:32px;border:2px solid #ddd;border-top-color:#1a1a1a;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-label{font-size:13px;color:#888}
+.result-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:7px 16px;font-size:13px;border:1px solid #ddd;border-radius:5px;cursor:pointer;background:#fff;color:#888}
+.tab.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.result-panel{display:none}
+.result-panel.active{display:block}
+.overflow-x{overflow-x:auto;margin-bottom:16px}
+.csv-table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px}
+.csv-table th{background:#f5f4f0;padding:7px 8px;text-align:left;font-weight:500;border:1px solid #ddd;font-size:11px;color:#666;white-space:nowrap}
+.csv-table td{padding:6px 8px;border:1px solid #ddd;color:#1a1a1a;vertical-align:top;font-size:12px}
+.csv-table td[contenteditable]:focus{outline:none;background:#fffbf0}
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.badge-exact{background:#e6f1fb;color:#0c447c}
+.badge-phrase{background:#eaf3de;color:#27500a}
+.badge-broad{background:#faeeda;color:#633806}
+.md-editor{width:100%;min-height:500px;padding:14px;border:1px solid #ddd;border-radius:6px;font-size:13px;font-family:'Courier New',monospace;background:#fff;color:#1a1a1a;resize:vertical;line-height:1.7}
+.dl-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.notice{background:#fffbf0;border:1px solid #f0d080;border-radius:6px;padding:12px 14px;font-size:12px;color:#7a5c00;margin-bottom:16px}
+.notice-blue{background:#e6f1fb;border:1px solid #b5d4f4;border-radius:6px;padding:12px 14px;font-size:12px;color:#0c447c;margin-bottom:16px}
+.stitle{font-size:12px;font-weight:600;color:#666;margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid #eee;text-transform:uppercase;letter-spacing:0.05em}
+.checklist{list-style:none;padding:0}
+.checklist li{padding:6px 0;font-size:13px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:8px}
+.checklist li:last-child{border-bottom:none}
+.checklist input[type=checkbox]{width:16px;height:16px;cursor:pointer}
+
+.manager-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.manager-box{background:#fff;border:1px solid #ddd;border-radius:8px;padding:14px}
+.manager-box h2{font-size:13px;font-weight:600;color:#666;margin-bottom:10px}
+.manager-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.manager-actions button{padding:7px 12px;background:#fff;color:#1a1a1a;border:1px solid #ddd;border-radius:5px;font-size:12px;cursor:pointer}
+.manager-actions button.primary{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.small-note{font-size:11px;color:#888;margin-top:6px;line-height:1.5}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.radio-card{display:flex;align-items:flex-start;gap:7px;padding:10px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;flex:1;min-width:160px}
+.radio-card input{width:14px;height:14px;margin-top:1px;flex-shrink:0}
+.radio-card strong{display:block;font-size:13px}
+.radio-card span{display:block;font-size:11px;color:#888;margin-top:2px}
+@media(max-width:760px){.manager-grid{grid-template-columns:1fr}.mode-select>div{grid-template-columns:1fr!important}.row2,.row3{grid-template-columns:1fr}.checkbox-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>リスティング広告 初期設定ツール</h1>
+  <span>BLP Internal Tool v29</span>
+</div>
+<div class="container">
+
+  <div class="api-bar">
+    <label>APIキー</label>
+    <input type="password" id="api-key" placeholder="sk-ant-api03-..." style="font-family:monospace"/>
+    <button onclick="saveKey()" id="save-key-btn">設定</button>
+    <button onclick="deleteKey()" id="delete-key-btn" style="display:none;background:#888">削除</button>
+    <span class="api-status" id="api-status"></span>
+  </div>
+
+  <div class="manager-grid">
+    <div class="manager-box">
+      <h2>案件管理・履歴保存</h2>
+      <div class="row2" style="grid-template-columns:1.2fr 1fr;gap:8px">
+        <input type="text" id="project-name" placeholder="案件名 例：横浜_税理士LP" style="padding:8px 10px;border:1px solid #ddd;border-radius:5px;font-size:13px">
+        <select id="project-select" style="padding:8px 10px;border:1px solid #ddd;border-radius:5px;font-size:13px"><option value="">保存済み案件を選択</option></select>
+      </div>
+      <div class="manager-actions">
+        <button class="primary" onclick="saveProject()">案件を保存</button>
+        <button onclick="loadProject()">呼び出し</button>
+        <button onclick="duplicateProject()">複製保存</button>
+        <button onclick="deleteProject()">削除</button>
+      </div>
+      <div class="small-note">このブラウザ内に保存されます。別PCとの共有はできません。</div>
+    </div>
+    <div class="manager-box">
+      <h2>入力テンプレート保存</h2>
+      <div class="row2" style="grid-template-columns:1.2fr 1fr;gap:8px">
+        <input type="text" id="template-name" placeholder="テンプレ名 例：税理士事務所" style="padding:8px 10px;border:1px solid #ddd;border-radius:5px;font-size:13px">
+        <select id="template-select" style="padding:8px 10px;border:1px solid #ddd;border-radius:5px;font-size:13px"><option value="">テンプレートを選択</option></select>
+      </div>
+      <div class="manager-actions">
+        <button class="primary" onclick="saveTemplate()">テンプレ保存</button>
+        <button onclick="loadTemplate()">呼び出し</button>
+        <button onclick="deleteTemplate()">削除</button>
+        <button onclick="loadDefaultTemplate('subsidy')">補助金テンプレ</button>
+      </div>
+      <div class="small-note">業種別の入力パターンを保存し、2件目以降の入力を短縮できます。</div>
+    </div>
+  </div>
+
+  <div class="mode-select">
+    <h2>作成する成果物を選択してください</h2>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:4px">
+      <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:#fff;font-size:13px">
+        <input type="checkbox" id="chk-ads" checked onchange="updateMode()" style="width:16px;height:16px;cursor:pointer">
+        <span><strong style="display:block;font-size:13px">広告設定CSV</strong><span style="font-size:11px;color:#888">Editor用CSV</span></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:#fff;font-size:13px">
+        <input type="checkbox" id="chk-proposal" onchange="updateMode()" style="width:16px;height:16px;cursor:pointer">
+        <span><strong style="display:block;font-size:13px">初期提案書</strong><span style="font-size:11px;color:#888">広告設定の根拠</span></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:#fff;font-size:13px">
+        <input type="checkbox" id="chk-lp-proposal" onchange="updateMode()" style="width:16px;height:16px;cursor:pointer">
+        <span><strong style="display:block;font-size:13px">LP提案書</strong><span style="font-size:11px;color:#888">LP方向性の根拠</span></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:#fff;font-size:13px">
+        <input type="checkbox" id="chk-lp" onchange="updateMode()" style="width:16px;height:16px;cursor:pointer">
+        <span><strong style="display:block;font-size:13px">LP仕様書</strong><span style="font-size:11px;color:#888">業者への発注書</span></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:#fff;font-size:13px">
+        <input type="checkbox" id="chk-all" onchange="toggleAll(this)" style="width:16px;height:16px;cursor:pointer">
+        <span><strong style="display:block;font-size:13px">全て選択</strong><span style="font-size:11px;color:#e24b4a">時間がかかります</span></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="step-nav">
+    <button class="step-btn active" onclick="goStep(0)">① ヒアリング入力</button>
+    <button class="step-btn" onclick="goStep(1)">② AI生成中</button>
+    <button class="step-btn" onclick="goStep(2)">③ 結果・編集・出力</button>
+  </div>
+
+  <div id="s0" class="screen active">
+    <div class="card">
+      <div class="section-label">基本情報</div>
+      <div class="row2">
+        <div class="field"><label>業種<span class="req">*</span></label><input type="text" id="f_gyoshu" placeholder="例：税理士事務所"></div>
+        <div class="field"><label>商品・サービス名<span class="req">*</span></label><input type="text" id="f_service" placeholder="例：補助金申請サポート"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>ターゲット<span class="req">*</span></label><input type="text" id="f_target" placeholder="例：30〜50代 男性 個人事業主"></div>
+        <div class="field"><label>月予算（円）<span class="req">*</span></label><input type="number" id="f_budget" placeholder="例：100000"></div>
+      </div>
+      <div class="field"><label>強み・USP<span class="req">*</span></label><textarea id="f_usp" placeholder="例：最短翌日対応、認定支援機関、創業支援実績200社以上"></textarea></div>
+      <div class="row2">
+        <div class="field"><label>競合情報・競合他社URL</label><input type="text" id="f_competitor" placeholder="例：○○税理士（https://example.com）"></div>
+        <div class="field"><label>過去の広告実績</label><input type="text" id="f_past_ad" placeholder="例：Google広告経験あり・CVR約2%、初めて"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>客単価・LTV</label><input type="text" id="f_ltv" placeholder="例：初回5万円、年間LTV30万円"></div>
+        <div class="field"><label>問い合わせ〜成約の平均日数</label><input type="text" id="f_lead_time" placeholder="例：即日〜3日、平均2週間"></div>
+      </div>
+    </div>
+
+    <div class="card" id="ads-section">
+      <div class="section-label">配信設定</div>
+      <div class="field"><label>配信地域<span class="req">*</span></label><input type="text" id="f_area" placeholder="例：神奈川県横浜市、東京都港区"></div>
+      <div class="field">
+        <label>配信曜日</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item"><input type="checkbox" class="dow" value="Mon" checked>月</label>
+          <label class="checkbox-item"><input type="checkbox" class="dow" value="Tue" checked>火</label>
+          <label class="checkbox-item"><input type="checkbox" class="dow" value="Wed" checked>水</label>
+          <label class="checkbox-item"><input type="checkbox" class="dow" value="Thu" checked>木</label>
+          <label class="checkbox-item"><input type="checkbox" class="dow" value="Fri" checked>金</label>
+          <label class="checkbox-item"><input type="checkbox" class="dow" value="Sat">土</label>
+          <label class="checkbox-item"><input type="checkbox" class="dow" value="Sun">日</label>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>配信時間帯</label>
+          <div class="time-row">
+            <select id="f_time_from"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option selected>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option></select>
+            <span>〜</span>
+            <select id="f_time_to"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option selected>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option></select>
+            <span>時</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>デバイス設定</label>
+          <div class="checkbox-grid">
+            <label class="checkbox-item"><input type="checkbox" class="device" value="Computers" checked>PC</label>
+            <label class="checkbox-item"><input type="checkbox" class="device" value="Mobile" checked>スマホ</label>
+            <label class="checkbox-item"><input type="checkbox" class="device" value="Tablets">タブレット</label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>入札戦略</label>
+        <div class="bidding-options">
+          <label class="bidding-option"><input type="radio" name="bidding" value="Maximize clicks" checked><div><div class="b-title">訪問数の最大化（Maximize clicks）</div><div class="b-desc">✅ 新規アカウント・CV実績ゼロ・LPが新しい場合におすすめ</div></div></label>
+          <label class="bidding-option"><input type="radio" name="bidding" value="Maximize conversions"><div><div class="b-title">コンバージョン数の最大化（Maximize conversions）</div><div class="b-desc">✅ CV実績が30件以上ある段階におすすめ</div></div></label>
+          <label class="bidding-option"><input type="radio" name="bidding" value="Target CPA"><div><div class="b-title">目標コンバージョン単価（Target CPA）</div><div class="b-desc">✅ CV実績が十分にあり、目標CPAが明確な場合におすすめ</div></div></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>広告文生成量</label>
+        <div class="radio-row">
+          <label class="radio-card"><input type="radio" name="rsa_level" value="light"><div><strong>軽量</strong><span>見出し5本・説明文2本。最速重視</span></div></label>
+          <label class="radio-card"><input type="radio" name="rsa_level" value="standard" checked><div><strong>標準</strong><span>見出し8本・説明文3本。通常はこちら</span></div></label>
+          <label class="radio-card"><input type="radio" name="rsa_level" value="detailed"><div><strong>詳細</strong><span>見出し10本・説明文4本。重要案件向け</span></div></label>
+        </div>
+      </div>
+      <div class="field"><label>訴求キーワード候補</label><input type="text" id="f_kw" placeholder="例：補助金申請 横浜、補助金 代行"></div>
+      <div class="field"><label>除外キーワード候補</label><input type="text" id="f_neg_kw" placeholder="例：無料、求人、やり方、独学"></div>
+      <div class="field">
+        <label>コンバージョン地点</label>
+        <div class="checkbox-grid">
+          <label class="checkbox-item"><input type="checkbox" class="cv" value="問い合わせフォーム" checked>フォーム</label>
+          <label class="checkbox-item"><input type="checkbox" class="cv" value="電話">電話</label>
+          <label class="checkbox-item"><input type="checkbox" class="cv" value="来店予約">来店予約</label>
+          <label class="checkbox-item"><input type="checkbox" class="cv" value="資料請求">資料請求</label>
+        </div>
+      </div>
+      <div class="row3">
+        <div class="field"><label>最終URL（LP URL）</label><input type="text" id="f_final_url" placeholder="例：https://example.com/lp"></div>
+        <div class="field"><label>電話番号</label><input type="text" id="f_tel" placeholder="例：045-000-0000"></div>
+        <div class="field"><label>サンキューページURL</label><input type="text" id="f_thanks_url" placeholder="例：https://example.com/thanks"></div>
+      </div>
+    </div>
+
+    <div class="card" id="lp-section">
+      <div class="section-label">LP情報</div>
+      <div class="field"><label>LPの目的<span class="req">*</span></label><textarea id="f_lp_goal" placeholder="例：月額1,980円の有料登録獲得。Googleリスティング広告からの流入を想定。"></textarea></div>
+      <div class="field"><label>ユーザーの悩み</label><textarea id="f_pain" placeholder="例：補助金の種類が多すぎて何を見ればいいか分からない..."></textarea></div>
+      <div class="field"><label>伝えたいメッセージ</label><textarea id="f_message" placeholder="例：補助金探しに、もう何時間もかけない。" style="min-height:48px"></textarea></div>
+      <div class="field"><label>デザイン方向性</label><textarea id="f_design" placeholder="例：信頼感・清潔感・専門性重視。ネイビー・ブルー・白系。煽り感NG。" style="min-height:48px"></textarea></div>
+      <div class="field"><label>CTA文言</label><input type="text" id="f_cta" placeholder="例：今すぐ補助金を探す、無料相談はこちら"></div>
+      <div class="field"><label>NG表現</label><textarea id="f_ng" placeholder="例：必ず採択されます、必ずもらえます、のような表現はNG" style="min-height:48px"></textarea></div>
+      <div class="field"><label>備考</label><textarea id="f_memo" placeholder="その他特記事項" style="min-height:48px"></textarea></div>
+    </div>
+
+    <div id="gen-selected-btn">
+      <button class="btn-primary" onclick="generateSelected()">選択した成果物を生成する →</button>
+      <p style="font-size:11px;color:#888;margin-top:6px;text-align:center">選択数が多いほど生成に時間がかかります。急ぐ場合は広告設定CSVのみがおすすめです。</p>
+    </div>
+  </div>
+
+  <div id="s1" class="screen">
+    <div class="card">
+      <div class="gen-area">
+        <div class="spinner"></div>
+        <div class="gen-label" id="gen-msg">ヒアリング情報を解析中...</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="s2" class="screen">
+    <div class="result-tabs">
+      <button class="tab active" id="tab-btn-csv" onclick="switchTab('csv',this)">確認用CSV</button>
+      <button class="tab" id="tab-btn-editor-csv" onclick="switchTab('editor-csv',this)">Editor用CSV</button>
+      <button class="tab" id="tab-btn-checklist" onclick="switchTab('checklist',this)">インポート前チェック</button>
+      <button class="tab" id="tab-btn-proposal" onclick="switchTab('proposal',this)">初期提案書</button>
+      <button class="tab" id="tab-btn-lp-proposal" onclick="switchTab('lp-proposal',this)">LP提案書</button>
+      <button class="tab" id="tab-btn-lp" onclick="switchTab('lp',this)">LP制作仕様書</button>
+    </div>
+
+    <div id="tab-csv" class="result-panel active">
+      <div class="notice">画面確認用です。セルは直接編集できます。</div>
+      <div class="stitle">キャンペーン構成</div>
+      <div class="overflow-x"><table class="csv-table"><thead><tr><th>キャンペーン名</th><th>日予算（円）</th><th>配信地域</th><th>配信曜日・時間</th><th>デバイス</th><th>入札戦略</th><th>運用メモ</th></tr></thead><tbody id="campaign-body"></tbody></table></div>
+      <div class="stitle">広告グループ・キーワード</div>
+      <div class="overflow-x"><table class="csv-table"><thead><tr><th>広告グループ</th><th>キーワード</th><th>マッチタイプ</th></tr></thead><tbody id="kw-body"></tbody></table></div>
+      <div class="stitle">除外キーワード</div>
+      <div class="overflow-x"><table class="csv-table"><thead><tr><th>除外キーワード</th><th>適用範囲</th></tr></thead><tbody id="neg-body"></tbody></table></div>
+      <div class="stitle">広告文（RSA）</div>
+      <div class="overflow-x"><table class="csv-table"><thead><tr><th>広告グループ</th><th>最終URL</th><th>見出し（最大15個）</th><th>説明文（最大4個）</th><th>パス1</th><th>パス2</th></tr></thead><tbody id="ad-body"></tbody></table></div>
+      <div class="dl-row">
+        <button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button>
+      </div>
+    </div>
+
+    <div id="tab-editor-csv" class="result-panel">
+      <div class="notice-blue">Google Ads Editor インポート用CSVです。全キャンペーン・広告グループ・キーワード・広告は初期ステータス「Paused」で出力されます。インポート後にEditorで確認・修正してから有効化してください。</div>
+      <div class="dl-row" style="margin-top:0;margin-bottom:16px">
+        <button class="btn-primary" style="width:auto;padding:10px 24px" onclick="downloadEditorCSV()">Editor用CSVをダウンロード</button>
+      </div>
+      <div class="overflow-x"><table class="csv-table" id="editor-preview-table"><thead><tr><th>Row Type</th><th>Campaign</th><th>Ad Group</th><th>Keyword/Headline</th><th>Match Type/Description</th><th>Status</th><th>その他</th></tr></thead><tbody id="editor-preview-body"></tbody></table></div>
+    </div>
+
+    <div id="tab-checklist" class="result-panel">
+      <div class="notice">Editorへのインポート前に以下を確認してください。</div>
+      <div class="card">
+        <div class="stitle">インポート前チェックリスト</div>
+        <ul class="checklist" id="checklist-body"></ul>
+      </div>
+      <div class="card">
+        <div class="stitle">Editorでエラーが出た場合の対処</div>
+        <div style="font-size:13px;line-height:1.8;color:#444" id="error-guide"></div>
+      </div>
+    </div>
+
+    <div id="tab-proposal" class="result-panel">
+      <textarea class="md-editor" id="proposal-editor"></textarea>
+      <div class="dl-row">
+        <button class="btn-primary" style="width:auto;padding:10px 24px" onclick="downloadFile('proposal-editor','proposal.md')">提案書をダウンロード</button>
+        <button class="btn-secondary" onclick="printMarkdown('proposal-editor','Google広告初期設定提案書')">印刷/PDF保存</button>
+        <button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button>
+      </div>
+    </div>
+
+    <div id="tab-lp-proposal" class="result-panel">
+      <textarea class="md-editor" id="lp-proposal-editor"></textarea>
+      <div class="dl-row">
+        <button class="btn-primary" style="width:auto;padding:10px 24px" onclick="downloadFile('lp-proposal-editor','lp_proposal.md')">LP提案書をダウンロード</button>
+        <button class="btn-secondary" onclick="printMarkdown('lp-proposal-editor','LP制作提案書')">印刷/PDF保存</button>
+        <button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button>
+      </div>
+    </div>
+
+    <div id="tab-lp" class="result-panel">
+      <textarea class="md-editor" id="lp-editor"></textarea>
+      <div class="dl-row">
+        <button class="btn-primary" style="width:auto;padding:10px 24px" onclick="downloadFile('lp-editor','lp_sekkei_sho.md')">LP仕様書をダウンロード</button>
+        <button class="btn-secondary" onclick="printMarkdown('lp-editor','LP制作依頼仕様書')">印刷/PDF保存</button>
+        <button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function saveKey(){
+  var k=document.getElementById('api-key').value.trim();
+  if(!k){alert('APIキーを入力してください');return;}
+  try{localStorage.setItem('blp_api_key',k);}catch(e){}
+  document.getElementById('api-key').value='';
+  document.getElementById('api-key').placeholder='保存済み（変更する場合は新しいキーを入力）';
+  document.getElementById('api-status').textContent='✓ 保存済み';
+  document.getElementById('save-key-btn').textContent='更新';
+  document.getElementById('delete-key-btn').style.display='inline-block';
+}
+function deleteKey(){
+  if(!confirm('保存済みのAPIキーを削除しますか？')) return;
+  try{localStorage.removeItem('blp_api_key');}catch(e){}
+  document.getElementById('api-key').value='';
+  document.getElementById('api-key').placeholder='sk-ant-api03-...';
+  document.getElementById('api-status').textContent='';
+  document.getElementById('save-key-btn').textContent='設定';
+  document.getElementById('delete-key-btn').style.display='none';
+}
+function getApiKey(){
+  var inputVal=document.getElementById('api-key').value.trim();
+  if(inputVal) return inputVal;
+  try{return localStorage.getItem('blp_api_key')||'';}catch(e){return '';}
+}
+(function(){
+  try{
+    var saved=localStorage.getItem('blp_api_key');
+    if(saved){
+      document.getElementById('api-key').placeholder='保存済み（変更する場合は新しいキーを入力）';
+      document.getElementById('api-status').textContent='✓ 保存済み';
+      document.getElementById('save-key-btn').textContent='更新';
+      document.getElementById('delete-key-btn').style.display='inline-block';
+    }
+  }catch(e){}
+})();
+
+var currentMode='ads';
+var generatedData=null;
+
+var FIELD_IDS=[
+  'f_gyoshu','f_service','f_target','f_budget','f_usp','f_competitor','f_past_ad','f_ltv','f_lead_time',
+  'f_area','f_time_from','f_time_to','f_kw','f_neg_kw','f_final_url','f_tel','f_thanks_url',
+  'f_lp_goal','f_pain','f_message','f_design','f_cta','f_ng','f_memo','project-name'
+];
+function collectFormData(){
+  var data={fields:{},checks:{dow:[],device:[],cv:[]},radio:{}};
+  FIELD_IDS.forEach(function(id){var el=document.getElementById(id); if(el) data.fields[id]=el.value;});
+  data.checks.dow=Array.from(document.querySelectorAll('.dow:checked')).map(function(c){return c.value;});
+  data.checks.device=Array.from(document.querySelectorAll('.device:checked')).map(function(c){return c.value;});
+  data.checks.cv=Array.from(document.querySelectorAll('.cv:checked')).map(function(c){return c.value;});
+  ['bidding','rsa_level'].forEach(function(name){var r=document.querySelector('input[name="'+name+'"]:checked'); data.radio[name]=r?r.value:'';});
+  data.output={ads:document.getElementById('chk-ads').checked,proposal:document.getElementById('chk-proposal').checked,lpProposal:document.getElementById('chk-lp-proposal').checked,lp:document.getElementById('chk-lp').checked};
+  data.savedAt=new Date().toISOString();
+  return data;
+}
+function applyFormData(data){
+  if(!data) return;
+  Object.keys(data.fields||{}).forEach(function(id){var el=document.getElementById(id); if(el) el.value=data.fields[id]||'';});
+  ['dow','device','cv'].forEach(function(cls){
+    document.querySelectorAll('.'+cls).forEach(function(c){c.checked=(data.checks&&data.checks[cls]||[]).indexOf(c.value)>=0;});
+  });
+  Object.keys(data.radio||{}).forEach(function(name){var el=document.querySelector('input[name="'+name+'"][value="'+data.radio[name]+'"]'); if(el) el.checked=true;});
+  if(data.output){
+    document.getElementById('chk-ads').checked=!!data.output.ads;
+    document.getElementById('chk-proposal').checked=!!data.output.proposal;
+    document.getElementById('chk-lp-proposal').checked=!!data.output.lpProposal;
+    document.getElementById('chk-lp').checked=!!data.output.lp;
+  }
+  updateMode();
+}
+function getStore(key){try{return JSON.parse(localStorage.getItem(key)||'{}');}catch(e){return {};}}
+function setStore(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){alert('保存に失敗しました。ブラウザの保存容量をご確認ください。');}}
+function refreshProjectSelect(){
+  var store=getStore('blp_projects'); var sel=document.getElementById('project-select'); if(!sel) return;
+  var current=sel.value; sel.innerHTML='<option value="">保存済み案件を選択</option>';
+  Object.keys(store).sort().forEach(function(name){var o=document.createElement('option'); o.value=name; o.textContent=name; sel.appendChild(o);});
+  if(store[current]) sel.value=current;
+}
+function saveProject(){
+  var name=(document.getElementById('project-name').value||'').trim();
+  if(!name){alert('案件名を入力してください');return;}
+  var store=getStore('blp_projects'); store[name]=collectFormData(); setStore('blp_projects',store); refreshProjectSelect(); document.getElementById('project-select').value=name; alert('案件を保存しました');
+}
+function loadProject(){
+  var name=document.getElementById('project-select').value; if(!name){alert('呼び出す案件を選択してください');return;}
+  var data=getStore('blp_projects')[name]; if(!data){alert('案件が見つかりません');return;}
+  applyFormData(data); document.getElementById('project-name').value=name;
+}
+function duplicateProject(){
+  var base=(document.getElementById('project-name').value||document.getElementById('project-select').value||'案件').trim();
+  var name=base+'_コピー_'+new Date().toISOString().slice(0,10);
+  document.getElementById('project-name').value=name; saveProject();
+}
+function deleteProject(){
+  var name=document.getElementById('project-select').value; if(!name){alert('削除する案件を選択してください');return;}
+  if(!confirm('案件「'+name+'」を削除しますか？')) return;
+  var store=getStore('blp_projects'); delete store[name]; setStore('blp_projects',store); refreshProjectSelect();
+}
+function refreshTemplateSelect(){
+  var store=getStore('blp_templates'); var sel=document.getElementById('template-select'); if(!sel) return;
+  var current=sel.value; sel.innerHTML='<option value="">テンプレートを選択</option>';
+  Object.keys(store).sort().forEach(function(name){var o=document.createElement('option'); o.value=name; o.textContent=name; sel.appendChild(o);});
+  if(store[current]) sel.value=current;
+}
+function saveTemplate(){
+  var name=(document.getElementById('template-name').value||'').trim(); if(!name){alert('テンプレート名を入力してください');return;}
+  var store=getStore('blp_templates'); store[name]=collectFormData(); setStore('blp_templates',store); refreshTemplateSelect(); document.getElementById('template-select').value=name; alert('テンプレートを保存しました');
+}
+function loadTemplate(){
+  var name=document.getElementById('template-select').value; if(!name){alert('呼び出すテンプレートを選択してください');return;}
+  var data=getStore('blp_templates')[name]; if(!data){alert('テンプレートが見つかりません');return;}
+  applyFormData(data); document.getElementById('template-name').value=name;
+}
+function deleteTemplate(){
+  var name=document.getElementById('template-select').value; if(!name){alert('削除するテンプレートを選択してください');return;}
+  if(!confirm('テンプレート「'+name+'」を削除しますか？')) return;
+  var store=getStore('blp_templates'); delete store[name]; setStore('blp_templates',store); refreshTemplateSelect();
+}
+function loadDefaultTemplate(type){
+  var data={fields:{},checks:{dow:['Mon','Tue','Wed','Thu','Fri'],device:['Computers','Mobile'],cv:['問い合わせフォーム']},radio:{bidding:'Maximize clicks',rsa_level:'standard'},output:{ads:true,proposal:false,lpProposal:false,lp:false}};
+  if(type==='subsidy'){
+    data.fields={
+      'f_gyoshu':'補助金申請支援・経営コンサルティング','f_service':'補助金申請サポート','f_target':'中小企業経営者・個人事業主','f_budget':'100000','f_usp':'認定経営革新等支援機関として、制度選定から申請書作成、採択後の手続きまで実務目線で支援','f_area':'神奈川県、東京都','f_time_from':'10','f_time_to':'17','f_kw':'補助金申請 相談、補助金申請サポート、補助金 横浜','f_neg_kw':'無料、求人、やり方、独学、比較、口コミ','f_lp_goal':'補助金申請に関する問い合わせ獲得。検索広告から流入した中小企業経営者に対し、相談導線へ誘導する。','f_pain':'どの補助金が使えるか分からない。公募要領の確認が大変。採択後の手続きが不安。','f_message':'補助金探しと申請準備を、実務に強い専門家が支援します。','f_design':'信頼感・専門性・清潔感を重視。煽り表現は避ける。','f_cta':'無料相談はこちら','f_ng':'必ず採択、必ずもらえる、誰でも受給、返済不要だから実質無料、採択保証','f_memo':'補助金は審査制であり、採択や入金を保証しない表現にする。','project-name':'補助金申請サポート_広告LP'};
+  }
+  applyFormData(data);
+}
+function getRsaCounts(){
+  var v=(document.querySelector('input[name="rsa_level"]:checked')||{}).value||'standard';
+  if(v==='light') return {headlines:5,descriptions:2,label:'軽量'};
+  if(v==='detailed') return {headlines:10,descriptions:4,label:'詳細'};
+  return {headlines:8,descriptions:3,label:'標準'};
+}
+function buildAdJsonFormat(h,d){
+  var ad='{"campaign":"キャンペーン名","group":"広告グループ名"';
+  for(var i=1;i<=h;i++) ad+=',"headline'+i+'":"見出し'+i+'"';
+  for(var j=1;j<=d;j++) ad+=',"desc'+j+'":"説明文'+j+'"';
+  ad+=',"final_url":"最終URL","path1":"パス1","path2":"パス2"}';
+  return '{"campaigns":[{"name":"キャンペーン名","budget":"日予算円","area":"配信地域","schedule":"広告スケジュール","device":"デバイス","bidding":"入札戦略","memo":"運用メモ"}],"adgroups":[{"campaign":"キャンペーン名","group":"広告グループ名","keyword":"キーワード","match":"Exact"}],"negatives":[{"campaign":"キャンペーン名","keyword":"除外KW","match":"Broad"}],"ads":['+ad+']}';
+}
+function escapeHtml(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function markdownToHtml(md){
+  var html=escapeHtml(md).split('\n').map(function(line){
+    if(/^###\s+/.test(line)) return '<h3>'+line.replace(/^###\s+/,'')+'</h3>';
+    if(/^##\s+/.test(line)) return '<h2>'+line.replace(/^##\s+/,'')+'</h2>';
+    if(/^#\s+/.test(line)) return '<h1>'+line.replace(/^#\s+/,'')+'</h1>';
+    if(/^[-・]\s+/.test(line)) return '<li>'+line.replace(/^[-・]\s+/,'')+'</li>';
+    if(line.trim()==='') return '<br>';
+    return '<p>'+line+'</p>';
+  }).join('\n').replace(/(<li>.*?<\/li>\n?)+/g,function(m){return '<ul>'+m+'</ul>';});
+  return html;
+}
+function printMarkdown(id,title){
+  var val=(document.getElementById(id)||{}).value||''; if(!val){alert('出力内容がありません');return;}
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+escapeHtml(title)+'</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.8;color:#111;padding:32px;max-width:900px;margin:auto}h1{font-size:24px;border-bottom:2px solid #111;padding-bottom:8px}h2{font-size:18px;border-bottom:1px solid #ddd;margin-top:28px;padding-bottom:4px}h3{font-size:15px;margin-top:18px}p,li{font-size:13px}ul{padding-left:22px}@media print{body{padding:18mm}}</style></head><body>'+markdownToHtml(val)+'</body></html>');
+  w.document.close(); w.focus(); setTimeout(function(){w.print();},300);
+}
+
+function toggleAll(el){
+  var chks=['chk-ads','chk-proposal','chk-lp-proposal','chk-lp'];
+  chks.forEach(function(id){document.getElementById(id).checked=el.checked;});
+  updateMode();
+}
+function updateMode(){
+  var hasAds=document.getElementById('chk-ads').checked;
+  var hasDocs=document.getElementById('chk-proposal').checked||document.getElementById('chk-lp-proposal').checked||document.getElementById('chk-lp').checked;
+  if(hasAds&&hasDocs) currentMode='both';
+  else if(hasAds) currentMode='ads';
+  else if(hasDocs) currentMode='docs';
+  else currentMode='';
+  document.getElementById('ads-section').style.display=hasAds?'block':'none';
+  document.getElementById('lp-section').style.display=hasDocs?'block':'none';
+  var allChks=['chk-ads','chk-proposal','chk-lp-proposal','chk-lp'];
+  document.getElementById('chk-all').checked=allChks.every(function(id){return document.getElementById(id).checked;});
+}
+function getDow(){return Array.from(document.querySelectorAll('.dow:checked')).map(function(c){return c.value;});}
+function getDowJp(){return Array.from(document.querySelectorAll('.dow:checked')).map(function(c){var m={'Mon':'月','Tue':'火','Wed':'水','Thu':'木','Fri':'金','Sat':'土','Sun':'日'};return m[c.value]||c.value;}).join('・');}
+function getDevices(){return Array.from(document.querySelectorAll('.device:checked')).map(function(c){return c.value;}).join(',');}
+function getCv(){return Array.from(document.querySelectorAll('.cv:checked')).map(function(c){return c.value;}).join('・');}
+
+var steps=[document.getElementById('s0'),document.getElementById('s1'),document.getElementById('s2')];
+var stepBtns=document.querySelectorAll('.step-btn');
+function goStep(n){steps.forEach(function(s,i){s.classList.toggle('active',i===n);stepBtns[i].classList.toggle('active',i===n);});}
+
+function switchTab(name,el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.result-panel').forEach(function(p){p.classList.remove('active');});
+  var panel=document.getElementById('tab-'+name);
+  if(panel) panel.classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+function buildAdSchedule(){
+  var dows=getDow();
+  var from=document.getElementById('f_time_from').value;
+  var to=document.getElementById('f_time_to').value;
+  if(dows.length===0) return '';
+  return dows.map(function(d){return d+' '+from+':00-'+to+':00';}).join(';');
+}
+
+async function generateSelected(){
+  var hasAds=document.getElementById('chk-ads').checked;
+  var hasProposal=document.getElementById('chk-proposal').checked;
+  var hasLpProposal=document.getElementById('chk-lp-proposal').checked;
+  var hasLp=document.getElementById('chk-lp').checked;
+  var hasDocs=hasProposal||hasLpProposal||hasLp;
+  if(!hasAds&&!hasDocs){alert('生成する成果物を1つ以上選択してください');return;}
+
+  var g=document.getElementById('f_gyoshu').value.trim();
+  var sv=document.getElementById('f_service').value.trim();
+  var tg=document.getElementById('f_target').value.trim();
+  var bd=document.getElementById('f_budget').value.trim();
+  var usp=document.getElementById('f_usp').value.trim();
+  var ar=document.getElementById('f_area').value.trim();
+  var lpGoal=document.getElementById('f_lp_goal').value.trim();
+
+  if(!g||!sv||!tg||!bd||!usp){alert('基本情報の必須項目をすべて入力してください');return;}
+  if(hasAds&&!ar){alert('配信地域を入力してください');return;}
+  if(hasDocs&&!lpGoal){alert('LPの目的を入力してください');return;}
+  if(!getApiKey()){alert('APIキーを入力して設定ボタンを押してください');return;}
+
+  goStep(1);
+  try{
+    if(hasAds){
+      document.getElementById('gen-msg').textContent='広告設定CSVを生成中...';
+      await startGenerate(true);
+    }
+    if(hasProposal){
+      document.getElementById('gen-msg').textContent='初期提案書を生成中...';
+      await generateDoc('proposal',true);
+    }
+    if(hasLpProposal){
+      document.getElementById('gen-msg').textContent='LP提案書を生成中...';
+      await generateDoc('lp_proposal',true);
+    }
+    if(hasLp){
+      document.getElementById('gen-msg').textContent='LP仕様書を生成中...';
+      await generateDoc('lp',true);
+    }
+    goStep(2);
+    if(hasAds) switchTab('csv',document.getElementById('tab-btn-csv'));
+    else if(hasProposal) switchTab('proposal',document.getElementById('tab-btn-proposal'));
+    else if(hasLpProposal) switchTab('lp-proposal',document.getElementById('tab-btn-lp-proposal'));
+    else if(hasLp) switchTab('lp',document.getElementById('tab-btn-lp'));
+  }catch(e){
+    alert('生成エラー: '+e.message);
+    goStep(0);
+  }
+}
+
+async function generateDoc(type,silent){
+  var g=document.getElementById('f_gyoshu').value.trim();
+  var sv=document.getElementById('f_service').value.trim();
+  var tg=document.getElementById('f_target').value.trim();
+  var bd=document.getElementById('f_budget').value.trim();
+  var usp=document.getElementById('f_usp').value.trim();
+  var lpGoal=document.getElementById('f_lp_goal').value.trim();
+  if(!g||!sv||!tg||!bd||!usp||!lpGoal){alert('必須項目（*）をすべて入力してください');return;}
+  var apiKey=getApiKey();
+  if(!apiKey){alert('APIキーを入力して設定ボタンを押してください');return;}
+  var comp=document.getElementById('f_competitor').value.trim();
+  var ltv=document.getElementById('f_ltv').value.trim();
+  var leadTime=document.getElementById('f_lead_time').value.trim();
+  var pastAd=document.getElementById('f_past_ad').value.trim();
+  var pain=document.getElementById('f_pain').value.trim();
+  var message=document.getElementById('f_message').value.trim();
+  var design=document.getElementById('f_design').value.trim();
+  var cta=document.getElementById('f_cta').value.trim();
+  var ng=document.getElementById('f_ng').value.trim();
+  var memo=document.getElementById('f_memo').value.trim();
+  var ar=document.getElementById('f_area').value.trim();
+  var info2=[
+    '業種:'+g,'サービス:'+sv,'ターゲット:'+tg,'エリア:'+(ar||'なし'),'月予算:'+bd+'円',
+    'USP:'+usp,'競合:'+(comp||'なし'),'LTV:'+(ltv||'なし'),'リードタイム:'+(leadTime||'なし'),
+    '過去実績:'+(pastAd||'なし'),'LP目的:'+lpGoal,'悩み:'+(pain||'なし'),
+    'メッセージ:'+(message||'なし'),'デザイン:'+(design||'なし'),
+    'CTA:'+(cta||'なし'),'NG表現:'+(ng||'なし'),'備考:'+(memo||'なし')
+  ].join(' / ');
+  var sys2='あなたは中小企業Google広告支援専門の超優秀なWebマーケターです。任意項目未入力なら推測補完しAI推定と明記。空欄出力禁止。';
+  var headers2={'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+  goStep(1);
+  var prompts={
+    'proposal':sys2+'\n\n以下の情報でGoogle広告初期設定提案書をMarkdown形式で生成。構成：# Google広告初期設定提案書 / ## 1.提案概要 / ## 2.ターゲット設定の考え方 / ## 3.キャンペーン構成の理由 / ## 4.キーワード選定の考え方 / ## 5.除外KWの理由 / ## 6.入札戦略の理由 / ## 7.配信設定の理由 / ## 8.想定KPI / ## 9.運用ロードマップ / ## 10.注意事項\n\n'+info2,
+    'lp_proposal':sys2+'\n\n以下の情報でLP制作提案書をMarkdown形式で生成。構成：# LP制作提案書 / ## 1.提案概要 / ## 2.ターゲット像の詳細 / ## 3.訴求軸の考え方 / ## 4.ファーストビュー案（キャッチコピー3パターン） / ## 5.ページ構成の根拠 / ## 6.デザイン方向性 / ## 7.CTA設計（メイン3案・サブ3案） / ## 8.CV設計 / ## 9.想定CVR\n\n'+info2,
+    'lp':sys2+'\n\n以下の情報でLP制作依頼仕様書をMarkdown形式で生成。構成：# LP制作依頼仕様書 / ## 1.LPの目的 / ## 2.ターゲット / ## 3.ユーザーの悩み（5〜7個） / ## 4.サービスの強み / ## 5.伝えたいメッセージ（3案） / ## 6.LP構成 / ## 7.デザイン方向性 / ## 8.CTA / ## 9.NG表現 / ## 10.配信設定メモ / ## 11.CV計測メモ / ## 12.業者への送付文\n\n'+info2
+  };
+  var editors={'proposal':'proposal-editor','lp_proposal':'lp-proposal-editor','lp':'lp-editor'};
+  var labels={'proposal':'初期提案書を生成中...','lp_proposal':'LP提案書を生成中...','lp':'LP仕様書を生成中...'};
+  document.getElementById('gen-msg').textContent=labels[type]||'生成中...';
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:headers2,body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:3000,messages:[{role:'user',content:prompts[type]}]})});
+    var data=await res.json();
+    if(data.error) throw new Error(data.error.message);
+    var text=data.content.map(function(c){return c.text||'';}).join('');
+    var el=document.getElementById(editors[type]);
+    if(el) el.value=text;
+    if(!silent){
+      goStep(2);
+      var tabMap={'proposal':'proposal','lp_proposal':'lp-proposal','lp':'lp'};
+      var tname=tabMap[type];
+      var tabBtn=document.getElementById('tab-btn-'+tname);
+      switchTab(tname,tabBtn);
+    }
+  }catch(e){
+    if(!silent) goStep(0);
+    throw e;
+  }
+}
+
+async function startGenerate(silent){
+  var g=document.getElementById('f_gyoshu').value.trim();
+  var sv=document.getElementById('f_service').value.trim();
+  var tg=document.getElementById('f_target').value.trim();
+  var bd=document.getElementById('f_budget').value.trim();
+  var usp=document.getElementById('f_usp').value.trim();
+  var ar=document.getElementById('f_area').value.trim();
+  var finalUrl=document.getElementById('f_final_url').value.trim();
+  var lpGoal=document.getElementById('f_lp_goal').value.trim();
+
+  if(!g||!sv||!tg||!bd||!usp){alert('基本情報の必須項目をすべて入力してください');return;}
+  if(!ar){alert('配信地域を入力してください');return;}
+
+  var apiKey=getApiKey();
+  if(!apiKey){alert('APIキーを入力して設定ボタンを押してください');return;}
+
+  var bidding=document.querySelector('input[name="bidding"]:checked').value;
+  var dowCount=document.querySelectorAll('.dow:checked').length||7;
+  var dailyBudget=Math.round(parseInt(bd)/(dowCount*4.3));
+  var timeFrom=document.getElementById('f_time_from').value;
+  var timeTo=document.getElementById('f_time_to').value;
+  var adSchedule=buildAdSchedule();
+  var kw=document.getElementById('f_kw').value.trim();
+  var negKw=document.getElementById('f_neg_kw').value.trim();
+  var comp=document.getElementById('f_competitor').value.trim();
+  var ltv=document.getElementById('f_ltv').value.trim();
+  var leadTime=document.getElementById('f_lead_time').value.trim();
+  var pastAd=document.getElementById('f_past_ad').value.trim();
+  var tel=document.getElementById('f_tel').value.trim();
+  var thanksUrl=document.getElementById('f_thanks_url').value.trim();
+  var pain=document.getElementById('f_pain').value.trim();
+  var message=document.getElementById('f_message').value.trim();
+  var design=document.getElementById('f_design').value.trim();
+  var cta=document.getElementById('f_cta').value.trim();
+  var ng=document.getElementById('f_ng').value.trim();
+  var memo=document.getElementById('f_memo').value.trim();
+
+  goStep(1);
+  var iv=null;
+
+  var info=[
+    '業種:'+g,'サービス:'+sv,'ターゲット:'+tg,'エリア:'+ar,'月予算:'+bd+'円','日予算:'+dailyBudget+'円',
+    'USP:'+usp,'競合:'+(comp||'なし'),'LTV:'+(ltv||'なし'),'リードタイム:'+(leadTime||'なし'),
+    '過去実績:'+(pastAd||'なし'),'配信曜日:'+getDowJp(),'配信時間:'+timeFrom+'〜'+timeTo+'時',
+    'デバイス:'+getDevices(),'入札戦略:'+bidding,'CV地点:'+getCv(),
+    '訴求KW:'+(kw||'なし'),'除外KW候補:'+(negKw||'なし'),
+    '最終URL:'+finalUrl,'電話:'+(tel||'なし'),'サンキューURL:'+(thanksUrl||'なし'),
+    'LP目的:'+(lpGoal||'なし'),'悩み:'+(pain||'なし'),'メッセージ:'+(message||'なし'),
+    'デザイン:'+(design||'なし'),'CTA:'+(cta||'なし'),'NG表現:'+(ng||'なし'),'備考:'+(memo||'なし')
+  ].join(' / ');
+
+  var sys='あなたは中小企業Google広告支援専門の超優秀なWebマーケターです。ルール：①任意項目未入力なら推測補完しAI推定と明記②空欄出力禁止③見出し15文字以内・説明文90文字以内厳守④月予算30万以下は広告グループを絞る⑤地域密着は地域名+サービス名の完全一致必須⑥除外KWは求人・無料・やり方・比較・口コミ・独学を基本に業種追加⑦新規の場合はCV計測発火確認・検索語句精査・除外KW追加を前提にした運用メモを必ず出力⑧日予算は配信曜日数から算出した値を使用';
+
+  var headers={'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+
+  try{
+    if(currentMode==='ads'||currentMode==='both'){
+      var msgs1=['キャンペーン構成を設計中...','キーワードを選定中...','広告文を生成中...'];
+      var mi1=0;
+      document.getElementById('gen-msg').textContent=msgs1[0];
+      iv=setInterval(function(){mi1=(mi1+1)%msgs1.length;document.getElementById('gen-msg').textContent=msgs1[mi1];},1500);
+      var rsa=getRsaCounts();
+      var adsPrompt=sys+'\n\n以下の情報でGoogle Ads初期設定データを生成。前置き不要、有効なJSONのみ返答。文字列内にダブルクォートを使わないこと。広告文は見出し'+rsa.headlines+'本、説明文'+rsa.descriptions+'本を必ず出力。見出しは15文字以内、説明文は90文字以内。:\n'+info+'\n\n出力形式：'+buildAdJsonFormat(rsa.headlines,rsa.descriptions);
+
+      var res1=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:headers,body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:3000,messages:[{role:'user',content:adsPrompt}]})});
+      var data1=await res1.json();
+      clearInterval(iv);
+      if(data1.error) throw new Error(data1.error.message);
+      var text1=data1.content.map(function(c){return c.text||'';}).join('');
+      var parsed1=JSON.parse(text1.replace(/```json|```/g,'').trim());
+      generatedData=parsed1;
+      generatedData.finalUrl=finalUrl;
+      generatedData.area=ar;
+      generatedData.schedule=adSchedule;
+      generatedData.bidding=bidding;
+      generatedData.dailyBudget=dailyBudget;
+      generatedData.rsaCounts=getRsaCounts();
+      renderAds(parsed1);
+      renderEditorPreview(parsed1);
+      renderChecklist(parsed1,finalUrl,thanksUrl,tel);
+    }
+
+
+
+    if(!silent){
+      goStep(2);
+      switchTab('csv', document.getElementById('tab-btn-csv'));
+    }
+  }catch(e){
+    if(iv) clearInterval(iv);
+    if(!silent){
+      alert('生成エラー: '+e.message+'\n\nAPIキーを確認してください。');
+      goStep(0);
+    }
+    throw e;
+  }
+}
+
+function renderAds(d){
+  document.getElementById('campaign-body').innerHTML=(d.campaigns||[]).map(function(c){
+    return '<tr><td contenteditable>'+c.name+'</td><td contenteditable>'+c.budget+'</td><td contenteditable>'+c.area+'</td><td contenteditable style="font-size:11px">'+c.schedule+'</td><td contenteditable>'+c.device+'</td><td contenteditable>'+c.bidding+'</td><td contenteditable style="font-size:11px">'+c.memo+'</td></tr>';
+  }).join('');
+  document.getElementById('kw-body').innerHTML=(d.adgroups||[]).map(function(g){
+    var cls=g.match==='Exact'?'badge-exact':g.match==='Phrase'?'badge-phrase':'badge-broad';
+    var jp=g.match==='Exact'?'完全一致':g.match==='Phrase'?'フレーズ一致':'部分一致';
+    return '<tr><td contenteditable>'+g.group+'</td><td contenteditable>'+g.keyword+'</td><td><span class="badge '+cls+'">'+jp+'</span></td></tr>';
+  }).join('');
+  document.getElementById('neg-body').innerHTML=(d.negatives||[]).map(function(n){
+    return '<tr><td contenteditable>'+n.keyword+'</td><td contenteditable>'+n.campaign+'</td></tr>';
+  }).join('');
+  document.getElementById('ad-body').innerHTML=(d.ads||[]).map(function(a){
+    var hl=[]; for(var i=1;i<=15;i++){ if(a['headline'+i]) hl.push(a['headline'+i]); } hl=hl.join(' / ');
+    var ds=[]; for(var j=1;j<=4;j++){ if(a['desc'+j]) ds.push(a['desc'+j]); } ds=ds.join(' / ');
+    return '<tr><td contenteditable>'+a.group+'</td><td contenteditable style="font-size:11px">'+a.final_url+'</td><td contenteditable style="font-size:11px">'+hl+'</td><td contenteditable style="font-size:11px">'+ds+'</td><td contenteditable>'+a.path1+'</td><td contenteditable>'+a.path2+'</td></tr>';
+  }).join('');
+}
+
+function renderEditorPreview(d){
+  var rows=[];
+  (d.campaigns||[]).forEach(function(c){
+    rows.push(['Campaign',c.name,'','','','Paused',c.budget+'円/日 '+c.area]);
+  });
+  (d.adgroups||[]).forEach(function(g){
+    rows.push(['Ad Group',g.campaign,g.group,'','','Paused','']);
+    rows.push(['Keyword',g.campaign,g.group,g.keyword,g.match,'Paused','']);
+  });
+  (d.negatives||[]).forEach(function(n){
+    rows.push(['Negative Keyword',n.campaign,'',n.keyword,n.match||'Broad','','']);
+  });
+  (d.ads||[]).forEach(function(a){
+    var h=[]; for(var i=1;i<=15;i++){if(a['headline'+i]) h.push(a['headline'+i]);}
+    var ds=[]; for(var j=1;j<=4;j++){if(a['desc'+j]) ds.push(a['desc'+j]);}
+    rows.push(['Responsive Search Ad',a.campaign,a.group,h.slice(0,3).join('/'),ds.slice(0,2).join('/'),'Paused',a.final_url]);
+  });
+  document.getElementById('editor-preview-body').innerHTML=rows.map(function(r){
+    return '<tr>'+r.map(function(c){return '<td style="font-size:11px">'+c+'</td>';}).join('')+'</tr>';
+  }).join('');
+}
+
+function renderChecklist(d,finalUrl,thanksUrl,tel){
+  var items=[
+    {done:!!finalUrl,text:'最終URL（LP URL）が設定されている: '+(finalUrl||'未設定')},
+    {done:!!thanksUrl,text:'サンキューページURLが設定されている（コンバージョン計測用）: '+(thanksUrl||'未設定')},
+    {done:false,text:'Google広告アカウントでコンバージョン計測が設定済みであること'},
+    {done:false,text:'GTM・GA4のタグがLPに設置されていること'},
+    {done:!!tel,text:'電話番号アセット設定予定: '+(tel||'未設定')},
+    {done:false,text:'EditorへのCSVインポート後、全アイテムがPaused状態であることを確認'},
+    {done:false,text:'地域ターゲティングをEditor上で目視確認・修正'},
+    {done:false,text:'広告スケジュールをEditor上で目視確認・修正'},
+    {done:false,text:'キーワードの最終確認・不要なものを削除'},
+    {done:false,text:'除外キーワードの確認・追加'},
+    {done:false,text:'広告文の最終確認（見出し15文字以内・説明文90文字以内）'},
+    {done:false,text:'最終URL全広告グループで設定されていること確認'},
+    {done:false,text:'全確認完了後、Enabled（有効）に変更して投稿'}
+  ];
+  document.getElementById('checklist-body').innerHTML=items.map(function(item){
+    return '<li><input type="checkbox"'+(item.done?' checked':'')+'>'+item.text+'</li>';
+  }).join('');
+
+  document.getElementById('error-guide').innerHTML=[
+    '<strong>「Invalid location」エラー</strong>：地域名の表記をEditor上で修正。「Kanagawa」→「Kanagawa, Japan」など。',
+    '<strong>「Headline too long」エラー</strong>：見出しが15文字を超えています。該当箇所を短縮してください。',
+    '<strong>「Description too long」エラー</strong>：説明文が90文字を超えています。短縮してください。',
+    '<strong>「Missing final URL」エラー</strong>：最終URLが未設定の広告があります。全広告に設定してください。',
+    '<strong>「Invalid ad schedule」エラー</strong>：スケジュール表記をEditor上で修正してください。',
+    '<strong>インポート後に広告が有効になっていない</strong>：正常です。確認後にEnabledに変更して投稿してください。'
+  ].join('<br><br>');
+}
+
+function downloadEditorCSV(){
+  if(!generatedData){alert('先にAI生成を実行してください');return;}
+  var d=generatedData;
+  var bom='\uFEFF';
+  var sections=[];
+
+  // Campaign section
+  var campRows=[['Campaign','Campaign type','Campaign status','Budget','Bid strategy type','Networks','Languages','Location','Ad schedule']];
+  (d.campaigns||[]).forEach(function(c){
+    campRows.push([c.name,'Search','Paused',String(d.dailyBudget||c.budget),d.bidding||c.bidding,'Google search','Japanese',d.area||c.area,d.schedule||c.schedule||'']);
+  });
+  sections.push(campRows.map(function(r){return r.map(function(v){return '"'+(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('\r\n'));
+
+  // Ad Group section
+  var agRows=[['Campaign','Ad group','Ad group status','Ad group type']];
+  var groups={};
+  (d.adgroups||[]).forEach(function(g){
+    var key=g.campaign+'||'+g.group;
+    if(!groups[key]){groups[key]=true;agRows.push([g.campaign,g.group,'Paused','Default']);}
+  });
+  sections.push(agRows.map(function(r){return r.map(function(v){return '"'+(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('\r\n'));
+
+  // Keyword section
+  var kwRows=[['Campaign','Ad group','Keyword','Match type','Status']];
+  (d.adgroups||[]).forEach(function(g){
+    var kw=g.keyword;
+    var match=g.match||'Broad';
+    if(match==='Exact') kw='['+kw+']';
+    else if(match==='Phrase') kw='"'+kw+'"';
+    kwRows.push([g.campaign,g.group,kw,match,'Paused']);
+  });
+  sections.push(kwRows.map(function(r){return r.map(function(v){return '"'+(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('\r\n'));
+
+  // Negative Keyword section
+  var negRows=[['Campaign','Ad group','Negative keyword','Match type']];
+  (d.negatives||[]).forEach(function(n){
+    negRows.push([n.campaign||'',n.group||'',n.keyword||'',n.match||'Broad']);
+  });
+  sections.push(negRows.map(function(r){return r.map(function(v){return '"'+(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('\r\n'));
+
+  // RSA section
+  var counts=d.rsaCounts||getRsaCounts();
+  var adHeader=['Campaign','Ad group','Ad type'];
+  for(var hi=1;hi<=counts.headlines;hi++){adHeader.push('Headline '+hi);}
+  for(var di=1;di<=counts.descriptions;di++){adHeader.push('Description '+di);}
+  adHeader.push('Final URL','Path 1','Path 2','Status');
+  var adRows=[adHeader];
+  (d.ads||[]).forEach(function(a){
+    var row=[a.campaign,a.group,'Responsive search ad'];
+    for(var hi=1;hi<=counts.headlines;hi++){row.push(a['headline'+hi]||'');}
+    for(var di=1;di<=counts.descriptions;di++){row.push(a['desc'+di]||'');}
+    row.push(a.final_url||d.finalUrl||'',a.path1||'',a.path2||'','Paused');
+    adRows.push(row);
+  });
+  sections.push(adRows.map(function(r){return r.map(function(v){return '"'+(v||'').replace(/"/g,'""')+'"';}).join(',');}).join('\r\n'));
+
+  var csv=bom+sections.join('\r\n\r\n');
+  var blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='google_ads_editor_import.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function downloadFile(id,filename){
+  var val=document.getElementById(id)?document.getElementById(id).value:'';
+  var blob=new Blob([val],{type:'text/markdown;charset=utf-8;'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+// Initialize on load
+(function(){
+  updateMode();
+  refreshProjectSelect();
+  refreshTemplateSelect();
+})();
+
+</script>
+</body>
+</html>
