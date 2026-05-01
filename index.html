@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>リスティング広告初期設定ツール v23</title>
+<title>リスティング広告初期設定ツール v25</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Helvetica Neue',sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh}
@@ -87,7 +87,7 @@ body{font-family:'Helvetica Neue',sans-serif;background:#f5f4f0;color:#1a1a1a;mi
 <body>
 <div class="header">
   <h1>リスティング広告 初期設定ツール</h1>
-  <span>BLP Internal Tool v23</span>
+  <span>BLP Internal Tool v25</span>
 </div>
 <div class="container">
 
@@ -340,7 +340,7 @@ function updateMode(){
   a.style.display=hasAds?'block':'none';
   l.style.display=hasDocs?'block':'none';
   b1.style.display=hasAds?'block':'none';
-  b2.style.display=hasDocs?'block':'none';
+  if(b2) b2.style.display=hasDocs?'block':'none';
   var allChks=['chk-ads','chk-proposal','chk-lp-proposal','chk-lp'];
   var allChecked=allChks.every(function(id){return document.getElementById(id).checked;});
   document.getElementById('chk-all').checked=allChecked;
