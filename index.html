@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>集客設計支援ツール v91</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Helvetica Neue',Arial,sans-serif;background:#f5f4f0;color:#1a1a1a;min-height:100vh}.header{background:#1a1a1a;color:#f5f4f0;padding:16px 24px;display:flex;align-items:center}.header h1{font-size:15px;font-weight:500;letter-spacing:.05em}.header span{font-size:11px;color:#aaa;margin-left:auto}.container{max-width:1040px;margin:0 auto;padding:24px}.api-bar,.mode-select,.card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:16px;margin-bottom:16px}.api-bar{display:flex;align-items:center;gap:10px}.api-bar label{font-size:12px;color:#666;white-space:nowrap}.api-bar input{flex:1;padding:8px 10px;border:1px solid #ddd;border-radius:5px;font-size:13px;font-family:monospace}.api-bar button,.btn-primary,.btn-secondary{border:none;border-radius:6px;cursor:pointer}.api-bar button{padding:8px 14px;background:#1a1a1a;color:#fff;font-size:12px}.api-status{font-size:11px;color:#27500a;white-space:nowrap}.mode-select h2{font-size:13px;font-weight:500;margin-bottom:12px;color:#666}.choice-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.choice{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #ddd;border-radius:6px;cursor:pointer;background:#fff;font-size:13px}.choice input{width:16px;height:16px}.choice strong{display:block;font-size:13px}.choice span span{font-size:11px;color:#888}.step-nav{display:flex;margin-bottom:16px;border:1px solid #ddd;border-radius:6px;overflow:hidden;background:#fff}.step-btn{flex:1;padding:10px 8px;font-size:12px;background:#fff;border:none;border-right:1px solid #ddd;cursor:pointer;color:#888}.step-btn:last-child{border-right:none}.step-btn.active{background:#1a1a1a;color:#fff}.screen{display:none}.screen.active{display:block}.section-label{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #eee}.field{margin-bottom:14px}.field label{display:block;font-size:12px;color:#666;margin-bottom:4px;font-weight:500}.req{color:#e24b4a}.field input,.field textarea,.field select{width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:5px;font-size:14px;background:#fff;color:#1a1a1a;font-family:inherit}.field textarea{resize:vertical;min-height:72px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.checkbox-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}.checkbox-item{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}.checkbox-item input{width:14px;height:14px}.radio-row{display:flex;gap:8px;flex-wrap:wrap}.radio-card{flex:1;min-width:180px;border:1px solid #ddd;border-radius:6px;padding:10px;display:flex;gap:8px;align-items:flex-start;font-size:13px;cursor:pointer}.radio-card small{display:block;color:#888;font-size:11px;margin-top:2px}.time-row{display:flex;align-items:center;gap:8px}.time-row select{width:auto;min-width:80px}.btn-primary{width:100%;padding:12px;background:#1a1a1a;color:#fff;font-size:14px;font-weight:500}.btn-secondary{padding:10px 18px;background:#fff;color:#1a1a1a;border:1px solid #ddd;font-size:13px}.btn-primary:hover,.btn-secondary:hover{opacity:.85}.gen-area{text-align:center;padding:60px 0}.spinner{width:32px;height:32px;border:2px solid #ddd;border-top-color:#1a1a1a;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}@keyframes spin{to{transform:rotate(360deg)}}.gen-label{font-size:13px;color:#888}.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}.tab{padding:8px 15px;font-size:13px;border:1px solid #ddd;border-radius:5px;cursor:pointer;background:#fff;color:#888}.tab.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}.panel{display:none}.panel.active{display:block}.overflow-x{overflow-x:auto;margin-bottom:16px}.csv-table{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}.csv-table th{background:#f5f4f0;padding:8px;text-align:left;font-weight:500;border:1px solid #ddd;font-size:11px;color:#666;white-space:nowrap}.csv-table td{padding:7px 8px;border:1px solid #ddd;vertical-align:top}.csv-table td[contenteditable]:focus{outline:none;background:#fffbf0}.stitle{font-size:12px;font-weight:600;color:#666;margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid #eee;text-transform:uppercase;letter-spacing:.05em}.notice{background:#fffbf0;border:1px solid #f0d080;border-radius:6px;padding:12px 14px;font-size:12px;color:#7a5c00;margin-bottom:16px}.notice-blue{background:#e6f1fb;border:1px solid #b5d4f4;border-radius:6px;padding:12px 14px;font-size:12px;color:#0c447c;margin-bottom:16px}.md-editor{width:100%;min-height:560px;padding:14px;border:1px solid #ddd;border-radius:6px;font-size:13px;font-family:'Courier New',monospace;background:#fff;resize:vertical;line-height:1.7}.dl-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}.checklist{list-style:none}.checklist li{padding:7px 0;font-size:13px;border-bottom:1px solid #eee;display:flex;gap:8px;align-items:center}.management{display:grid;grid-template-columns:1fr 1fr;gap:16px}.mini-row{display:flex;gap:8px;align-items:center}.mini-row input,.mini-row select{flex:1;padding:8px;border:1px solid #ddd;border-radius:5px;font-size:13px}.ad-list{font-size:12px;line-height:1.7;margin:0;padding-left:18px}.muted{font-size:11px;color:#888}.hidden{display:none!important}
+.manual-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.manual-box{background:#fff;border:1px solid #ddd;border-radius:8px;padding:14px;margin-bottom:12px}.manual-box h3{font-size:14px;margin-bottom:8px}.manual-box ol,.manual-box ul{padding-left:20px;font-size:13px;line-height:1.8}.manual-box p{font-size:13px;line-height:1.8}.manual-steps{counter-reset:step}.manual-steps li{margin-bottom:6px}.manual-note{background:#f7fafc;border:1px solid #cfe2f3;border-radius:6px;padding:10px 12px;font-size:12px;color:#164263;margin:10px 0}.manual-error{background:#fff8f8;border:1px solid #f0c0c0;border-radius:6px;padding:10px 12px;font-size:12px;color:#7a1f1f;margin:10px 0}.manual-mini{font-size:12px;color:#666;line-height:1.7}.important-red{color:#c62828;font-weight:700}.important-dark{font-weight:700;color:#111}.mini-note{display:block;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="header"><h1>集客設計支援ツール</h1><span>BLP Marketing Setup Tool v91</span></div>
+<div class="container">
+  <div class="api-bar"><label>APIキー</label><input type="password" id="api-key" placeholder="sk-ant-api03-..."><button onclick="saveKey()" id="save-key-btn">設定</button><button onclick="deleteKey()" id="delete-key-btn" style="display:none;background:#888">削除</button><span class="api-status" id="api-status"></span></div>
+
+  <div class="card management">
+    <div><div class="section-label">案件管理・履歴保存</div><div class="mini-row"><input id="project-name" placeholder="案件名 例：横浜_補助金LP"><button class="btn-secondary" onclick="saveProject()">保存</button></div><div class="mini-row" style="margin-top:8px"><select id="project-select"><option value="">保存済み案件を選択</option></select><button class="btn-secondary" onclick="loadProject()">呼出</button><button class="btn-secondary" onclick="deleteProject()">削除</button></div><p class="muted" style="margin-top:6px">このブラウザ内に保存されます。</p></div>
+    <div><div class="section-label">入力テンプレート</div><div class="mini-row"><input id="template-name" placeholder="テンプレート名 例：税理士事務所"><button class="btn-secondary" onclick="saveTemplate()">保存</button></div><div class="mini-row" style="margin-top:8px"><select id="template-select"><option value="">テンプレートを選択</option></select><button class="btn-secondary" onclick="loadTemplate()">呼出</button><button class="btn-secondary" onclick="deleteTemplate()">削除</button></div></div>
+  </div>
+
+  <div class="card" id="hearing-import-card">
+    <div class="section-label">ヒアリングシート連携</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn-secondary" onclick="downloadHearingSheet()">📥 ヒアリングシート（Excel）をダウンロード</button>
+      <label class="btn-secondary" style="cursor:pointer;margin:0">
+        📂 ヒアリングシートExcelを読み込む
+        <input type="file" accept=".xlsx,.xls" id="hearing-xlsx-input" style="display:none" onchange="importHearingXlsx(this)">
+      </label>
+      <label class="btn-secondary" style="cursor:pointer;margin:0">
+        予備：CSVを読み込む
+        <input type="file" accept=".csv" id="hearing-csv-input" style="display:none" onchange="importHearingCsv(this)">
+      </label>
+      <span id="hearing-import-status" class="muted"></span>
+    </div>
+    <p class="muted" style="margin-top:8px">お客様にはダウンロードしたExcelを送付し、B列に記入してもらいます。返送された.xlsxをそのまま読み込むと、各欄に自動入力されます。CSV保存は不要です。</p>
+    <p class="muted" style="margin-top:4px">A列・C列は読み込み時の判定に使うため変更しないでください。Excel読込がうまくいかない場合のみ、予備としてCSV UTF-8保存したファイルを読み込めます。</p>
+  </div>
+
+  <div class="mode-select"><h2>作成する成果物を選択してください</h2><div class="choice-grid">
+    <label class="choice"><input type="checkbox" id="chk-ads" checked onchange="updateMode()"><span><strong>広告設定CSV</strong><span>Editor用CSV</span></span></label>
+    <label class="choice"><input type="checkbox" id="chk-proposal" onchange="updateMode()"><span><strong>初期提案書</strong><span>広告設定の根拠</span></span></label>
+    <label class="choice"><input type="checkbox" id="chk-lp-proposal" onchange="updateMode()"><span><strong>LP提案書</strong><span>LP方向性の根拠</span></span></label>
+    <label class="choice"><input type="checkbox" id="chk-lp" onchange="updateMode()"><span><strong>LP仕様書</strong><span>SEO設計も含む</span></span></label>
+    <label class="choice"><input type="checkbox" id="chk-channel" onchange="updateMode()"><span><strong>販促相性レポート</strong><span>SEO・記事化も含む</span></span></label>
+    <label class="choice"><input type="checkbox" id="chk-all" onchange="toggleAll(this)"><span><strong>全て選択</strong><span style="color:#e24b4a">時間・API利用料に注意</span></span></label>
+  </div></div>
+
+  <div class="step-nav"><button class="step-btn active" onclick="goStep(0)">① ヒアリング入力</button><button class="step-btn" onclick="goStep(1)">② AI生成中</button><button class="step-btn" onclick="goStep(2)">③ 結果・編集・出力</button></div>
+  <div class="card" id="quick-manual-card"><div class="section-label">かんたん操作ガイド</div><div class="manual-grid"><div><p class="manual-mini"><strong>初回のみ</strong><br>APIキーを入力して「設定」を押します。一度設定すると、このブラウザに保存されます。<br><br><strong>お客様側の事前準備</strong><br>Google広告アカウントはお客様名義で作成し、広告費の支払い情報もお客様側で登録します。BLPには運用に必要な権限を付与してもらいます。<br><br><strong>A. 新規案件として始める場合</strong><br>1. 案件名を入力します。<br>2. ヒアリング項目を入力します。<br>3. 作成する成果物を選びます。<br>4. 「選択した成果物を生成する」を押します。<br>5. 結果を確認・編集します。<br>6. CSVまたはPDFを出力します。<br>7. 必要に応じて案件を保存します。</p></div><div><p class="manual-mini"><strong>B. テンプレートから始める場合</strong><br>1. テンプレートを呼び出します。<br>2. 案件名を入力します。<br>3. 必要箇所だけ修正します。<br>4. 作成する成果物を選びます。<br>5. 「選択した成果物を生成する」を押します。<br><br><strong>C. 過去案件を使う場合</strong><br>1. 保存済み案件を呼び出します。<br>2. 必要箇所を修正します。<br>3. 作成する成果物を選びます。<br><br>CSVの取込はPCアプリのGoogle Ads Editorで行います。<br>公式DL：https://ads.google.com/intl/ja_jp/home/tools/ads-editor/<br>取込入口：左上の「アカウント(A)」→「インポート」→「ファイルから」<br>取込順：ZIP内のCSVをファイル名の数字順に取り込みます（01 → 02 → 03 ...）。番号は出力結果に合わせて自動で詰まります。送信前チェック表は別ボタンから出す確認用であり、Editorには取り込みません。</p><button class="btn-secondary" onclick="goStep(2);switchTab('manual',document.getElementById('tab-btn-manual'))">Editor取込手順を見る</button></div></div></div>
+
+  <div id="s0" class="screen active">
+    <div class="card"><div class="section-label">基本情報</div><div class="row2"><div class="field"><label>業種<span class="req">*</span></label><input id="f_gyoshu" placeholder="例：税理士事務所"></div><div class="field"><label>商品・サービス名<span class="req">*</span></label><input id="f_service" placeholder="例：補助金申請サポート"></div></div><div class="row2"><div class="field"><label>ターゲット<span class="req">*</span></label><input id="f_target" placeholder="例：中小企業経営者、個人事業主"></div><div class="field"><label>月予算（円）<span class="req">*</span></label><input type="number" id="f_budget" placeholder="例：100000"></div></div><div class="field"><label>強み・USP<span class="req">*</span></label><textarea id="f_usp" placeholder="例：専門家が初回相談から実行まで伴走、地域密着、実績あり"></textarea></div><div class="row2"><div class="field"><label>競合情報・競合他社URL</label><input id="f_competitor" placeholder="例：競合URL、競合の訴求、料金など"></div><div class="field"><label>過去の広告実績</label><input id="f_past_ad" placeholder="例：初めて、CVR約2%、CPA1万円など"></div></div><div class="row2"><div class="field"><label>客単価・LTV</label><input id="f_ltv" placeholder="例：初回5万円、年間LTV30万円"></div><div class="field"><label>問い合わせ〜成約の平均日数</label><input id="f_lead_time" placeholder="例：即日〜3日、平均2週間"></div></div></div>
+
+    <div class="card" id="ads-section"><div class="section-label">配信設定・広告文</div><div class="field"><label>広告文生成量</label><div class="radio-row"><label class="radio-card"><input type="radio" name="rsa_level" value="light"><div>軽量<small>見出し5本・説明文2本</small></div></label><label class="radio-card"><input type="radio" name="rsa_level" value="standard" checked><div>標準<small>見出し8本・説明文3本</small></div></label><label class="radio-card"><input type="radio" name="rsa_level" value="detailed"><div>詳細<small>見出し10本・説明文4本</small></div></label></div></div><div class="field"><label>配信地域<span class="req">*</span></label><input id="f_area" placeholder="例：神奈川県横浜市、東京都港区"></div><div class="field"><label>配信曜日</label><div class="checkbox-grid"><label class="checkbox-item"><input type="checkbox" class="dow" value="Mon" checked>月</label><label class="checkbox-item"><input type="checkbox" class="dow" value="Tue" checked>火</label><label class="checkbox-item"><input type="checkbox" class="dow" value="Wed" checked>水</label><label class="checkbox-item"><input type="checkbox" class="dow" value="Thu" checked>木</label><label class="checkbox-item"><input type="checkbox" class="dow" value="Fri" checked>金</label><label class="checkbox-item"><input type="checkbox" class="dow" value="Sat">土</label><label class="checkbox-item"><input type="checkbox" class="dow" value="Sun">日</label></div></div><div class="row2"><div class="field"><label>配信時間帯</label><div class="time-row"><select id="f_time_from"></select><span>〜</span><select id="f_time_to"></select><span>時</span></div></div><div class="field"><label>デバイス設定</label><div class="checkbox-grid"><label class="checkbox-item"><input type="checkbox" class="device" value="Computers" checked>PC</label><label class="checkbox-item"><input type="checkbox" class="device" value="Mobile" checked>スマホ</label><label class="checkbox-item"><input type="checkbox" class="device" value="Tablets">タブレット</label></div></div></div><div class="field"><label>入札戦略</label><div class="radio-row"><label class="radio-card"><input type="radio" name="bidding" value="Maximize clicks" checked><div>訪問数の最大化<small>新規・CV実績なし向け</small></div></label><label class="radio-card"><input type="radio" name="bidding" value="Maximize conversions"><div>CV数の最大化<small>CV実績あり向け</small></div></label><label class="radio-card"><input type="radio" name="bidding" value="Target CPA"><div>目標CPA<small>目標CPAが明確な場合</small></div></label></div></div><div class="field"><label>訴求キーワード候補</label><input id="f_kw" placeholder="例：補助金申請 横浜、顧問税理士 横浜"></div><div class="field"><label>除外キーワード候補</label><input id="f_neg_kw" placeholder="例：無料、求人、やり方、独学"></div><div class="field"><label>コンバージョン地点</label><div class="checkbox-grid"><label class="checkbox-item"><input type="checkbox" class="cv" value="問い合わせフォーム" checked>フォーム</label><label class="checkbox-item"><input type="checkbox" class="cv" value="電話">電話</label><label class="checkbox-item"><input type="checkbox" class="cv" value="来店予約">来店予約</label><label class="checkbox-item"><input type="checkbox" class="cv" value="資料請求">資料請求</label><label class="checkbox-item"><input type="checkbox" class="cv" value="LINE登録">LINE登録</label></div></div><div class="row3"><div class="field"><label>最終URL（LP URL）</label><input id="f_final_url" placeholder="未定でも可。未入力時はEditor用CSVに仮URLを入れます"></div><div class="field"><label>電話番号</label><input id="f_tel" placeholder="例：045-000-0000"></div><div class="field"><label>サンキューページURL</label><input id="f_thanks_url" placeholder="例：https://example.com/thanks"></div></div><div class="field"><label>LINE登録URL</label><input id="f_line_url" placeholder="例：https://lin.ee/xxxxxxx　※LINE登録をCVにする場合に入力"></div><div class="field"><label>既存LP・資料の内容</label><div class="notice-blue" style="margin-bottom:8px">PDFを選ぶと、ブラウザ内で文字を抽出して下の欄に反映します。スキャンPDFや画像化されたPDFは抽出できない場合があります。抽出後は、不要なフッターやページ番号を必要に応じて削除してください。</div><div class="mini-row" style="margin-bottom:8px"><input type="file" id="f_existing_pdf" accept="application/pdf,.pdf"><button type="button" class="btn-secondary" onclick="extractPdfToExistingMaterial()">PDFから本文を読み込む</button></div><p class="muted" id="pdf-extract-status" style="margin:4px 0 8px"></p><textarea id="f_existing_material" placeholder="既存LP、会社案内、PDF資料、チラシ等の本文を貼り付けてください。PDFを選択して『PDFから本文を読み込む』を押すと自動で反映できます。広告文・キーワード・SEO観点・販促相性レポート・LP改善提案（改善点の要約）に反映します。" style="min-height:140px"></textarea><p class="muted" style="margin-top:4px">既存LPがある場合は、サービス内容・強み・料金・対応地域・CTA・注意書き・見出し・FAQなどを入れると、広告、LP、SEOのズレを減らせます。長文の場合、AI入力用には冒頭6,000文字まで使用します。</p></div></div>
+
+    <div class="card" id="lp-section"><div class="section-label">LP情報</div><div class="notice-blue">LP提案書・LP仕様書では、SEO・検索意図・FAQ・title/meta description案まで踏み込んで生成します。初期提案書はGoogle広告の提案として、検索意図を広告設計に必要な範囲で扱います。検索ボリュームや順位は取得しないため、あくまで初期設計の仮説として扱います。</div><div class="field"><label>LPの目的<span class="req">*</span></label><textarea id="f_lp_goal" placeholder="例：検索広告流入から問い合わせを獲得する。初回相談申込を増やす。"></textarea></div><div class="field"><label>ユーザーの悩み</label><textarea id="f_pain" placeholder="例：どこに頼めばよいか分からない。費用対効果が不安。比較検討に時間がかかる。"></textarea></div><div class="field"><label>伝えたいメッセージ</label><textarea id="f_message" placeholder="例：専門家が判断材料を整理し、次にやることを明確にします。" style="min-height:48px"></textarea></div><div class="field"><label>デザイン方向性</label><textarea id="f_design" placeholder="例：信頼感・清潔感・専門性重視。煽り感NG。" style="min-height:48px"></textarea></div><div class="field"><label>CTA文言</label><input id="f_cta" placeholder="例：無料相談はこちら、問い合わせる"></div><div class="field"><label>NG表現・避けたい表現</label><textarea id="f_ng" placeholder="例：過度な断定、根拠のない数値、競合批判" style="min-height:48px"></textarea></div><div class="field"><label>備考</label><textarea id="f_memo" placeholder="その他特記事項" style="min-height:48px"></textarea></div></div>
+
+    <div id="gen-selected-btn"><button class="btn-primary" onclick="generateSelected()">選択した成果物を生成する →</button><p class="muted" id="generation-cost-note" style="margin-top:6px;text-align:center">選択数が多いほど生成に時間がかかります。急ぐ場合は広告設定CSVのみがおすすめです。</p></div>
+  </div>
+
+  <div id="s1" class="screen"><div class="card"><div class="gen-area"><div class="spinner"></div><div class="gen-label" id="gen-msg">ヒアリング情報を解析中...</div></div></div></div>
+
+  <div id="s2" class="screen"><div class="tabs"><button class="tab active" id="tab-btn-csv" onclick="switchTab('csv',this)">確認用CSV</button><button class="tab" id="tab-btn-editor-csv" onclick="switchTab('editor-csv',this)">Editor用CSV</button><button class="tab" id="tab-btn-checklist" onclick="switchTab('checklist',this)">インポート前チェック</button><button class="tab" id="tab-btn-manual" onclick="switchTab('manual',this)">取込マニュアル</button><button class="tab" id="tab-btn-proposal" onclick="switchTab('proposal',this)">初期提案書</button><button class="tab" id="tab-btn-lp-proposal" onclick="switchTab('lp-proposal',this)">LP提案書</button><button class="tab" id="tab-btn-lp" onclick="switchTab('lp',this)">LP制作仕様書</button><button class="tab" id="tab-btn-channel" onclick="switchTab('channel',this)">販促相性レポート</button></div>
+    <div id="tab-csv" class="panel active"><div class="notice">画面確認用です。セルは直接編集できます。</div><div class="stitle">キャンペーン構成</div><div class="overflow-x"><table class="csv-table"><thead><tr><th>キャンペーン名</th><th>日予算</th><th>配信地域</th><th>曜日・時間</th><th>デバイス</th><th>入札戦略</th><th>運用メモ</th></tr></thead><tbody id="campaign-body"></tbody></table></div><div class="stitle">広告グループ・キーワード</div><div class="overflow-x"><table class="csv-table"><thead><tr><th>広告グループ</th><th>キーワード</th><th>マッチタイプ</th></tr></thead><tbody id="kw-body"></tbody></table></div><div class="stitle">除外キーワード</div><div class="overflow-x"><table class="csv-table"><thead><tr><th>除外キーワード</th><th>適用範囲</th></tr></thead><tbody id="neg-body"></tbody></table></div><div class="stitle">広告文（RSA）</div><div class="overflow-x"><table class="csv-table"><thead><tr><th>広告グループ</th><th>最終URL</th><th>見出し</th><th>説明文</th><th>パス1</th><th>パス2</th></tr></thead><tbody id="ad-body"></tbody></table></div><div class="dl-row"><button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button></div></div>
+    <div id="tab-editor-csv" class="panel"><div class="notice-blue">Google Ads Editorインポート用CSVです。Editorへ取り込むCSVはZIPで1回ダウンロードします。<br><span class="important-dark">取込順：</span>ZIP内に出力されたCSVを、<span class="important-red">ファイル名の数字順（01 → 02 → 03 ...）</span>に取り込んでください。<br><span class="important-red">送信前チェック表（Excel形式）はZIPには入りません。</span>画面下の「送信前チェック表（作業指示つきExcel）をダウンロード」ボタンから別でダウンロードして、Editorには取り込まず確認用として使います。<span class="important-red">CSVではなくExcel形式で出力するため、列幅と折り返しが最初から見やすい状態で開けます。</span><br><span class="important-dark">自動取込：</span>配信曜日・時間帯は広告スケジュールCSVとしてZIPに含めます。地域・言語はEditor上で手動設定し、送信前チェック表で確認します。<br><span class="important-dark">最終URL：</span>未入力の場合、responsive_search_ads.csv には仮URL（https://example.com/）を入れて赤エラーを回避します。<span class="important-red">送信前に必ず本番LP URLへ差し替えてください。</span></div><div class="dl-row" style="margin-top:0;margin-bottom:16px"><button class="btn-primary" style="width:auto;padding:10px 24px" onclick="downloadEditorCSV()">Editor取込CSVをZIPでダウンロード</button><button class="btn-secondary" onclick="switchTab('manual',document.getElementById('tab-btn-manual'))">取込手順を見る</button><button class="btn-secondary" onclick="downloadManualChecklistExcel()">送信前チェック表（作業指示つきExcel）をダウンロード</button></div><div class="overflow-x"><table class="csv-table"><thead><tr><th>Row Type</th><th>Campaign</th><th>Ad Group</th><th>Keyword/Headline</th><th>Match/Description</th><th>Status</th><th>その他</th></tr></thead><tbody id="editor-preview-body"></tbody></table></div></div>
+    <div id="tab-checklist" class="panel"><div class="notice">Editorへのインポート前に確認してください。</div><div class="card"><div class="stitle">インポート前チェックリスト</div><ul class="checklist" id="checklist-body"></ul></div><div class="card"><div class="stitle">Editorでエラーが出た場合の対処</div><div style="font-size:13px;line-height:1.8;color:#444" id="error-guide"></div></div></div>
+    <div id="tab-manual" class="panel">
+      <div class="notice-blue">Google Ads Editorへ分割CSVを取り込むための操作マニュアルです。初めて使う人、久しぶりに操作する人は、この順番で進めてください。</div>
+      <div id="manual-print-area">
+        <h2 style="font-size:20px;margin:4px 0 12px">Google Ads Editor取込マニュアル</h2>
+        <div class="notice-blue">この手順は、Google Ads Editorを使って新しいGoogle広告キャンペーンを作成するためのマニュアルです。ブラウザ版のGoogle広告管理画面ではなく、PC用アプリの「Google Ads Editor」を使用します。</div>
+        <div class="manual-box"><h3>0. まず確認すること</h3><p>普段ブラウザで見ているGoogle広告管理画面と、Google Ads Editorは別のツールです。本ツールで出力した分割CSVは、PCにインストールしたGoogle Ads Editorアプリに取り込んで使用します。</p><p>Google Ads Editor公式ダウンロードページ：<br><a href="https://ads.google.com/intl/ja_jp/home/tools/ads-editor/" target="_blank" rel="noopener">https://ads.google.com/intl/ja_jp/home/tools/ads-editor/</a></p><div class="manual-note">このマニュアルは、既存キャンペーンの編集ではなく、新しいキャンペーン・広告グループ・キーワード・広告文を作成する前提です。すべて初期状態では「Paused（一時停止）」で作成されます。</div></div>
+        <div class="manual-box"><h3>0-1. お客様名義アカウントで運用する前提</h3><p>Google広告アカウントは、原則としてお客様名義で作成します。広告費はお客様がGoogleへ直接支払い、BLPは広告設定・運用管理・改善提案を行う立場で権限を付与してもらいます。</p><ol><li>お客様にGoogle広告アカウントを作成してもらいます。</li><li>お客様側で広告費の支払い情報を登録してもらいます。</li><li>BLPのGoogleアカウントを、運用に必要な権限で招待してもらいます。</li><li>BLP側は、付与された権限でGoogle Ads Editorにアカウントを追加します。</li></ol><div class="manual-note">広告費の立替を避け、契約終了後も広告アカウント・配信履歴・設定内容がお客様側に残る形にします。契約終了時はBLPの管理権限を削除します。</div></div>
+        <div class="manual-box"><h3>0-2. お客様に事前準備してもらうもの</h3><ul><li>Googleアカウント</li><li>Google広告アカウント</li><li>広告費決済用のクレジットカード等の支払い情報</li><li>LPのURL</li><li>問い合わせフォーム、サンクスページ、電話番号、LINE登録URLなどのCV地点</li><li>BLPに権限付与するための招待作業</li></ul><div class="manual-note">アカウント作成や権限付与で止まりやすいため、初回はお客様に手順を案内しながら進める想定です。</div></div>
+        <div class="manual-box"><h3>1. Google Ads Editorを起動してログインする</h3><ol><li>PCにインストールした「Google Ads Editor」を起動します。</li><li>アカウントマネージャー画面が表示されたら、「追加」をクリックします。</li><li>ログイン画面で「ブラウザを開いてログイン」をクリックします。</li><li>ブラウザが開いたら、今回キャンペーンを作成するGoogle広告アカウントを管理しているGoogleアカウントでログインします。</li><li>ログイン後、Google Ads Editorに戻り、対象のGoogle広告アカウントを追加します。</li></ol><div class="manual-note">「アプリ内ブラウザからログイン」でも進められる場合がありますが、迷った場合は「ブラウザを開いてログイン」を使うと分かりやすいです。</div></div>
+        <div class="manual-box"><h3>2. 対象アカウントを開き、最新の変更を取得する</h3><ol><li>アカウント一覧に対象アカウントが表示されたら、そのアカウントを選択します。</li><li>「開く」をクリックしてアカウントを開きます。</li><li>アカウントを開いたら、上部メニューまたは画面上部の「最新の変更を取得」をクリックします。</li></ol><div class="manual-note">新規キャンペーンを作成する場合でも、最初に最新状態を取得してください。既存設定やアカウント情報と整合させたうえでCSVを取り込めます。</div></div>
+        <div class="manual-box"><h3>3. CSVをインポートする場所</h3><p>対象アカウントを開いた画面で、左上のメニューバーにある<strong>「アカウント(A)」</strong>をクリックします。</p><p style="font-weight:600;margin:8px 0">「アカウント(A)」→「インポート」→「ファイルから」</p><p>この入口から、取り込むCSVファイルを1つずつ選択します。</p><div class="manual-note">画面上部の「最新の変更を取得」「変更内容を確認」「送信」は、CSVを取り込む入口ではありません。CSVの取込は、左上メニューの「アカウント(A)」から行います。</div><div class="manual-note">CSVを取り込むと「Import review」画面が表示されます。エラーや警告を確認し、問題がなければ画面下部の<strong>「変更を終了して確認」</strong>をクリックします。次の画面で<strong>「すべて保持」</strong>をクリックしてから、次のCSVを取り込んでください。</div><div class="manual-note">「元に戻してキャンセル」は今回のCSV取込を取り消すボタンです。取込内容を進める場合は押さないでください。</div></div>
+        <div class="manual-box"><h3>4. CSVの取込順番</h3><ol><li>ZIPを開きます。</li><li>ZIP内に表示されたCSVを、ファイル名の数字順に取り込みます。<br>例：01_campaigns.csv → 02_ad_schedule.csv → 03_adgroups.csv → 04_keywords_exact.csv → 05_negative_keywords.csv → 06_responsive_search_ads.csv</li><li>フレーズ一致キーワードや除外キーワードなど、該当データがないCSVは出力されません。その場合、後ろのファイル番号は自動で詰まります。</li><li><span class="important-red">送信前チェック表はGoogle Ads Editorへは取り込みません。</span>「送信前チェック表（作業指示つきExcel）をダウンロード」ボタンから別でダウンロードし、送信前確認用として開いてください。</li></ol><div class="manual-note">マニュアル内のファイル名はあくまで例です。実際には、ZIP内に出力されたCSVを上から数字順に取り込んでください。<br><span class="important-red">送信前チェック表は別ボタンから出す確認用ファイル（.xlsx）であり、Editorへは取り込みません。</span></div><div class="manual-note">配信曜日・時間帯はCSVで取り込みます。地域・対象言語はEditor上で手動設定します。ヒアリングで入力した地域は、送信前チェック表に「設定すべき地域」として表示します。</div><div class="manual-note"><span class="important-red">重要：</span>ZIPに入っているCSVだけを取り込みます。送信前チェック表はZIP内には入らず、別ボタンから出す確認用です。</div><div class="manual-note">各CSVを取り込んだ後は、必ず「変更を終了して確認」→「すべて保持」を行ってから次のCSVへ進んでください。</div><div class="manual-note">次のCSVが「ファイルから」で選べない場合は、直前に取り込んだ変更がまだ保持されていない可能性があります。画面上部の「すべて保持」を押してから、次のCSVを取り込んでください。</div></div><div class="manual-box"><h3>5. すべて取り込んだ後に確認・手動設定すること</h3><ol><li>新しいキャンペーンが作成されているか確認します。</li><li>広告グループが作成されているか確認します。</li><li>キーワードが登録されているか確認します。</li><li>レスポンシブ検索広告が登録されているか確認します。</li><li>すべてのステータスが「Paused（一時停止）」になっているか確認します。</li><li>キャンペーンの「EUの政治広告」が未指定の場合は、「いいえ」または該当しない選択肢に変更します。</li><li>最終URLが正しいLP URLになっているか確認します。仮URLの場合は本番LP URLへ差し替えます。</li><li>広告文に文字数エラーや不自然な表現がないか確認します。</li><li>キャンペーン名に不要な英語が混ざっていないか確認します。本ツールでは入力されたサービス名と地域から安定したキャンペーン名を作ります。</li><li>広告グループ名やキーワードが空欄の行がないか確認します。Editorの追加用の「＋」空行を誤って選択しているだけの場合もあります。</li></ol><div class="manual-note"><strong>対象地域の設定方法</strong><br>左側で対象キャンペーンを選択 → 左メニュー「キーワードとターゲティング」→「地域」を開きます。右側の編集欄は、選択中の地域1件だけが表示されます。複数地域を設定する場合は、右側の鉛筆欄にまとめて入力するのではなく、画面上部の「地域を追加」から1件ずつ追加します。<br>例：入力地域が「神奈川県、東京都」の場合は、まず「地域を追加」から「神奈川県」を追加し、次にもう一度「地域を追加」から「東京都」を追加します。中央の一覧に「神奈川県, 日本」「東京都, 日本」の2行が並んでいればOKです。<br>「日本」だけの行は全国配信です。全国配信にしない場合は「日本」の行を選択し、上部の「削除」を押します。なお「神奈川県, 日本」は全国配信ではなく、日本の中の神奈川県という意味なので削除しません。</div><div class="manual-note"><strong>対象言語の確認方法</strong><br>左側で対象キャンペーンを選択 → 右側のキャンペーン編集欄 →「対象言語」が日本語になっているか確認します。未設定または意図と違う場合は鉛筆マークから日本語を設定します。</div><div class="manual-note"><strong>配信曜日・時間帯について</strong><br>配信曜日・時間帯は広告スケジュールCSVで自動取込します。ZIP内の広告スケジュールCSVを取り込めば、入力した曜日と時間帯が反映されます。詳細確認が必要な場合のみ、Editorの「広告スケジュール」で確認してください。</div><div class="manual-note">配信曜日・時間帯はCSVで自動登録します。地域・言語はEditor側の解釈違いを避けるため手動設定にし、送信前チェックで必ず目視確認します。</div><div class="manual-note">CSVを取り込んだだけではGoogle広告へは反映されません。確認後、問題がなければGoogle Ads Editorの「投稿」をクリックしてGoogle広告アカウントへ反映します。</div></div>
+        <div class="manual-box"><h3>5-1. 画面ごとの直し方（赤エラー・手動設定の対応）</h3>
+<div class="manual-note"><strong>① キャンペーン：EUの政治広告を直す</strong><br>左下メニューの「キャンペーン」をクリック → 一覧で対象キャンペーンをクリック → 右側の編集欄で「EUの政治広告」を探します。<br>「指定なし」になっている場合は「いいえ」または該当なしに変更します。ここを直すと、下部に出る「EUの政治広告を確認するまで投稿できません」という赤エラーが解消されます。</div>
+<div class="manual-note"><strong>② 広告グループ：空欄行を削除する</strong><br>左下メニューの「広告グループ」をクリック → 一覧の中で赤い「!」が付いた行をクリックします。<br>右側に「広告グループ名を入力してください」と出る場合、その行は空欄行です。上部の「削除」ボタンを押して削除します。<br>正常な広告グループ名が入っている行は削除しません。黄色の入札単価系警告は、クリック数の最大化などを使う場合は原則そのままで大丈夫です。</div>
+<div class="manual-note"><strong>③ キーワード：空欄行を削除する</strong><br>左下メニュー「キーワードとターゲティング」→「キーワード」をクリック → 赤い「!」が付いた行をクリックします。<br>右側に「キーワードのテキストを入力」と出る場合、その行は空欄行です。上部の「削除」ボタンを押して削除します。<br>正常なキーワードが入っている行は削除しません。</div>
+<div class="manual-note"><strong>④ 対象地域：指定地域を1件ずつ追加する</strong><br>左下メニュー「キーワードとターゲティング」→「地域」をクリックします。<br>右側の編集欄は、選択している地域1件だけを表示する場所です。複数地域を入れる場合は、上部の「地域を追加」から1件ずつ追加します。<br>例：東京・神奈川配信なら、上部「地域を追加」→「東京都」を検索して追加 → もう一度「地域を追加」→「神奈川県」を検索して追加します。中央一覧に「東京都, 日本」「神奈川県, 日本」の2行が並んでいればOKです。<br>一覧に「日本」だけの行が入っている場合は全国配信です。全国配信にしない場合は、「日本」の行を選択 → 上部の「削除」を押します。「神奈川県, 日本」「東京都, 日本」は都道府県指定なので削除しません。</div>
+<div class="manual-note"><strong>⑤ 対象言語：日本語を確認する</strong><br>左下メニュー「キャンペーン」をクリック → 対象キャンペーンを選択 → 右側の編集欄で「対象言語」を探します。<br>日本語になっていれば確認済みです。違う場合は鉛筆マークから日本語に変更します。</div>
+<div class="manual-note"><strong>⑥ 配信曜日・時間帯について</strong><br>配信曜日・時間帯は、広告スケジュールCSVで自動取込します。通常は送信前チェック表で個別確認する必要はありません。必要な場合のみ、左下メニューの「広告スケジュール」で反映状況を確認してください。</div>
+<div class="manual-note"><strong>⑦ 最終URLを差し替える</strong><br>左下メニュー「広告」→「レスポンシブ検索広告」をクリック → 対象広告を選択 → 右側の「最終ページURL」を確認します。<br>https://example.com/ などの仮URLの場合は、右側の鉛筆マークまたは入力欄から本番LP URLへ差し替えます。</div>
+<div class="manual-note"><strong>⑧ 広告文を確認する</strong><br>左下メニュー「広告」→「レスポンシブ検索広告」をクリック → 対象広告を選択します。<br>右側で「見出し」「説明文」を確認し、赤エラー、文字数超過、不自然な英語混入があれば直接修正します。</div><div class="manual-note"><strong>⑧-1 既存LPとの整合性を確認する</strong><br>入力画面の「既存LP・資料の内容」に本文を貼り付けた場合、またはPDFから本文を読み込んだ場合は、広告文・キーワード・CTAがLPの内容とズレていないか確認します。広告に出している強みやCTAがLPに書かれていない場合は、LPへ追記するか広告文を弱めてください。</div>
+<div class="manual-note"><strong>⑨ ステータスを確認する</strong><br>「キャンペーン」「広告グループ」「キーワード」「レスポンシブ検索広告」を順番に開き、送信前はすべて一時停止になっているか確認します。配信開始前に有効化しません。</div>
+<div class="manual-note"><strong>⑩ 最後に投稿前確認をして反映する</strong><br>左側の赤い「!」が消えているか確認します。残っている場合は、その左メニューを開いて赤い行を修正します。<br>問題がなければ、画面上部の「変更内容を確認」をクリックします。確認画面で今回追加・変更される内容を確認し、赤エラーがなければ「投稿」または「送信」をクリックします。Google Ads Editorの表示バージョンによって、ボタン名が「投稿」ではなく「送信」と表示される場合があります。<br>反映が完了したら、Google広告の管理画面側でも対象キャンペーンが作成されているか確認します。なお、ステータスを一時停止で作成している場合、投稿後もすぐには配信開始されません。</div>
+</div>
+        <div class="manual-box"><h3>6. よくあるエラーと対処</h3><div class="manual-error"><p>Campaign not found<br>01_campaigns.csv が先に入っていない、またはキャンペーン名がCSV間で一致していない可能性があります。</p><p>Ad group not found<br>02_adgroups.csv が未取込、またはキャンペーン名・広告グループ名がCSV間で一致していない可能性があります。</p><p>地域・対象言語・配信スケジュール<br>配信スケジュールはCSVで取り込みます。地域・対象言語はEditor上で手動設定し、送信前チェック表で確認します。</p><p>Headline too long / Description too long<br>広告文が文字数制限を超えています。見出しは全角15文字以内、説明文は40文字前後を目安に短くしてください。</p><p>EU political ads / EUの政治広告<br>キャンペーン編集画面で「EUの政治広告」を「いいえ」または該当しない選択肢に変更してください。</p><p>Keyword match type warning<br>Keyword列に「&quot; &quot;」や「[ ]」が含まれている可能性があります。Keyword列は記号なし、Match type列でBroad / Phrase / Exactを指定します。本ツールではCSV出力時に空欄行をさらに強く除外し、Keyword列側の記号で一致タイプを管理します。</p><p>Missing final URL<br>本ツールでは最終URL未入力時に仮URL（https://example.com/）を入れて取込エラーを回避します。送信前に必ず本番LP URLへ差し替えてください。</p><p>広告グループの入札単価系の黄色警告<br>キャンペーン側でクリック数の最大化などを設定している場合、広告グループの上限クリック単価・目標CPA等は空欄のままで進めて問題ありません。赤エラーでなければ原則そのまま確認します。</p><p>サイトリンク説明文の黄色警告<br>サイトリンク説明文がない場合に表示される改善提案です。初期インポート時は無視して進めても問題ありません。必要に応じて運用改善時に追加します。</p><p>既存アカウントでテストする場合<br>既存キャンペーンも一覧に表示されます。CSV取込後は、今回作成したキャンペーン名で絞り込み、対象キャンペーン配下だけを確認してください。過去テスト分が残っている場合は、対象キャンペーンを選択して削除してから再テストします。</p><p>空の広告グループ・空のキーワードが表示される場合<br>Google Ads Editorの「＋」行を選択しているだけの場合があります。右側に広告グループ名やキーワードが空欄で表示される場合は、その空行を選択して削除してください。本ツールではCSV出力前に空欄行を除外しています。</p><p>赤エラーと黄色警告の扱い<br>赤エラーは送信前に修正必須です。黄色警告は改善提案であり、広告グループの入札単価系やサイトリンク説明文などは初期段階では無視して進めても問題ありません。</p></div></div>
+        <div class="manual-box"><h3>7. 投稿前の最終チェックと投稿方法</h3><ol><li>今回作成したキャンペーン・広告グループ・広告・キーワードだけが変更対象になっているか確認します。</li><li>すべて一時停止のままになっているか確認します。</li><li>配信地域、曜日、時間帯、デバイスが意図通りか確認します。</li><li>広告文とLP内容が一致しているか確認します。</li><li>コンバージョン計測の設定・発火確認を別途行います。</li><li>画面上部の「変更内容を確認」をクリックします。</li><li>確認画面で、追加・変更される内容を確認します。赤エラーが残っている場合は投稿できません。</li><li>問題がなければ「投稿」または「送信」をクリックして、Google広告アカウントへ反映します。表示バージョンによってボタン名が異なる場合があります。</li><li>投稿完了後、Google広告のブラウザ管理画面で対象キャンペーンが表示されているか確認します。</li></ol><div class="manual-note">投稿前の確認を飛ばすと、想定外の地域・時間帯・URLで配信される可能性があります。必ず目視確認してください。</div><div class="manual-note"><span class="important-red">重要：</span>このツールではステータスを一時停止で作成します。投稿は「Google広告へ反映する」操作であり、必ずしも即配信開始ではありません。配信開始する場合は、最終確認後にステータスを有効へ変更します。</div></div></div>
+      <div class="dl-row"><button class="btn-primary" style="width:auto;padding:10px 24px" onclick="printElement('manual-print-area','Google Ads Editor取込マニュアル')">マニュアルを印刷/PDF保存</button><button class="btn-secondary" onclick="switchTab('editor-csv',document.getElementById('tab-btn-editor-csv'))">Editor用CSVに戻る</button></div>
+    </div>
+    <div id="tab-proposal" class="panel"><textarea class="md-editor" id="proposal-editor"></textarea><div class="dl-row"><button class="btn-primary" style="width:auto;padding:10px 24px" onclick="printMarkdown('proposal-editor','Google広告初期設定提案書')">印刷/PDF保存</button><button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button></div></div>
+    <div id="tab-lp-proposal" class="panel"><textarea class="md-editor" id="lp-proposal-editor"></textarea><div class="dl-row"><button class="btn-primary" style="width:auto;padding:10px 24px" onclick="printMarkdown('lp-proposal-editor','LP制作提案書')">印刷/PDF保存</button><button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button></div></div>
+    <div id="tab-lp" class="panel"><textarea class="md-editor" id="lp-editor"></textarea><div class="dl-row"><button class="btn-primary" style="width:auto;padding:10px 24px" onclick="printMarkdown('lp-editor','LP制作依頼仕様書')">印刷/PDF保存</button><button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button></div></div>
+    <div id="tab-channel" class="panel"><textarea class="md-editor" id="channel-editor"></textarea><div class="dl-row"><button class="btn-primary" style="width:auto;padding:10px 24px" onclick="printMarkdown('channel-editor','販促チャネル相性レポート')">印刷/PDF保存</button><button class="btn-secondary" onclick="goStep(0)">← 入力に戻る</button></div></div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+var currentMode='ads', generatedData=null;
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s||'').replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]||c})}
+function saveKey(){var k=$('api-key').value.trim(); if(!k){alert('APIキーを入力してください');return} localStorage.setItem('blp_api_key',k); $('api-key').value=''; $('api-key').placeholder='保存済み（変更する場合は新しいキーを入力）'; $('api-status').textContent='✓ 保存済み'; $('save-key-btn').textContent='更新'; $('delete-key-btn').style.display='inline-block'}
+function deleteKey(){if(!confirm('保存済みのAPIキーを削除しますか？'))return; localStorage.removeItem('blp_api_key'); $('api-key').value=''; $('api-key').placeholder='sk-ant-api03-...'; $('api-status').textContent=''; $('save-key-btn').textContent='設定'; $('delete-key-btn').style.display='none'}
+function getApiKey(){return $('api-key').value.trim() || localStorage.getItem('blp_api_key') || ''}
+function getStore(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch(e){console.error('localStorage read failed:',e);return {}}}
+function setStore(k,v){
+  try{
+    localStorage.setItem(k,JSON.stringify(v));
+    return true;
+  }catch(e){
+    console.error('localStorage save failed:',e);
+    alert('保存に失敗しました。ブラウザの保存容量が上限に達している可能性があります。古い案件や不要なテンプレートを削除してから、もう一度お試しください。');
+    return false;
+  }
+}
+function getChecks(cls){return Array.from(document.querySelectorAll('.'+cls+':checked')).map(c=>c.value)}
+function getDow(){return getChecks('dow')}
+function setChecks(cls,vals){document.querySelectorAll('.'+cls).forEach(c=>c.checked=(vals||[]).includes(c.value))}
+function setRadio(name,val){var r=document.querySelector('input[name="'+name+'"][value="'+val+'"]'); if(r) r.checked=true}
+function getRadio(name){return (document.querySelector('input[name="'+name+'"]:checked')||{}).value||''}
+function getFormData(){var ids=['project-name','template-name','f_gyoshu','f_service','f_target','f_budget','f_usp','f_competitor','f_past_ad','f_ltv','f_lead_time','f_area','f_time_from','f_time_to','f_kw','f_neg_kw','f_final_url','f_tel','f_thanks_url','f_line_url','f_existing_material','f_lp_goal','f_pain','f_message','f_design','f_cta','f_ng','f_memo'];var fields={};ids.forEach(id=>{if($(id)) fields[id]=$(id).value});return {fields,checks:{dow:getChecks('dow'),device:getChecks('device'),cv:getChecks('cv')},radio:{bidding:getRadio('bidding'),rsa_level:getRadio('rsa_level')},output:{ads:$('chk-ads').checked,proposal:$('chk-proposal').checked,lpProposal:$('chk-lp-proposal').checked,lp:$('chk-lp').checked,channel:$('chk-channel').checked}}}
+function applyFormData(d){if(!d)return;Object.entries(d.fields||{}).forEach(([id,v])=>{if($(id))$(id).value=v});setChecks('dow',(d.checks||{}).dow||[]);setChecks('device',(d.checks||{}).device||[]);setChecks('cv',(d.checks||{}).cv||[]);setRadio('bidding',(d.radio||{}).bidding||'Maximize clicks');setRadio('rsa_level',(d.radio||{}).rsa_level||'standard'); if(d.output){$('chk-ads').checked=!!d.output.ads;$('chk-proposal').checked=!!d.output.proposal;$('chk-lp-proposal').checked=!!d.output.lpProposal;$('chk-lp').checked=!!d.output.lp;$('chk-channel').checked=!!d.output.channel}updateMode()}
+function refreshProjectSelect(){var sel=$('project-select');sel.innerHTML='<option value="">保存済み案件を選択</option>';Object.keys(getStore('blp_projects')).sort().forEach(n=>sel.add(new Option(n,n)))}
+function saveProject(){
+  var name=$('project-name').value.trim();
+  if(!name){alert('案件名を入力してください');return}
+  var s=getStore('blp_projects');
+  s[name]=getFormData();
+  s[name].savedAt=new Date().toISOString();
+  if(!setStore('blp_projects',s))return;
+  refreshProjectSelect();
+  $('project-select').value=name;
+}
+function loadProject(){var n=$('project-select').value;if(!n){alert('案件を選択してください');return}applyFormData(getStore('blp_projects')[n])}
+function deleteProject(){var n=$('project-select').value;if(!n)return;if(!confirm('案件「'+n+'」を削除しますか？'))return;var s=getStore('blp_projects');delete s[n];if(!setStore('blp_projects',s))return;refreshProjectSelect()}
+function refreshTemplateSelect(){var sel=$('template-select');sel.innerHTML='<option value="">テンプレートを選択</option>';Object.keys(getStore('blp_templates')).sort().forEach(n=>sel.add(new Option(n,n)))}
+function saveTemplate(){
+  var n=$('template-name').value.trim();
+  if(!n){alert('テンプレート名を入力してください');return}
+  var s=getStore('blp_templates');
+  s[n]=getFormData();
+  if(!setStore('blp_templates',s))return;
+  refreshTemplateSelect();
+  $('template-select').value=n;
+}
+function loadTemplate(){var n=$('template-select').value;if(!n){alert('テンプレートを選択してください');return}applyFormData(getStore('blp_templates')[n])}
+function deleteTemplate(){var n=$('template-select').value;if(!n)return;if(!confirm('テンプレート「'+n+'」を削除しますか？'))return;var s=getStore('blp_templates');delete s[n];if(!setStore('blp_templates',s))return;refreshTemplateSelect()}
+function toggleAll(el){['chk-ads','chk-proposal','chk-lp-proposal','chk-lp','chk-channel'].forEach(id=>$(id).checked=el.checked);updateMode()}
+function getSelectedGenerationSummary(){
+  var selected=[];
+  if($('chk-ads').checked) selected.push({name:'広告設定CSV',tokens:(typeof TOKEN_LIMITS!=='undefined'?TOKEN_LIMITS.ads:3200)});
+  if($('chk-proposal').checked) selected.push({name:'初期提案書',tokens:(typeof TOKEN_LIMITS!=='undefined'?TOKEN_LIMITS.proposal:3600)});
+  if($('chk-lp-proposal').checked) selected.push({name:'LP提案書',tokens:(typeof TOKEN_LIMITS!=='undefined'?TOKEN_LIMITS.lp_proposal:3800)});
+  if($('chk-lp').checked) selected.push({name:'LP仕様書',tokens:(typeof TOKEN_LIMITS!=='undefined'?TOKEN_LIMITS.lp:4200)});
+  if($('chk-channel').checked) selected.push({name:'販促相性レポート',tokens:(typeof TOKEN_LIMITS!=='undefined'?TOKEN_LIMITS.channel:3600)});
+  var total=selected.reduce(function(sum,x){return sum+x.tokens;},0);
+  return {count:selected.length,names:selected.map(function(x){return x.name;}),maxTokens:total};
+}
+function updateGenerationCostNote(){
+  var el=$('generation-cost-note');
+  if(!el) return;
+  var s=getSelectedGenerationSummary();
+  if(s.count===0){el.textContent='生成する成果物を1つ以上選択してください。';return;}
+  if(s.count>=3){
+    el.textContent='現在 '+s.count+'種類を生成します。AI生成を複数回実行するため、時間がかかりAPI利用料も増える可能性があります。急ぐ場合は必要な成果物だけを選択してください。出力上限目安：合計約'+s.maxTokens.toLocaleString()+' tokens。';
+  }else{
+    el.textContent='現在 '+s.count+'種類を生成します。選択数が多いほど生成時間とAPI利用料が増えます。出力上限目安：合計約'+s.maxTokens.toLocaleString()+' tokens。';
+  }
+}
+function updateMode(){var hasAds=$('chk-ads').checked,hasDocs=$('chk-proposal').checked||$('chk-lp-proposal').checked||$('chk-lp').checked||$('chk-channel').checked;currentMode=hasAds&&hasDocs?'both':hasAds?'ads':hasDocs?'docs':'';$('ads-section').style.display=hasAds?'block':'none';$('lp-section').style.display=hasDocs?'block':'none';$('chk-all').checked=['chk-ads','chk-proposal','chk-lp-proposal','chk-lp','chk-channel'].every(id=>$(id).checked);updateGenerationCostNote()}
+function goStep(n){['s0','s1','s2'].forEach((id,i)=>$(id).classList.toggle('active',i===n));document.querySelectorAll('.step-btn').forEach((b,i)=>b.classList.toggle('active',i===n))}
+function switchTab(name,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));$('tab-'+name).classList.add('active');if(el)el.classList.add('active')}
+function buildAdSchedule(){var d=getDow(),f=String($('f_time_from').value).padStart(2,'0'),t=String($('f_time_to').value).padStart(2,'0');var dayMap={Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'};return d.map(x=>'('+dayMap[x]+'['+f+':00-'+t+':00])').join(';')}
+function getRsaCounts(){var v=getRadio('rsa_level');if(v==='light')return{headlines:5,descriptions:2,label:'軽量'};if(v==='detailed')return{headlines:10,descriptions:4,label:'詳細'};return{headlines:8,descriptions:3,label:'標準'}}
+function getKeywordLimit(){var v=getRadio('rsa_level');if(v==='light')return 10;if(v==='detailed')return 25;return 15}
+function buildAdJsonFormat(h,d){var ad='{"campaign":"キャンペーン名","group":"広告グループ名"';for(var i=1;i<=h;i++)ad+=',"headline'+i+'":"見出し'+i+'"';for(var j=1;j<=d;j++)ad+=',"desc'+j+'":"説明文'+j+'"';ad+=',"final_url":"最終URL","path1":"パス1","path2":"パス2"}';return '{"campaigns":[{"name":"キャンペーン名","budget":"日予算円","area":"配信地域","schedule":"広告スケジュール","device":"デバイス","bidding":"入札戦略","memo":"運用メモ"}],"adgroups":[{"campaign":"キャンペーン名","group":"広告グループ名","keyword":"キーワード","match":"Exact"}],"negatives":[{"campaign":"キャンペーン名","keyword":"除外KW","match":"Broad"}],"ads":['+ad+']}' }
+function getBaseInfo(){var dowCount=getChecks('dow').length||7,bd=parseInt($('f_budget').value||0,10)||0;return {g:$('f_gyoshu').value.trim(),sv:$('f_service').value.trim(),tg:$('f_target').value.trim(),bd,usp:$('f_usp').value.trim(),ar:$('f_area').value.trim(),finalUrl:$('f_final_url').value.trim(),lpGoal:$('f_lp_goal').value.trim(),dailyBudget:Math.round(bd/(dowCount*4.3)),bidding:getRadio('bidding'),schedule:buildAdSchedule(),info:''}}
+const EXISTING_MATERIAL_CHAR_LIMIT = 6000;
+function getExistingMaterialRaw(){
+  return (($('f_existing_material')&&$('f_existing_material').value)||'').trim();
+}
+async function extractPdfToExistingMaterial(){
+  var fileInput=$('f_existing_pdf');
+  var status=$('pdf-extract-status');
+  if(!fileInput||!fileInput.files||!fileInput.files[0]){
+    alert('PDFファイルを選択してください');
+    return;
+  }
+  var file=fileInput.files[0];
+  if(!/\.pdf$/i.test(file.name)&&file.type!=='application/pdf'){
+    alert('PDFファイルを選択してください');
+    return;
+  }
+  if(!window.pdfjsLib){
+    alert('PDF読込ライブラリの読み込みに失敗しました。ネット接続を確認するか、PDF本文をコピーして貼り付けてください。');
+    return;
+  }
+  try{
+    status.textContent='PDFから文字を抽出しています...';
+    if(pdfjsLib.GlobalWorkerOptions){
+      pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+    var buffer=await file.arrayBuffer();
+    var pdf=await pdfjsLib.getDocument({data:buffer}).promise;
+    var pages=[];
+    for(var i=1;i<=pdf.numPages;i++){
+      var page=await pdf.getPage(i);
+      var content=await page.getTextContent();
+      var line=content.items.map(function(item){return item.str||'';}).join(' ');
+      pages.push(line);
+    }
+    var text=pages.join('\n\n').replace(/[ \t]+/g,' ').replace(/\n{3,}/g,'\n\n').trim();
+    if(!text||text.length<20){
+      status.textContent='このPDFから十分な文字を抽出できませんでした。スキャンPDFや画像PDFの可能性があります。本文をコピーして貼り付けてください。';
+      return;
+    }
+    $('f_existing_material').value=text;
+    var info=getExistingMaterialInfo();
+    status.textContent='PDF本文を抽出しました。抽出文字数：約'+text.length.toLocaleString()+'文字。AI入力には最大'+info.limit.toLocaleString()+'文字まで使用します。必要に応じて不要部分を削除してください。';
+  }catch(e){
+    console.error(e);
+    status.textContent='PDFの読み込みに失敗しました。PDFを開いて本文をコピーし、貼り付け欄に入力してください。';
+  }
+}
+function normalizeExistingMaterialForPrompt(v){
+  return String(v||'')
+    .replace(/[\u0000-\u001F\u007F]/g,' ')
+    .replace(/[ \t]+/g,' ')
+    .replace(/\n{3,}/g,'\n\n')
+    .trim();
+}
+function truncateExistingMaterialByParagraph(raw,limit){
+  if(raw.length<=limit)return {text:raw,truncated:false};
+  var base=raw.slice(0,limit);
+  var cut=Math.max(
+    base.lastIndexOf('\n\n'),
+    base.lastIndexOf('。'),
+    base.lastIndexOf('！'),
+    base.lastIndexOf('？'),
+    base.lastIndexOf('\n')
+  );
+  // 極端に短くなる場合は、制限文字数の90%付近で切る
+  if(cut<Math.floor(limit*0.7))cut=limit;
+  var text=base.slice(0,cut).trim();
+  return {text:text,truncated:true};
+}
+function getExistingMaterialInfo(){
+  var raw=normalizeExistingMaterialForPrompt(getExistingMaterialRaw());
+  var has=raw.length>0;
+  var result=has ? truncateExistingMaterialByParagraph(raw,EXISTING_MATERIAL_CHAR_LIMIT) : {text:'',truncated:false};
+  return {
+    has:has,
+    rawLength:raw.length,
+    limit:EXISTING_MATERIAL_CHAR_LIMIT,
+    truncated:result.truncated,
+    text:result.text
+  };
+}
+function existingMaterialPromptInstruction(){
+  var ex=getExistingMaterialInfo();
+  if(ex.has){
+    return '既存LP・資料内容は入力済みです。AI入力には最大'+ex.limit+'文字まで使用します。'+(ex.truncated?'元テキストが長いため、冒頭'+ex.limit+'文字のみを参照しています。重要情報が後半にある場合は貼り付け内容を要約してください。':'')+' 既存LPに記載されたサービス内容・強み・CTA・対応地域・料金・注意書きと矛盾しない広告文・キーワードにしてください。既存LPにない訴求を広告で出す場合は、LP側への追記が必要と明記してください。';
+  }
+  return '既存LP・資料内容は未入力です。既存LPとの整合性チェックは対象外として扱い、LPの内容を推測しないでください。必要な場合は「既存LP未確認のため、配信前にLP内容との整合確認が必要」とだけ書いてください。';
+}
+function existingMaterialChecklistItem(){
+  var ex=getExistingMaterialInfo();
+  if(ex.has){
+    return {
+      text:'既存LP・資料内容: 入力あり（約'+ex.rawLength.toLocaleString()+'文字）。広告文・キーワード・CTAが既存LPの内容とズレていないか確認してください。'+(ex.truncated?' AI入力には冒頭'+ex.limit.toLocaleString()+'文字のみ使用しています。重要情報が後半にある場合は本文欄を要約してください。':''),
+      ok:false
+    };
+  }
+  return {
+    text:'既存LP・資料内容: 未入力。既存LPとの整合性チェックは対象外です。既存LPがある案件では、本文貼り付けまたはPDF読込を行ってから生成することを推奨します。',
+    ok:true
+  };
+}
+function makeInfo(){
+  var b=getBaseInfo();
+  var ex=getExistingMaterialInfo();
+  var existingText=ex.has
+    ? '[入力あり：'+ex.rawLength+'文字。AI入力には最大'+ex.limit+'文字まで使用'+(ex.truncated?'／超過分は省略':'')+']\n'+ex.text
+    : 'なし（既存LPなし。既存LPとの整合性チェックは対象外。LP内容は推測しない）';
+  var arr=[
+    '業種:'+b.g,
+    'サービス:'+b.sv,
+    'ターゲット:'+b.tg,
+    '配信地域:'+(b.ar||'なし'),
+    '月予算:'+b.bd+'円',
+    '日予算:'+b.dailyBudget+'円',
+    'USP:'+b.usp,
+    '競合情報:'+( $('f_competitor').value.trim()||'なし'),
+    'LTV:'+( $('f_ltv').value.trim()||'なし'),
+    'リードタイム:'+( $('f_lead_time').value.trim()||'なし'),
+    '過去広告実績:'+( $('f_past_ad').value.trim()||'なし'),
+    '配信曜日:'+getChecks('dow').join(','),
+    '配信時間:'+$('f_time_from').value+'〜'+$('f_time_to').value+'時',
+    'デバイス:'+getChecks('device').join(','),
+    '入札戦略:'+b.bidding,
+    'CV地点:'+getChecks('cv').join('・'),
+    '訴求KW:'+( $('f_kw').value.trim()||'なし'),
+    '除外KW候補:'+( $('f_neg_kw').value.trim()||'なし'),
+    '最終URL:'+(b.finalUrl||'なし'),
+    '電話:'+( $('f_tel').value.trim()||'なし'),
+    'サンキューURL:'+( $('f_thanks_url').value.trim()||'なし'),
+    'LINE登録URL:'+( $('f_line_url').value.trim()||'なし'),
+    '既存LP・資料内容:'+existingText,
+    'LP目的:'+(b.lpGoal||'なし'),
+    '悩み:'+( $('f_pain').value.trim()||'なし'),
+    '伝えたいメッセージ:'+( $('f_message').value.trim()||'なし'),
+    'デザイン:'+( $('f_design').value.trim()||'なし'),
+    'CTA:'+( $('f_cta').value.trim()||'なし'),
+    '避けたい表現:'+( $('f_ng').value.trim()||'なし'),
+    '備考:'+( $('f_memo').value.trim()||'なし')
+  ];
+  return arr.join('\n');
+}
+function validateBase(hasAds,hasDocs){var b=getBaseInfo();if(!b.g||!b.sv||!b.tg||!b.bd||!b.usp){alert('基本情報の必須項目をすべて入力してください');return false}if(hasAds&&!b.ar){alert('配信地域を入力してください');return false}if(hasDocs&&!b.lpGoal){alert('LPの目的を入力してください');return false}if(!getApiKey()){alert('APIキーを入力して設定ボタンを押してください');return false}return true}
+// ============================================================
+// AI生成設定
+// Anthropic公式のClaude Haiku 4.5 API ID。
+// モデル名を変更する場合は、Anthropic公式ドキュメント上のAPI IDを確認してから変更します。
+// 旧Haiku例：claude-3-5-haiku-20241022
+// 現行Haiku 4.5：claude-haiku-4-5-20251001
+// ============================================================
+const ANTHROPIC_MODEL = 'claude-haiku-4-5-20251001';
+const TOKEN_LIMITS = {
+  ads: 3200,
+  proposal: 3600,
+  lp_proposal: 3800,
+  lp: 4200,
+  channel: 3600,
+  default: 3500
+};
+async function callAI(prompt,maxTokens){
+  var payload={model:ANTHROPIC_MODEL,max_tokens:maxTokens||TOKEN_LIMITS.default,messages:[{role:'user',content:prompt}]};
+  var res;
+  try{
+    res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify(payload)});
+  }catch(networkErr){
+    networkErr.isNetworkError=true;
+    throw networkErr;
+  }
+  var data={};
+  try{data=await res.json();}catch(jsonErr){throw new Error('APIレスポンスを読み込めませんでした。通信状況またはAPIの応答形式を確認してください。');}
+  if(!res.ok || data.error){
+    var errMsg=(data.error&&(data.error.message||data.error.type))||('HTTP '+res.status);
+    var err=new Error(errMsg);
+    err.status=res.status;
+    err.apiType=data.error&&data.error.type;
+    if(/model|not_found|invalid/i.test(String(errMsg)+' '+String(err.apiType||''))){err.isModelError=true;}
+    throw err;
+  }
+  if(!data.content || !Array.isArray(data.content)) throw new Error('AIの返答形式が想定と異なります。');
+  return data.content.map(c=>c.text||'').join('');
+}
+function logicSystem(){return 'あなたは中小企業向けのGoogle広告・LP改善に強いマーケティングディレクターです。お客様へそのまま渡せる、実務者が書いたような自然な提案メモを作成する。Markdown記号（#、##、###、**、```、---、[ ]、表の|）は絶対に使わない。Markdown表、罫線表、ASCII表は絶対に作らない。絵文字、顔文字、装飾記号も使わない。見出しは番号と文章だけにする。箇条書きは必要な場合だけ「・」で短く使う。項目を網羅的に埋めるのではなく、今回の案件で何を優先し、何を避け、何を確認すべきかという判断と理由を書く。根拠のない数値、架空の実績、架空の人物名、成功保証は出さない。不明な情報は要確認と書く。文章はですます調。AIが自動生成したような均一な章立て、定型句、抽象語の連発を避ける。';}
+function docPrompt(type){
+  var info = makeInfo();
+  var existing = getExistingMaterialInfo();
+  var existingNote = existing.has
+    ? '\n\n既存LP・資料内容がある場合は、本文から読み取れる範囲でLPに反映すべき点を書く。LPに書かれていないことや未確認の実績は断定しない。'
+    : '\n\n既存LP・資料内容がない場合は、LPの実物を確認できていない前提で書く。推測で既存LPの良し悪しを断定しない。';
+
+  var humanStyle =
+    '\n\n文体・出力ルール:' +
+    '\n・Markdownではなく、普通の提案メモとして読める文章で出力する。' +
+    '\n・#、##、###、**、```、---、[ ]、表の|、チェックボックス記号は使わない。' +
+    '\n・Markdown表、ASCII表、罫線表、項目／ステータス／備考のような表形式は使わない。' +
+    '\n・絵文字、顔文字、警告マーク、バツ印、チェックマークなどの装飾記号は使わない。' +
+    '\n・見出しは最大6つまで。見出しは「1. 今回の進め方」のように番号と自然な言葉で書く。' +
+    '\n・「提案の結論」「想定ターゲット」「次ステップ」のようなAIテンプレ感の強い見出しは使わない。' +
+    '\n・箇条書きだけで終わらせない。各見出しの下は、まず短い本文で判断と理由を書く。' +
+    '\n・箇条書きを使う場合は「・」だけを使い、1つの見出しにつき原則3項目までにする。' +
+    '\n・相性比較や確認事項も表にせず、文章で「検索広告は相性が高いです。理由は〜です。」の形で書く。' +
+    '\n・未定、未取得、未構築だけで終わらせず、何が未確定で、なぜ確認が必要かまで書く。' +
+    '\n・「以下の通りです」「重要です」「最大化」「スケーリング可能」「潜在層」などの定型句や抽象語を多用しない。' +
+    '\n・月予算、地域、ターゲット、サービス内容、LP目的に触れ、今回の案件に即した具体表現にする。' +
+    '\n・最後は「次ステップ」ではなく、「制作前に固めたいこと」「配信前に確認したいこと」など実務上自然な締め方にする。' +
+    '\n・全体は長くしすぎない。読み手がそのまま判断できる提案メモにする。';
+
+  var searchIntentRulesForAds =
+    '\n\n広告提案での検索意図の扱い:' +
+    '\n・この資料はGoogle広告の初期提案メモとして作成する。SEO提案書に寄せすぎない。' +
+    '\n・広告で最初に拾う検索意図、除外した方がよい検索意図、LPで受け止めるべき不安を中心に書く。' +
+    '\n・SEOや記事化に回した方がよい語句は、広告で無理に拾わない理由として短く触れる程度にする。' +
+    '\n・検索ボリューム、CPC、順位、SEO難易度など、実データを取得したような表現はしない。';
+
+  var seoRulesForLp =
+    '\n\nLP・SEO設計の扱い:' +
+    '\n・LP提案書・LP仕様書では、広告流入だけでなく自然検索で見られた場合の分かりやすさも意識する。' +
+    '\n・titleタグ案、meta description案、h1案、主要h2案、FAQ案、内部リンク案は、必要な範囲で自然に入れる。' +
+    '\n・キーワードは詰め込まず、検索者の不安や比較ポイントをLP内で自然に受け止める。' +
+    '\n・SEOを優先しすぎて、問い合わせ導線やファーストビューの分かりやすさを弱めない。' +
+    '\n・競合URLのみの場合はページ内容を確認できない前提で書く。競合本文や見出しが入力されている場合のみ具体比較する。';
+
+  var seoRulesForChannel =
+    '\n\n販促レポートでのSEO・記事化の扱い:' +
+    '\n・自然検索や記事化は販促チャネルの一つとして扱い、SEOを主役にしすぎない。' +
+    '\n・広告、SNS、チラシ、LINE、MEO、紹介施策と比較し、初月にやることと後回しにすることを分ける。' +
+    '\n・記事化候補は、FAQ化できる論点やLPで補強すべき不安解消として短く書く。' +
+    '\n・検索ボリューム、CPC、順位、SEO難易度など、実データを取得したような表現はしない。';
+
+  if(type==='proposal'){
+    return 'あなたは検索広告の初期設計を行う実務者です。お客様にそのまま渡せるGoogle広告の初期提案メモを作成してください。項目表ではなく、判断と理由が伝わる自然な提案文にしてください。' +
+      '\n\n入力情報:\n' + info +
+      existingNote +
+      searchIntentRulesForAds +
+      humanStyle +
+      '\n\n構成の目安:' +
+      '\nGoogle広告 初期提案メモ' +
+      '\n1. 今回の進め方' +
+      '\n2. 最初に拾う検索意図' +
+      '\n3. 広げすぎないための除外方針' +
+      '\n4. 初期構成の考え方' +
+      '\n5. LP側で先に受け止めたい不安' +
+      '\n6. 配信前に確認したいこと' +
+      '\n\n各章は、箇条書きの羅列ではなく、1〜3段落の本文中心で書く。キーワード例を出す場合も、なぜ広告向きか、なぜ除外すべきかを短く添える。';
+  }
+
+  if(type==='lp_proposal'){
+    return 'あなたはLP改善・制作提案の実務者です。お客様にそのまま渡せるLP制作提案メモを作成してください。制作論の一般論ではなく、今回のサービス・ターゲット・広告流入に合わせた内容にしてください。' +
+      '\n\n入力情報:\n' + info +
+      existingNote +
+      seoRulesForLp +
+      humanStyle +
+      '\n\n構成の目安:' +
+      '\nLP制作提案メモ' +
+      '\n1. このLPで最初に伝えるべきこと' +
+      '\n2. 問い合わせ前の不安と受け止め方' +
+      '\n3. ファーストビューの方向性' +
+      '\n4. ページ全体の流れ' +
+      '\n5. SEOと検索意図の入れ方' +
+      '\n6. 制作前に固めたいこと' +
+      '\n\nSEOについては、titleタグ案、meta description案、h1案、主要h2案、FAQ案を必要に応じて自然に入れる。ただし、資料全体をSEO提案書にしない。';
+  }
+
+  if(type==='lp'){
+    return 'あなたはLP制作会社へ渡す仕様書を作るディレクターです。制作会社が迷わないLP制作依頼メモを、自然な指示文として作成してください。チェックリストの羅列ではなく、何をどう作るべきかが伝わる文章にしてください。' +
+      '\n\n入力情報:\n' + info +
+      existingNote +
+      seoRulesForLp +
+      humanStyle +
+      '\n\n追加ルール:' +
+      '\n・制作会社向けなので、デザイン判断に使える具体表現を優先する。' +
+      '\n・素材や確認事項は最後にまとめるが、[ ] のチェックボックス形式や表形式は使わない。' +
+      '\n・未定項目はステータス表にせず、制作前に確認したい事項として自然文で説明する。' +
+      '\n・セクションごとに、目的、入れる情報、見出し方向、CTAへのつなぎ方を自然に書く。' +
+      '\n\n構成の目安:' +
+      '\nLP制作会社への依頼メモ' +
+      '\n1. 制作の目的' +
+      '\n2. ファーストビューで伝える内容' +
+      '\n3. ページ構成と各セクションの役割' +
+      '\n4. SEO・検索意図に関する指定' +
+      '\n5. CTAとフォーム周りの指定' +
+      '\n6. 制作前に確認したい素材と情報' +
+      '\n\n必要素材を書く場合は「企業ロゴ、代表写真、実績資料」などの自然な列挙にする。チェックリストのようにしない。';
+  }
+
+  if(type==='channel'){
+    return 'あなたは中小企業向けの販促チャネル診断を行う実務者です。検索広告を主軸にしつつ、SNS広告、チラシ、LINE、MEO、紹介施策との相性を自然な日本語で短く判定してください。' +
+      '\n\n入力情報:\n' + info +
+      existingNote +
+      seoRulesForChannel +
+      humanStyle +
+      '\n\n追加ルール:' +
+      '\n・押し売り感を出さない。' +
+      '\n・評価は「相性は高い」「条件付きで有効」「初期段階では後回し」など自然な表現にする。' +
+      '\n・チャネル比較は表にしない。各チャネルを1〜2文の自然な文章で説明する。' +
+      '\n・月予算が少ない場合は、施策を広げず検索広告に寄せる判断も明記する。' +
+      '\n・補助金活用余地を書く場合は、補助金ありきで施策を判断しないことを明記する。' +
+      '\n・補助金は資金調達・投資負担軽減の選択肢の一つとして扱い、事業として実施すべき合理性、投資回収、集客導線、運用体制が先にあることを前提にする。' +
+      '\n・使えそうな補助金があっても断定せず、「可能性がある」「確認が必要」と表現する。' +
+      '\n\n構成の目安:' +
+      '\n販促チャネル相性メモ' +
+      '\n1. 初月の考え方' +
+      '\n2. 検索広告との相性' +
+      '\n3. 補完施策として使いやすいチャネル' +
+      '\n4. 自然検索・記事化の余地' +
+      '\n5. 後回しでよい施策' +
+      '\n6. 補助金を使う場合の考え方';
+  }
+
+  return '入力情報をもとに、実務で使える短い提案メモを自然な日本語で作成してください。Markdown記号、表形式、絵文字は使わないでください。\n\n入力情報:\n' + info;
+}
+
+function stripDecorativeSymbols(text){
+  return String(text||'')
+    .replace(/[\u{1F300}-\u{1FAFF}]/gu,'')
+    .replace(/[\u2600-\u27BF]/g,'')
+    .replace(/[\uFE0E\uFE0F]/g,'');
+}
+function cleanGeneratedCellText(text){
+  return stripDecorativeSymbols(String(text||''))
+    .replace(/\*\*/g,'')
+    .replace(/__/g,'')
+    .replace(/`/g,'')
+    .replace(/^[\s\-・]+/,'')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+function convertMarkdownTablesToText(text){
+  var lines=String(text||'').split('\n');
+  var out=[];
+  var headers=null;
+  var inTable=false;
+  function isTableLine(line){return line.indexOf('|')>=0 && line.replace(/[|\s\-:]/g,'').length>0;}
+  function isSeparatorLine(line){return line.indexOf('|')>=0 && /^[\s|:\-]+$/.test(line);}
+  function cellsFrom(line){
+    return line.replace(/^\s*\|/,'').replace(/\|\s*$/,'').split('|').map(cleanGeneratedCellText).filter(Boolean);
+  }
+  function flush(){headers=null;inTable=false;}
+  lines.forEach(function(line){
+    var t=line.trim();
+    if(isSeparatorLine(t)){inTable=true;return;}
+    if(isTableLine(t)){
+      var cells=cellsFrom(t);
+      if(!cells.length){return;}
+      if(!inTable && !headers){headers=cells;inTable=true;return;}
+      if(headers && cells.length>=2){
+        var subject=cells[0];
+        var rest=cells.slice(1).join('。');
+        out.push('・'+subject+'：'+rest+'。');
+      }else{
+        out.push('・'+cells.join('：')+'。');
+      }
+      return;
+    }
+    flush();
+    out.push(line);
+  });
+  return out.join('\n');
+}
+function postProcessGeneratedText(raw){
+  var text=String(raw||'');
+  text=text.replace(/\r\n/g,'\n');
+  text=convertMarkdownTablesToText(text);
+  text=stripDecorativeSymbols(text);
+  text=text.replace(/^\s*#{1,6}\s*/gm,'');
+  text=text.replace(/#{2,}/g,'');
+  text=text.replace(/\*\*/g,'');
+  text=text.replace(/__/g,'');
+  text=text.replace(/```/g,'');
+  text=text.replace(/`/g,'');
+  text=text.replace(/^\s*[-:| ]{3,}\s*$/gm,'');
+  text=text.replace(/^\s*-{3,}\s*$/gm,'');
+  text=text.replace(/^\s*[-*]\s*\[\s*\]\s*/gm,'・');
+  text=text.replace(/^\s*[-*]\s+/gm,'・');
+  text=text.replace(/^\s*\[\s*\]\s*/gm,'・');
+  text=text.replace(/\|/g,'');
+  text=text.replace(/\s+。/g,'。');
+  text=text.replace(/提案の結論/g,'今回の進め方');
+  text=text.replace(/想定ターゲット/g,'想定する相手');
+  text=text.replace(/次ステップ/g,'今後の進め方');
+  text=text.replace(/以下の通りです。?/g,'');
+  text=text.replace(/未取得：/g,'未取得です。');
+  text=text.replace(/未定：/g,'未定です。');
+  text=text.replace(/未構築：/g,'未構築です。');
+  text=text.replace(/\n{3,}/g,'\n\n');
+  return text.trim();
+}
+
+function showUserFriendlyGenerateError(e){
+  var msg=String(e&&e.message?e.message:e||'');
+  console.error('Generate error detail:', e);
+  var advice='生成に失敗しました。';
+  if((e&&e.isModelError) || /model|not_found|invalid_model|モデル/i.test(msg)){
+    advice+='\n\nAIモデル名の指定が無効になっている可能性があります。\n\n対応方法：\n1. APIキーが正しいか確認してください。\n2. コード内のANTHROPIC_MODELが、Anthropicの最新APIモデルIDと一致しているか確認してください。\n3. モデルIDを更新してから再実行してください。';
+  }else if(e&&e.isNetworkError){
+    advice+='\n\n通信に失敗しました。ネット接続、ブラウザの制限、API接続状況を確認してください。';
+  }else if(/JSON|途中で切れ|解析|parse|検出できません/.test(msg)){
+    advice+='\n\nAIの出力が長くなりすぎたため、生成結果を正しく読み込めませんでした。\n\n対応方法：\n1. もう一度「生成する」を押してください。\n2. それでも失敗する場合は、広告文生成量を「軽量」に変更してください。\n3. 既存LP・資料内容が長い場合は、重要部分だけに短くしてください。\n4. 複数の成果物を同時生成している場合は、1〜2個に絞って再実行してください。';
+  }else{
+    advice+='\n\n対応方法：\n1. 入力内容とAPIキーを確認してください。\n2. もう一度「生成する」を押してください。\n3. それでも失敗する場合は、既存LP・資料内容を短くして再実行してください。';
+  }
+  alert(advice);
+}
+
+async function generateSelected(){
+  var hasAds=$('chk-ads').checked,hasProposal=$('chk-proposal').checked,hasLpProposal=$('chk-lp-proposal').checked,hasLp=$('chk-lp').checked,hasChannel=$('chk-channel').checked,hasDocs=hasProposal||hasLpProposal||hasLp||hasChannel;
+  if(!hasAds&&!hasDocs){alert('生成する成果物を1つ以上選択してください');return}
+  if(!validateBase(hasAds,hasDocs))return;
+  var summary=getSelectedGenerationSummary();
+  goStep(1);
+  try{
+    $('gen-msg').textContent=summary.count+'種類の成果物を生成します。出力上限目安：約'+summary.maxTokens.toLocaleString()+' tokens。';
+    if(hasAds){$('gen-msg').textContent='広告設定CSVを生成中...';await startGenerate(true)}
+    if(hasProposal){$('gen-msg').textContent='初期提案書を生成中...';await generateDoc('proposal',true)}
+    if(hasLpProposal){$('gen-msg').textContent='LP提案書を生成中...';await generateDoc('lp_proposal',true)}
+    if(hasLp){$('gen-msg').textContent='LP仕様書を生成中...';await generateDoc('lp',true)}
+    if(hasChannel){$('gen-msg').textContent='販促チャネル相性レポートを生成中...';await generateDoc('channel',true)}
+    goStep(2);
+    if(hasAds)switchTab('csv',$('tab-btn-csv'));else if(hasProposal)switchTab('proposal',$('tab-btn-proposal'));else if(hasLpProposal)switchTab('lp-proposal',$('tab-btn-lp-proposal'));else if(hasLp)switchTab('lp',$('tab-btn-lp'));else switchTab('channel',$('tab-btn-channel'))
+  }catch(e){showUserFriendlyGenerateError(e);goStep(0)}
+}
+async function generateDoc(type,silent){if(!silent)goStep(1);var map={proposal:'proposal-editor',lp_proposal:'lp-proposal-editor',lp:'lp-editor',channel:'channel-editor'};var txt=await callAI(docPrompt(type),TOKEN_LIMITS[type]||TOKEN_LIMITS.default);txt=postProcessGeneratedText(txt);$(map[type]).value=txt;if(!silent){goStep(2);var tab={proposal:'proposal',lp_proposal:'lp-proposal',lp:'lp',channel:'channel'}[type];switchTab(tab,$('tab-btn-'+tab))}}
+
+function extractJsonFromAiText(raw){
+  var s=String(raw||'').trim();
+  s=s.replace(/^```(?:json)?\s*/i,'').replace(/```\s*$/,'').trim();
+  try{return JSON.parse(s)}catch(e){}
+  var firstObj=s.indexOf('{');
+  var firstArr=s.indexOf('[');
+  var start=-1;
+  if(firstObj>=0 && firstArr>=0) start=Math.min(firstObj,firstArr);
+  else start=Math.max(firstObj,firstArr);
+  if(start<0) throw new Error('AIの返答からJSONを検出できませんでした');
+  var open=s[start], close=open==='{'?'}':']';
+  var depth=0, inStr=false, esc=false;
+  for(var i=start;i<s.length;i++){
+    var ch=s[i];
+    if(inStr){
+      if(esc){esc=false;continue}
+      if(ch==='\\'){esc=true;continue}
+      if(ch==='"'){inStr=false;continue}
+      continue;
+    }
+    if(ch==='"'){inStr=true;continue}
+    if(ch===open)depth++;
+    if(ch===close){
+      depth--;
+      if(depth===0){
+        var json=s.slice(start,i+1);
+        try{return JSON.parse(json)}
+        catch(err){throw new Error('AIのJSON抽出後の解析に失敗しました: '+err.message)}
+      }
+    }
+  }
+  throw new Error('AIの返答JSONが途中で切れています');
+}
+
+async function startGenerate(silent){
+  var b=getBaseInfo();
+  if(!silent){if(!validateBase(true,false))return;goStep(1)}
+  var rsa=getRsaCounts();
+  var sys='あなたはGoogle検索広告の初期設計者。月予算・地域・CV地点に合わせて現実的な検索広告の初期構成を作る。予算が少ない場合はキャンペーンや広告グループを広げすぎない。根拠のない実績・成功率・保証表現は出さない。広告文はユーザーの検索意図→不安→選ぶ理由が分かるように作る。キーワードは内部的に検索意図を分類し、今すぐ相談・比較検討・地域検索・不安解消など広告向きのものを優先する。SEO記事向きや情報収集だけの語句は広告キーワードに広げすぎない。業種ごとの規制・誤認リスクがある表現は避け、事実確認が必要な内容は断定しない。前置き・補足・解説・コードフェンス不要。有効なJSONだけを返答。JSONの後ろに文章を付けない。';
+  var existingInstruction=existingMaterialPromptInstruction();
+  var prompt=sys+'\n\n入力情報:\n'+makeInfo()+'\n\n既存LP・資料に関する扱い:\n'+existingInstruction+'\n\n広告文は見出し'+rsa.headlines+'本、説明文'+rsa.descriptions+'本を必ず出力。見出しは全角15文字以内、説明文は全角40文字以内。説明文は短文で、1文または2文まで。空のキャンペーン、空の広告グループ、空のキーワード、空の広告は絶対に出力しない。広告グループ名・キーワード・広告見出しは必ず具体的な文字列を入れる。キーワードは初期運用向けに必要最小限にし、標準では15個以内、詳細でも25個以内にする。検索意図が弱い情報収集語句は除外キーワード候補またはLP/SEO側の検討事項に回し、広告キーワードには入れすぎない。既存LP・資料内容がある場合は、LP上に記載されたサービス内容・強み・CTA・対応地域と矛盾しないキーワード、広告文、除外キーワードにする。既存LP・資料内容が未入力の場合は、LP内容を推測せず、ヒアリング内容だけで作る。LPに書かれていない断定表現や過剰な訴求は避ける。出力形式:'+buildAdJsonFormat(rsa.headlines,rsa.descriptions);
+  var text=await callAI(prompt,TOKEN_LIMITS.ads);
+  var parsed=extractJsonFromAiText(text);
+  parsed=normalizeGeneratedData(parsed,rsa);
+  generatedData=parsed;generatedData.finalUrl=b.finalUrl;generatedData.area=b.ar;generatedData.schedule=b.schedule;generatedData.bidding=b.bidding;generatedData.dailyBudget=b.dailyBudget;generatedData.rsaCounts=rsa;
+  renderAds(parsed);renderEditorPreview(parsed);renderChecklist(parsed,b.finalUrl,$('f_thanks_url').value.trim(),$('f_tel').value.trim(),$('f_line_url').value.trim());
+  if(!silent){goStep(2);switchTab('csv',$('tab-btn-csv'))}
+}
+
+function stripMatchDecorations(v){
+  var s=String(v||'').trim();
+  s=s.replace(/^\[(.*)\]$/,'$1');
+  s=s.replace(/^"(.*)"$/,'$1');
+  return s.trim();
+}
+function adCharLen(s){
+  return String(s||'').split('').reduce(function(sum,ch){return sum+(ch.charCodeAt(0)>255?2:1);},0);
+}
+function limitAdText(v,maxUnits){
+  var s=String(v||'').replace(/\s+/g,' ').trim();
+  var out='',units=0;
+  for(var i=0;i<s.length;i++){
+    var ch=s.charAt(i),w=ch.charCodeAt(0)>255?2:1;
+    if(units+w>maxUnits)break;
+    out+=ch;units+=w;
+  }
+  return out.trim();
+}
+function limitText(v,max){
+  return limitAdText(v,max);
+}
+
+function limitEditorDescription(v){
+  var s=String(v||'').replace(/\s+/g,' ').trim();
+  // Editorでの赤エラー回避を優先し、説明文は全角換算で80以内に抑える
+  var out=limitAdText(s,80);
+  return out.replace(/[、。,.，．\s]+$/,'');
+}
+
+function cleanBasicText(v){
+  return String(v||'').replace(/[\u0000-\u001F\u007F\u200B-\u200D\uFEFF]/g,'').replace(/\s+/g,' ').trim();
+}
+function validText(v){return cleanBasicText(v).length>0;}
+function normalizeMatchType(v){
+  var s=String(v||'Broad').trim();
+  s=s.replace('完全一致','Exact').replace('フレーズ一致','Phrase').replace('部分一致','Broad');
+  if(!/^(Exact|Phrase|Broad)$/i.test(s)) return 'Broad';
+  return s.charAt(0).toUpperCase()+s.slice(1).toLowerCase();
+}
+function firstCampaignName(d){return ((d.campaigns||[]).find(c=>validText(c.name))||{}).name||'';}
+function firstAdGroupName(d){return ((d.adgroups||[]).find(g=>validText(g.group))||{}).group||'';}
+function hasAnyAdText(a,rsa){
+  var h=(rsa&&rsa.headlines)||15, ds=(rsa&&rsa.descriptions)||4;
+  for(var i=1;i<=h;i++) if(validText(a['headline'+i])) return true;
+  for(var j=1;j<=ds;j++) if(validText(a['desc'+j])) return true;
+  return false;
+}
+
+// ============================================================
+// 生成結果の正規化
+// 目的：AIが返したJSONから空行・重複・危険な文字を除外し、Editorで赤エラーになりやすい行を出力前に落とします。
+// 主に広告グループ、キーワード、広告文の最低限の整形を行います。
+// ============================================================
+
+function cleanNameForEditor(v){
+  return cleanBasicText(v)
+    .replace(/[“”＂]/g,'')
+    .replace(/[<>]/g,'')
+    .replace(/\b(assist|projectives|projective|campaign|adgroup|keyword)\b/ig,'')
+    .replace(/([ぁ-んァ-ヶ一-龠])\s+([ぁ-んァ-ヶ一-龠])/g,'$1$2')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+function areaLabelForCampaign(v){
+  var s=String(v||'').trim();
+  if(!s)return '';
+  var map={'東京都':'東京','東京':'東京','神奈川県':'神奈川','神奈川':'神奈川','千葉県':'千葉','千葉':'千葉','埼玉県':'埼玉','埼玉':'埼玉','大阪府':'大阪','大阪':'大阪','愛知県':'愛知','愛知':'愛知','福岡県':'福岡','福岡':'福岡'};
+  var parts=s.split(/[、,;；\/／\n\s]+/).map(function(x){return x.trim();}).filter(Boolean);
+  var out=[];
+  parts.forEach(function(x){
+    var y=map[x]||x.replace(/[都道府県]$/,'');
+    if(y && out.indexOf(y)<0)out.push(y);
+  });
+  return out.join('');
+}
+function buildSafeCampaignName(){
+  var service=cleanNameForEditor(($('f_service')&&$('f_service').value)||'');
+  var area=areaLabelForCampaign(($('f_area')&&$('f_area').value)||'');
+  if(service && area)return service+'_'+area;
+  if(service)return service;
+  return '';
+}
+function applyStableCampaignName(d){
+  var safe=buildSafeCampaignName();
+  if(!safe)return d;
+  d.campaigns=(d.campaigns||[]).length?d.campaigns:[{name:safe}];
+  d.campaigns.forEach(function(c){c.name=safe;});
+  ['adgroups','negatives','ads'].forEach(function(key){
+    (d[key]||[]).forEach(function(item){item.campaign=safe;});
+  });
+  return d;
+}
+function normalizeGeneratedData(d,rsa){
+  d=d||{};
+  d=applyStableCampaignName(d);
+  d.campaigns=(d.campaigns||[]).filter(function(c){return validText(c.name);}).map(function(c){
+    c.name=cleanNameForEditor(c.name);
+    c.budget=cleanBasicText(c.budget);
+    c.area=cleanBasicText(c.area);
+    c.schedule=cleanBasicText(c.schedule);
+    c.device=cleanBasicText(c.device);
+    c.bidding=cleanBasicText(c.bidding);
+    c.memo=cleanBasicText(c.memo);
+    return c;
+  });
+  var camp=firstCampaignName(d);
+  d.adgroups=(d.adgroups||[]).map(function(g){
+    g.campaign=cleanBasicText(g.campaign)||camp;
+    g.group=cleanBasicText(g.group);
+    g.keyword=cleanKeywordForEditor(g.keyword);
+    g.match=normalizeMatchType(g.match);
+    return g;
+  }).filter(function(g){
+    // 空の広告グループ・空のキーワード行はEditorで赤エラーになるため出力しない
+    return validText(g.campaign)&&validText(g.group)&&validText(g.keyword);
+  });
+  var seenKw={};
+  d.adgroups=d.adgroups.filter(function(g){
+    var k=[g.campaign,g.group,g.keyword,g.match].join('||');
+    if(seenKw[k])return false;seenKw[k]=1;return true;
+  }).slice(0,getKeywordLimit());
+  var group=firstAdGroupName(d);
+  d.negatives=(d.negatives||[]).map(function(n){
+    n.campaign=cleanBasicText(n.campaign)||camp;
+    n.group=cleanBasicText(n.group);
+    n.keyword=cleanKeywordForEditor(n.keyword);
+    n.match=normalizeMatchType(n.match);
+    return n;
+  }).filter(function(n){return validText(n.campaign)&&validText(n.keyword);});
+  d.ads=(d.ads||[]).map(function(a){
+    a.campaign=cleanBasicText(a.campaign)||camp;
+    a.group=cleanBasicText(a.group)||group;
+    a.path1=cleanBasicText(a.path1);
+    a.path2=cleanBasicText(a.path2);
+    var h=(rsa&&rsa.headlines)||15, ds=(rsa&&rsa.descriptions)||4;
+    for(var i=1;i<=h;i++){ if(a['headline'+i]) a['headline'+i]=limitAdText(a['headline'+i],30); }
+    for(var j=1;j<=ds;j++){ if(a['desc'+j]) a['desc'+j]=limitEditorDescription(a['desc'+j]); }
+    return a;
+  }).filter(function(a){return validText(a.campaign)&&validText(a.group)&&hasAnyAdText(a,rsa);});
+  return d;
+}
+function renderAds(d){$('campaign-body').innerHTML=(d.campaigns||[]).map(c=>'<tr><td contenteditable>'+esc(c.name)+'</td><td contenteditable>'+esc(c.budget)+'</td><td contenteditable>'+esc(c.area)+'</td><td contenteditable>'+esc(c.schedule)+'</td><td contenteditable>'+esc(c.device)+'</td><td contenteditable>'+esc(c.bidding)+'</td><td contenteditable>'+esc(c.memo)+'</td></tr>').join('');$('kw-body').innerHTML=(d.adgroups||[]).map(g=>'<tr><td contenteditable>'+esc(g.group)+'</td><td contenteditable>'+esc(g.keyword)+'</td><td>'+esc(g.match||'Broad')+'</td></tr>').join('');$('neg-body').innerHTML=(d.negatives||[]).map(n=>'<tr><td contenteditable>'+esc(n.keyword)+'</td><td contenteditable>'+esc(n.campaign)+'</td></tr>').join('');$('ad-body').innerHTML=(d.ads||[]).map(a=>{var h=[],ds=[];for(let i=1;i<=15;i++)if(a['headline'+i])h.push('<li>'+esc(a['headline'+i])+'</li>');for(let j=1;j<=4;j++)if(a['desc'+j])ds.push('<li>'+esc(a['desc'+j])+'</li>');return '<tr><td contenteditable>'+esc(a.group)+'</td><td contenteditable>'+esc(a.final_url||generatedData?.finalUrl||'未入力（Editor用CSVは仮URL）')+'</td><td><ol class="ad-list">'+h.join('')+'</ol></td><td><ol class="ad-list">'+ds.join('')+'</ol></td><td contenteditable>'+esc(a.path1)+'</td><td contenteditable>'+esc(a.path2)+'</td></tr>'}).join('')}
+function renderEditorPreview(d){d=normalizeGeneratedData(d,d.rsaCounts||getRsaCounts());var rows=[];(d.campaigns||[]).forEach(c=>{rows.push(['Campaign',c.name,'','','','Paused',c.budget+'円/日 '+c.area]);adScheduleRowsForEditor(c.name).forEach(function(r){rows.push(['Ad Schedule',r[0],'',r[1],'','Paused','CSVで取込']);});});(d.adgroups||[]).forEach(g=>{rows.push(['Ad Group',g.campaign,g.group,'','','Paused','']);rows.push(['Keyword',g.campaign,g.group,g.keyword,g.match,'Paused',''])});(d.negatives||[]).forEach(n=>rows.push(['Negative Keyword',n.campaign,'',n.keyword,n.match||'Broad','','']));(d.ads||[]).forEach(a=>{var h=[],ds=[];for(let i=1;i<=15;i++)if(a['headline'+i])h.push(a['headline'+i]);for(let j=1;j<=4;j++)if(a['desc'+j])ds.push(a['desc'+j]);rows.push(['Responsive Search Ad',a.campaign,a.group,h.join(' / '),ds.join(' / '),'Paused',getEditorFinalUrl(a,d)])});$('editor-preview-body').innerHTML=rows.map(r=>'<tr>'+r.map(c=>'<td>'+esc(c)+'</td>').join('')+'</tr>').join('')}
+function hasSubsidyContext(){var t=[($('f_gyoshu')?.value||''),($('f_service')?.value||''),($('f_kw')?.value||''),($('f_ng')?.value||'')].join(' ');return /補助金|助成金/.test(t)}
+function collectCsvWarnings(d){var warnings=[];var risky=['代行','丸投げ','完全代行','確実','必ず','採択率','成功保証','返金','受け取れます'];var subsidy=hasSubsidyContext();(d.ads||[]).forEach(function(a,idx){for(let i=1;i<=15;i++){var h=a['headline'+i];if(h&&adCharLen(h)>30)warnings.push('広告'+(idx+1)+'の見出し'+i+'が全角15文字相当を超えています：'+h)}for(let j=1;j<=4;j++){var desc=a['desc'+j];if(desc&&String(desc).length>40)warnings.push('広告'+(idx+1)+'の説明文'+j+'が40文字を超えています：'+desc)}if(subsidy){var all=[];for(let i=1;i<=15;i++)if(a['headline'+i])all.push(a['headline'+i]);for(let j=1;j<=4;j++)if(a['desc'+j])all.push(a['desc'+j]);all.forEach(function(txt){risky.forEach(function(w){if(txt.indexOf(w)>=0)warnings.push('補助金系のため要注意表現「'+w+'」を確認：'+txt)})})}});return warnings}
+function renderChecklist(d,finalUrl,thanksUrl,tel,lineUrl){
+  var warn=collectCsvWarnings(d);
+  var existingChecklist=existingMaterialChecklistItem();
+  var area=String(document.getElementById('f_area').value||d.area||'').trim();
+  var dow=selectedDowJa() || '未指定';
+  var from=document.getElementById('f_time_from').value||'9';
+  var to=document.getElementById('f_time_to').value||'18';
+  var areaText=area ? '設定すべき地域：'+area+'。全国配信にしない場合は「日本」を削除し、この地域を追加してください。' : '地域未入力。Editor上で対象地域を必ず設定してください。';
+  var items=[
+    ['最終URL（LP URL）: '+(finalUrl||'未設定。Editor用CSVでは仮URL https://example.com/ を使用。送信前に本番URLへ差替え'),!!finalUrl],
+    [existingChecklist.text,existingChecklist.ok],
+    ['対象地域: '+areaText,false],
+    ['対象言語: 日本語になっているか確認',false],
+    ['サンキューページURLが設定されている: '+(thanksUrl||'未設定'),!!thanksUrl],
+    ['Google広告アカウントでコンバージョン計測が設定済み',false],
+    ['GTM・GA4タグがLPに設置されている',false],
+    ['電話番号アセット設定予定: '+(tel||'未設定'),!!tel],
+    ['LINE登録URLが設定されている（LINE登録をCVにする場合）: '+(lineUrl||'未設定'),!!lineUrl],
+    ['LINE登録ボタンクリックをCVとして計測する場合は、GTM/GA4でクリックイベントを設定する',false],
+    ['分割CSVをインポート後、全アイテムがPaused状態であることを確認',false],
+    ['広告文・キーワード・除外キーワードを最終確認',false]
+  ];
+  if(warn.length){items.unshift(['広告文の警告あり：下のエラー対処欄を確認',false])}
+  $('checklist-body').innerHTML=items.map(i=>'<li><input type="checkbox" '+(i[1]?'checked':'')+'>'+esc(i[0])+'</li>').join('');
+  var guide=[
+    '対象地域：キャンペーン選択 → キーワードとターゲティング → 地域 → 右側は選択中の地域1件だけ表示。複数地域は「地域を追加」から1件ずつ追加。日本だけの行があり全国配信にしたくない場合は削除 → 「地域を追加」で '+(area||'指定地域')+' を追加。',
+    '対象言語：キャンペーン選択 → 右側の編集欄 → 対象言語を日本語に設定。',
+    'Invalid location：地域名をEditor上で修正。',
+    'Headline too long：見出しを短縮。',
+    'Description too long：説明文を40文字前後まで短縮。',
+    'Missing final URL：全広告に最終URLを設定。',
+    'LINE登録CV：友だち追加完了ではなく、まずはLP上のLINE登録ボタンクリックをCVとして計測するのが現実的です。'
+  ];
+  if(warn.length){guide.unshift('<strong>広告文チェック結果</strong><br>'+warn.map(esc).join('<br>'))}
+  $('error-guide').innerHTML=guide.join('<br><br>')
+}
+function q(v){var s=String(v||'').replace(/[\u0000-\u001F\u007F]/g,'').trim();return /[",\r\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}
+function csvText(rows){return '\uFEFF'+rows.map(r=>r.map(q).join(',')).join('\r\n')}
+function normalizeLocationForEditor(loc){
+  var x=String(loc||'').trim();
+  var map={
+    '東京':'Tokyo, Japan','東京都':'Tokyo, Japan','Tokyo':'Tokyo, Japan',
+    '神奈川':'Kanagawa, Japan','神奈川県':'Kanagawa, Japan','Kanagawa':'Kanagawa, Japan',
+    '大阪':'Osaka, Japan','大阪府':'Osaka, Japan','Osaka':'Osaka, Japan',
+    '千葉':'Chiba, Japan','千葉県':'Chiba, Japan','Chiba':'Chiba, Japan',
+    '埼玉':'Saitama, Japan','埼玉県':'Saitama, Japan','Saitama':'Saitama, Japan',
+    '愛知':'Aichi, Japan','愛知県':'Aichi, Japan','Aichi':'Aichi, Japan',
+    '福岡':'Fukuoka, Japan','福岡県':'Fukuoka, Japan','Fukuoka':'Fukuoka, Japan'
+  };
+  return map[x]||x;
+}
+function splitLocations(v){
+  var s=String(v||'').trim();
+  if(!s)return [];
+  return s.split(/[、,;；\/／\n]+/).map(function(x){return normalizeLocationForEditor(x.trim());}).filter(Boolean);
+}
+function cleanKeywordForEditor(kw){
+  var s=cleanBasicText(kw)
+    .replace(/[“”＂]/g,'"')
+    .replace(/[「」『』【】]/g,'')
+    .replace(/^[\s\[\]\"'‘’]+/g,'')
+    .replace(/[\s\[\]\"'‘’]+$/g,'')
+    .replace(/[\[\]\"'‘’]/g,'')
+    .replace(/<[^>]*>/g,'')
+    .replace(/\s+/g,' ')
+    .trim();
+  if(/^(undefined|null|nan|-|ー|なし|未設定|キーワード\s*テキストを入力|広告グループ名|キャンペーン名)$/i.test(s)) return '';
+  if(/[<>]/.test(s)) return '';
+  return s;
+}
+function downloadBlob(filename,content){var blob=new Blob([content],{type:'text/csv;charset=utf-8;'});var url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+
+function getEditorFinalUrl(a,d){
+  var u=String((a&&a.final_url)||((d&&d.finalUrl)||'')).replace(/["'“”]/g,'').trim();
+  if(!u) return 'https://example.com/';
+  if(!/^https?:\/\//i.test(u)) return 'https://example.com/';
+  return u;
+}
+function isPlaceholderText(v){
+  var s=cleanBasicText(v);
+  if(!s)return true;
+  return /^(undefined|null|nan|-|<.*>|キーワード テキストを入力|広告グループ名|キャンペーン名)$/i.test(s);
+}
+function requiredOk(){
+  for(var i=0;i<arguments.length;i++){
+    if(isPlaceholderText(arguments[i]))return false;
+  }
+  return true;
+}
+function uniqueRows(rows){
+  var seen={},out=[];
+  rows.forEach(function(r){
+    var k=r.join('||');
+    if(!seen[k]){seen[k]=1;out.push(r)}
+  });
+  return out;
+}
+function encodeKeywordForEditor(keyword, match){
+  var k=cleanKeywordForEditor(keyword);
+  if(!k)return '';
+  var mt=normalizeMatchType(match);
+  if(mt==='Exact') return '['+k+']';
+  if(mt==='Phrase') return '"'+k+'"';
+  return k;
+}
+function strictFilterRows(rows, requiredIdxs){
+  return rows.filter(function(r){
+    return requiredIdxs.every(function(i){return requiredOk(r[i]);});
+  });
+}
+function finalRequiredOk(row, idxs){
+  return idxs.every(function(i){return requiredOk(row[i]) && String(row[i]).trim()!=='';});
+}
+function dedupeBy(rows, idxs){
+  var seen={},out=[];
+  rows.forEach(function(r){
+    if(!finalRequiredOk(r,idxs))return;
+    var k=idxs.map(function(i){return String(r[i]).trim();}).join('||');
+    if(!seen[k]){seen[k]=1;out.push(r)}
+  });
+  return out;
+}
+// 旧仕様の名残：地域CSV自動化用。現在は地域CSVを出力しないため通常は使用しません。
+function locationIdsForEditor(area){
+  var raw=String(area||'').trim();
+  if(!raw)return [];
+  var parts=raw.split(/[、,;；\/／\n]+/).map(function(x){return x.trim();}).filter(Boolean);
+  var map={
+    '東京':'20636','東京都':'20636','tokyo':'20636','tokyo japan':'20636','tokyo, japan':'20636',
+    '神奈川':'20637','神奈川県':'20637','kanagawa':'20637','kanagawa japan':'20637','kanagawa, japan':'20637',
+    '千葉':'20635','千葉県':'20635','chiba':'20635','chiba japan':'20635','chiba, japan':'20635',
+    '埼玉':'20634','埼玉県':'20634','saitama':'20634','saitama japan':'20634','saitama, japan':'20634',
+    '日本':'2392','全国':'2392','japan':'2392'
+  };
+  var out=[];
+  parts.forEach(function(p){
+    var k=p.toLowerCase().replace(/\s+/g,' ').trim();
+    var id=map[k]||map[p];
+    if(id)out.push(id);
+  });
+  return Array.from(new Set(out));
+}
+// Google Ads Editor取込用：配信曜日・時間帯を広告スケジュールCSVとして出力します。
+function adScheduleRowsForEditor(campaign){
+  var dows=getDow();
+  var from=String(document.getElementById('f_time_from').value||'9').padStart(2,'0');
+  var to=String(document.getElementById('f_time_to').value||'18').padStart(2,'0');
+  var dayMap={Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'};
+  return dows.map(function(d){return [campaign,'('+dayMap[d]+'['+from+':00-'+to+':00])'];});
+}
+function selectedDowJa(){
+  var map={Mon:'月',Tue:'火',Wed:'水',Thu:'木',Fri:'金',Sat:'土',Sun:'日'};
+  return getDow().map(function(d){return map[d]||d;}).join('、');
+}
+function selectedScheduleJa(){
+  var from=String(document.getElementById('f_time_from').value||'9');
+  var to=String(document.getElementById('f_time_to').value||'18');
+  return (selectedDowJa()||'指定曜日')+' '+from+':00〜'+to+':00';
+}
+// ============================================================
+// 送信前チェックCSV
+// 目的：CSVで自動化しない地域・言語などと、自動取込後に確認すべき項目を送信前に確認できる形で出力します。
+// ============================================================
+function manualChecklistCsvRows(d){
+  var c=(d.campaigns&&d.campaigns[0])||{};
+  var campaign=cleanNameForEditor(c.name||buildSafeCampaignName()||'対象キャンペーン');
+  var area=String(document.getElementById('f_area').value||c.area||'').trim();
+  var dow=selectedDowJa();
+  var from=document.getElementById('f_time_from').value||'9';
+  var to=document.getElementById('f_time_to').value||'18';
+  var finalUrl=String(document.getElementById('f_final_url').value||d.finalUrl||'').trim();
+  var adgroups=Array.from(new Set((d.adgroups||[]).map(function(g){return cleanNameForEditor(g.group)}).filter(Boolean)));
+  var keywords=(d.adgroups||[]).map(function(g){return cleanKeywordForEditor(g.keyword)}).filter(Boolean);
+  keywords=Array.from(new Set(keywords));
+  var urlText=finalUrl
+    ? '最終URLが「'+finalUrl+'」になっているか確認します。違うURLや仮URLの場合は、右側の鉛筆マークから本番LP URLへ差し替えます。'
+    : '最終URLが仮URL https://example.com/ の場合は、右側の鉛筆マークから本番LP URLへ差し替えます。';
+  var rows=[
+    ['対象キャンペーン','確認場所','具体的な確認・修正内容','状態'],
+    [campaign,'キャンペーン',
+      '左メニュー「キャンペーン」→「'+campaign+'」を選択します。右側の編集欄で「EUの政治広告」を探し、「指定なし」なら「いいえ」または該当なしに変更します。変更後、この行は「修正済み」にします。',
+      '未確認'],
+    [campaign,'キャンペーン名',
+      '左メニュー「キャンペーン」→ キャンペーン名を確認します。想定名は「'+campaign+'」です。英語や不要語が混ざっている場合は、右側の「キャンペーン名」欄をこの名称へ修正します。',
+      '未確認'],
+    [campaign,'対象地域',
+      '左メニュー「キーワードとターゲティング」→「地域」を開きます。右側は選択中の地域1件だけが表示されます。複数地域は上部「地域を追加」から1件ずつ追加します。全国配信しない場合は、一覧の「日本」だけの行を選択して上部の「削除」を押します。その後「地域を追加」から「'+(area||'入力地域')+'」を追加します。「神奈川県, 日本」「東京都, 日本」は都道府県指定なので削除しません。赤くなくても必ず確認します。',
+      '未確認'],
+    [campaign,'対象言語',
+      '左メニュー「キャンペーン」→「'+campaign+'」を選択します。右側の編集欄で「対象言語」を確認し、日本語になっていなければ鉛筆マークから日本語に変更します。',
+      '未確認'],
+    [campaign,'最終URL',
+      '左メニュー「広告」→「レスポンシブ検索広告」を開きます。対象キャンペーンの広告を選択し、右側の「最終ページURL」を確認します。'+urlText,
+      '未確認'],
+    [campaign,'既存LPとの整合性',
+      getExistingMaterialInfo().has ? '既存LP・資料内容を入力しています。広告文・キーワード・CTAがLP内のサービス内容、強み、対応地域、料金、注意書きと矛盾していないか確認します。広告に出している訴求がLPにない場合は、LP側へ追記するか広告文を修正します。'+(getExistingMaterialInfo().truncated?' なお、貼り付け本文が長いためAI入力には冒頭'+getExistingMaterialInfo().limit+'文字のみ使用しています。':'') : '既存LP・資料内容は未入力です。この項目は対応不要です。既存LPがある案件では、PDFから本文を読み込むか、本文を貼り付けて再生成すると精度が上がります。',
+      getExistingMaterialInfo().has ? '未確認' : '対応不要'],
+    [campaign,'広告グループ',
+      '左メニュー「広告グループ」を開きます。キャンペーン列が「'+campaign+'」の行だけ確認します。想定広告グループ：'+(adgroups.join('、')||'要確認')+'。空欄行がある場合は、その行を選択して上部の「削除」を押します。黄色の入札単価系警告だけなら原則対応不要です。',
+      '未確認'],
+    [campaign,'キーワード',
+      '左メニュー「キーワードとターゲティング」→「キーワード」を開きます。キャンペーン列が「'+campaign+'」の行だけ確認します。想定キーワード：'+(keywords.join('、')||'要確認')+'。右側に「キーワードのテキストを入力」と出る空欄行は、その行を選択して上部の「削除」を押します。',
+      '未確認'],
+    [campaign,'広告文',
+      '左メニュー「広告」→「レスポンシブ検索広告」を開きます。対象キャンペーンの広告を選択し、右側で見出し・説明文を確認します。赤エラー、文字数超過、不自然な英語混入があれば該当欄を直接修正します。',
+      '未確認'],
+    [campaign,'ステータス',
+      '左メニュー「キャンペーン」「広告グループ」「キーワード」「レスポンシブ検索広告」を順に開き、すべて一時停止になっているか確認します。配信開始前なら有効化しません。',
+      '未確認'],
+    [campaign,'投稿前確認',
+      '左側の赤い「!」が消えたか確認します。残っている場合は該当メニューを開いて赤い行を修正します。最後に上部「変更内容を確認」をクリックし、確認画面で追加・変更内容を確認します。赤エラーがなければ「投稿」または「送信」をクリックして反映します。',
+      '未確認']
+  ];
+  // 送信前チェック表は、確認・修正が必要な項目だけに絞ります。
+  // 「対応不要」の行は出力しないことで、実務上見るべき項目を減らします。
+  return rows.filter(function(row,index){
+    return index===0 || row[3] !== '対応不要';
+  });
+}
+// ============================================================
+// Google Ads Editor用CSV生成
+// 目的：Editorに取り込むCSVだけを作成します。
+// 地域・言語は手動確認に寄せ、配信スケジュールは広告スケジュールCSVとして自動取込します。
+// 出力されるファイルだけに動的連番を付けます。
+// ============================================================
+function buildEditorCsvFiles(){
+  if(!generatedData){alert('先にAI生成を実行してください');return null}
+  var d=normalizeGeneratedData(generatedData,generatedData.rsaCounts||getRsaCounts());
+  generatedData=d;
+  var rawFiles=[];
+
+  var camp=[['Campaign','Campaign type','Campaign status','Budget','Bid strategy type','Networks']];
+  (d.campaigns||[]).forEach(function(c){
+    if(!requiredOk(c.name))return;
+    camp.push([c.name,'Search','Paused',String(d.dailyBudget||c.budget||''),d.bidding||c.bidding||'Maximize clicks','Google search']);
+  });
+  if(camp.length>1)rawFiles.push(['campaigns.csv',csvText(camp)]);
+
+  var sched=[['Campaign','Ad schedule']];
+  (d.campaigns||[]).forEach(function(c){
+    if(!requiredOk(c.name))return;
+    adScheduleRowsForEditor(c.name).forEach(function(r){sched.push(r);});
+  });
+  if(sched.length>1)rawFiles.push(['ad_schedule.csv',csvText(sched)]);
+
+  var ag=[['Campaign','Ad group','Ad group status']];
+  var pairs=[];
+  (d.adgroups||[]).forEach(function(g){
+    if(requiredOk(g.campaign,g.group,g.keyword))pairs.push([g.campaign,g.group,'Paused']);
+  });
+  (d.ads||[]).forEach(function(a){
+    if(requiredOk(a.campaign,a.group) && hasAnyAdText(a,d.rsaCounts||getRsaCounts()))pairs.push([a.campaign,a.group,'Paused']);
+  });
+  dedupeBy(pairs,[0,1]).forEach(function(r){ag.push(r)});
+  if(ag.length>1)rawFiles.push(['adgroups.csv',csvText(ag)]);
+
+  var exact=[['Campaign','Ad group','Keyword','Keyword status']];
+  var phrase=[['Campaign','Ad group','Keyword','Keyword status']];
+  var exactRows=[],phraseRows=[];
+  (d.adgroups||[]).forEach(function(g){
+    var k=cleanKeywordForEditor(g.keyword);
+    if(!requiredOk(g.campaign,g.group,k))return;
+    var mt=normalizeMatchType(g.match);
+    if(mt==='Exact') exactRows.push([g.campaign,g.group,'['+k+']','Paused']);
+    else phraseRows.push([g.campaign,g.group,'"'+k+'"','Paused']);
+  });
+  dedupeBy(exactRows,[0,1,2]).slice(0,Math.ceil(getKeywordLimit()/2)).forEach(function(r){exact.push(r)});
+  dedupeBy(phraseRows,[0,1,2]).slice(0,getKeywordLimit()).forEach(function(r){phrase.push(r)});
+  if(exact.length>1)rawFiles.push(['keywords_exact.csv',csvText(exact)]);
+  if(phrase.length>1)rawFiles.push(['keywords_phrase.csv',csvText(phrase)]);
+
+  var neg=[['Campaign','Ad group','Negative keyword','Match type']];
+  var negRows=[];
+  (d.negatives||[]).forEach(function(n){
+    var keyword=cleanKeywordForEditor(n.keyword);
+    if(!requiredOk(n.campaign,keyword))return;
+    negRows.push([n.campaign||'',n.group||'',keyword,normalizeMatchType(n.match)]);
+  });
+  dedupeBy(negRows,[0,2]).forEach(function(r){neg.push(r)});
+  if(neg.length>1)rawFiles.push(['negative_keywords.csv',csvText(neg)]);
+
+  var rsa=d.rsaCounts||getRsaCounts(),head=['Campaign','Ad group','Ad type'];
+  for(let i=1;i<=rsa.headlines;i++)head.push('Headline '+i);
+  for(let j=1;j<=rsa.descriptions;j++)head.push('Description '+j);
+  head.push('Final URL','Path 1','Path 2','Ad status');
+  var ads=[head];
+  var adRows=[];
+  (d.ads||[]).forEach(function(a){
+    if(!requiredOk(a.campaign,a.group)||!hasAnyAdText(a,rsa))return;
+    var row=[a.campaign,a.group,'Responsive search ad'];
+    for(let i=1;i<=rsa.headlines;i++)row.push(limitAdText(a['headline'+i]||'',30));
+    for(let j=1;j<=rsa.descriptions;j++)row.push(limitEditorDescription(a['desc'+j]||''));
+    row.push(getEditorFinalUrl(a,d),a.path1||'',a.path2||'','Paused');
+    adRows.push(row);
+  });
+  dedupeBy(adRows,[0,1,2]).forEach(function(r){ads.push(r)});
+  if(ads.length>1)rawFiles.push(['responsive_search_ads.csv',csvText(ads)]);
+
+  rawFiles.push(['manual_checklist.csv',csvText(manualChecklistCsvRows(d))]);
+  if(!rawFiles.length){alert('出力できるEditor用CSVがありません。AI生成結果を確認してください。');return null}
+
+  var digits=function(n){return String(n).padStart(2,'0')};
+  return rawFiles.map(function(f,idx){return [digits(idx+1)+'_'+f[0],f[1]]});
+}
+function downloadBlobObject(filename,blob){var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},3000)}
+function makeCrcTable(){var c,table=[];for(var n=0;n<256;n++){c=n;for(var k=0;k<8;k++){c=((c&1)?(0xEDB88320^(c>>>1)):(c>>>1));}table[n]=c>>>0;}return table}
+var crcTable=makeCrcTable();
+function crc32(bytes){var crc=0^(-1);for(var i=0;i<bytes.length;i++){crc=(crc>>>8)^crcTable[(crc^bytes[i])&0xFF];}return (crc^(-1))>>>0}
+function dosTimeDate(d){var time=(d.getHours()<<11)|(d.getMinutes()<<5)|(Math.floor(d.getSeconds()/2));var date=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();return {time:time,date:date}}
+function u16(n){return [n&255,(n>>>8)&255]}
+function u32(n){return [n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255]}
+function concatBytes(parts){var len=0;parts.forEach(function(p){len+=p.length});var out=new Uint8Array(len);var off=0;parts.forEach(function(p){out.set(p,off);off+=p.length});return out}
+function buildZip(files){var enc=new TextEncoder();var now=dosTimeDate(new Date());var localParts=[],centralParts=[],offset=0;files.forEach(function(f){var nameBytes=enc.encode(f[0]);var dataBytes=enc.encode(f[1]);var crc=crc32(dataBytes);var local=concatBytes([new Uint8Array([0x50,0x4b,0x03,0x04]),new Uint8Array(u16(20)),new Uint8Array(u16(0x0800)),new Uint8Array(u16(0)),new Uint8Array(u16(now.time)),new Uint8Array(u16(now.date)),new Uint8Array(u32(crc)),new Uint8Array(u32(dataBytes.length)),new Uint8Array(u32(dataBytes.length)),new Uint8Array(u16(nameBytes.length)),new Uint8Array(u16(0)),nameBytes,dataBytes]);localParts.push(local);var central=concatBytes([new Uint8Array([0x50,0x4b,0x01,0x02]),new Uint8Array(u16(20)),new Uint8Array(u16(20)),new Uint8Array(u16(0x0800)),new Uint8Array(u16(0)),new Uint8Array(u16(now.time)),new Uint8Array(u16(now.date)),new Uint8Array(u32(crc)),new Uint8Array(u32(dataBytes.length)),new Uint8Array(u32(dataBytes.length)),new Uint8Array(u16(nameBytes.length)),new Uint8Array(u16(0)),new Uint8Array(u16(0)),new Uint8Array(u16(0)),new Uint8Array(u16(0)),new Uint8Array(u32(0)),new Uint8Array(u32(offset)),nameBytes]);centralParts.push(central);offset+=local.length});var centralStart=offset;var central=concatBytes(centralParts);var end=concatBytes([new Uint8Array([0x50,0x4b,0x05,0x06]),new Uint8Array(u16(0)),new Uint8Array(u16(0)),new Uint8Array(u16(files.length)),new Uint8Array(u16(files.length)),new Uint8Array(u32(central.length)),new Uint8Array(u32(centralStart)),new Uint8Array(u16(0))]);return new Blob([concatBytes(localParts),central,end],{type:'application/zip'})}
+// ============================================================
+// ZIPダウンロード処理
+// 目的：Editor取込用CSVだけをZIPにまとめてダウンロードします。
+// 送信前チェック表は取り込み用ではないためZIPから除外します。
+// ============================================================
+function downloadEditorCSV(){
+  var files=buildEditorCsvFiles();if(!files)return;
+  var importFiles=files.filter(function(f){return !/manual_checklist\.csv$/i.test(f[0])});
+  if(!importFiles.length){alert('Editorへ取り込めるCSVがありません。');return}
+  var zip=buildZip(importFiles);
+  // alertより先にダウンロードを実行
+  setTimeout(function(){
+    downloadBlobObject('google_ads_editor_csv_'+new Date().toISOString().slice(0,10)+'.zip',zip);
+  },0);
+}
+function xmlEsc(v){
+  return String(v==null?'':v)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&apos;');
+}
+function excelCell(ref,value,styleId){
+  var safe=xmlEsc(value);
+  return '<c r="'+ref+'" t="inlineStr" s="'+styleId+'"><is><t xml:space="preserve">'+safe+'</t></is></c>';
+}
+function excelColName(n){
+  var s='';
+  while(n>0){
+    var m=(n-1)%26;
+    s=String.fromCharCode(65+m)+s;
+    n=Math.floor((n-1)/26);
+  }
+  return s;
+}
+function buildManualChecklistXlsx(rows){
+  var statusStartRow=2;
+  var statusEndRow=rows.length;
+  var sheetRows=[];
+  rows.forEach(function(row,rowIndex){
+    var r=rowIndex+1;
+    var cells=[];
+    row.forEach(function(cell,colIndex){
+      var ref=excelColName(colIndex+1)+r;
+      var styleId=0;
+      if(rowIndex===0)styleId=1;
+      else if(colIndex===3)styleId=3;
+      else styleId=2;
+      cells.push(excelCell(ref,cell,styleId));
+    });
+    sheetRows.push('<row r="'+r+'" ht="24" customHeight="1">'+cells.join('')+'</row>');
+  });
+  var sheetXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+    '<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>'+
+    '<sheetFormatPr defaultRowHeight="22"/>'+
+    '<cols>'+
+      '<col min="1" max="1" width="24" customWidth="1"/>'+
+      '<col min="2" max="2" width="18" customWidth="1"/>'+
+      '<col min="3" max="3" width="72" customWidth="1"/>'+
+      '<col min="4" max="4" width="16" customWidth="1"/>'+
+    '</cols>'+
+    '<sheetData>'+sheetRows.join('')+'</sheetData>'+
+    '<dataValidations count="1"><dataValidation type="list" allowBlank="1" showInputMessage="1" showErrorMessage="1" sqref="D'+statusStartRow+':D'+statusEndRow+'"><formula1>&quot;未確認,確認済み,修正済み&quot;</formula1></dataValidation></dataValidations>'+
+    '<pageMargins left="0.3" right="0.3" top="0.5" bottom="0.5" header="0.3" footer="0.3"/>'+
+    '</worksheet>';
+  var stylesXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+      '<fonts count="2">'+
+        '<font><sz val="11"/><name val="Yu Gothic UI"/><family val="2"/></font>'+
+        '<font><b/><sz val="11"/><name val="Yu Gothic UI"/><family val="2"/></font>'+
+      '</fonts>'+
+      '<fills count="4">'+
+        '<fill><patternFill patternType="none"/></fill>'+
+        '<fill><patternFill patternType="gray125"/></fill>'+
+        '<fill><patternFill patternType="solid"><fgColor rgb="1F4E78"/><bgColor indexed="64"/></patternFill></fill>'+
+        '<fill><patternFill patternType="solid"><fgColor rgb="FFF2CC"/><bgColor indexed="64"/></patternFill></fill>'+
+      '</fills>'+
+      '<borders count="1"><border><left style="thin"><color auto="1"/></left><right style="thin"><color auto="1"/></right><top style="thin"><color auto="1"/></top><bottom style="thin"><color auto="1"/></bottom><diagonal/></border></borders>'+
+      '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+      '<cellXfs count="4">'+
+        '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'+
+        '<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
+        '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'+
+        '<xf numFmtId="0" fontId="1" fillId="3" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>'+
+      '</cellXfs>'+
+      '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'+
+    '</styleSheet>';
+  var workbookXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+
+      '<sheets><sheet name="送信前チェック表" sheetId="1" r:id="rId1"/></sheets>'+
+    '</workbook>';
+  var workbookRels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+      '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>'+
+      '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'+
+    '</Relationships>';
+  var relsXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+      '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>'+
+      '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/>'+
+      '<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/>'+
+    '</Relationships>';
+  var contentTypes='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+      '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+      '<Default Extension="xml" ContentType="application/xml"/>'+
+      '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+
+      '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
+      '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+
+      '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/>'+
+      '<Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>'+
+    '</Types>';
+  var created=new Date().toISOString();
+  var coreXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'+
+      '<dc:creator>Better Life Partner</dc:creator><cp:lastModifiedBy>Better Life Partner</cp:lastModifiedBy><dcterms:created xsi:type="dcterms:W3CDTF">'+created+'</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">'+created+'</dcterms:modified><dc:title>送信前チェック表</dc:title></cp:coreProperties>';
+  var appXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Application>Microsoft Excel</Application><DocSecurity>0</DocSecurity><ScaleCrop>false</ScaleCrop><HeadingPairs><vt:vector size="2" baseType="variant"><vt:variant><vt:lpstr>Worksheets</vt:lpstr></vt:variant><vt:variant><vt:i4>1</vt:i4></vt:variant></vt:vector></HeadingPairs><TitlesOfParts><vt:vector size="1" baseType="lpstr"><vt:lpstr>送信前チェック表</vt:lpstr></vt:vector></TitlesOfParts></Properties>';
+  return buildZip([
+    ['[Content_Types].xml',contentTypes],
+    ['_rels/.rels',relsXml],
+    ['docProps/core.xml',coreXml],
+    ['docProps/app.xml',appXml],
+    ['xl/workbook.xml',workbookXml],
+    ['xl/_rels/workbook.xml.rels',workbookRels],
+    ['xl/styles.xml',stylesXml],
+    ['xl/worksheets/sheet1.xml',sheetXml]
+  ]);
+}
+function downloadManualChecklistExcel(){
+  if(!generatedData){alert('先にAI生成を実行してください');return}
+  var d=normalizeGeneratedData(generatedData,generatedData.rsaCounts||getRsaCounts());
+  var rows=manualChecklistCsvRows(d);
+  var zipBlob=buildManualChecklistXlsx(rows);
+  var xlsxBlob=new Blob([zipBlob],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  downloadBlobObject('manual_checklist_before_post.xlsx',xlsxBlob);
+}
+function markdownToHtml(md){
+  var lines = esc(md).split('\n');
+  var html = lines.map(function(line){
+    var t = line.trim();
+    if(!t) return '<br>';
+    if(/^#\s+/.test(t)) return '<h1>'+t.replace(/^#\s+/,'')+'</h1>';
+    if(/^##\s+/.test(t)) return '<h2>'+t.replace(/^##\s+/,'')+'</h2>';
+    if(/^###\s+/.test(t)) return '<h3>'+t.replace(/^###\s+/,'')+'</h3>';
+    if(/^[0-9]+[．.]\s+/.test(t)) return '<h2>'+t+'</h2>';
+    if(/^[・\-]\s+/.test(t)) return '<p>'+t.replace(/^[・\-]\s+/,'・ ')+'</p>';
+    return '<p>'+t+'</p>';
+  }).join('\n');
+  return html;
+}
+function printElement(id,title){var el=$(id);if(!el){alert('印刷対象がありません');return}var w=window.open('','_blank');w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+esc(title)+'</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.8;color:#111;padding:32px;max-width:900px;margin:auto}h1{font-size:24px;border-bottom:2px solid #111;padding-bottom:8px}h3{font-size:17px;border-bottom:1px solid #ddd;margin-top:28px;padding-bottom:4px}p,li{font-size:13px}ol,ul{padding-left:22px}.manual-note{background:#f7fafc;border:1px solid #cfe2f3;border-radius:6px;padding:10px 12px;font-size:12px;color:#164263;margin:10px 0}.manual-error{background:#fff8f8;border:1px solid #f0c0c0;border-radius:6px;padding:10px 12px;font-size:12px;color:#7a1f1f;margin:10px 0}@media print{body{padding:18mm}}</style></head><body><h1>'+esc(title)+'</h1>'+el.innerHTML+'</body></html>');w.document.close();w.focus();setTimeout(()=>w.print(),300)}
+function printMarkdown(id,title){var val=$(id).value;if(!val){alert('出力内容がありません');return}var w=window.open('','_blank');w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+esc(title)+'</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;line-height:1.8;color:#111;padding:32px;max-width:900px;margin:auto}h1{font-size:24px;border-bottom:2px solid #111;padding-bottom:8px}h2{font-size:18px;border-bottom:1px solid #ddd;margin-top:28px;padding-bottom:4px}h3{font-size:15px;margin-top:18px}p,li{font-size:13px}ul{padding-left:22px}@media print{body{padding:18mm}}</style></head><body>'+markdownToHtml(val)+'</body></html>');w.document.close();w.focus();setTimeout(()=>w.print(),300)}
+// ============================================================
+// ヒアリングシートCSV ダウンロード＆インポート
+// ============================================================
+var HEARING_FIELDS = [
+  { label:'業種（必須）', id:'f_gyoshu', note:'例：税理士事務所、整体院、リフォーム会社' },
+  { label:'商品・サービス名（必須）', id:'f_service', note:'例：補助金申請サポート、骨盤矯正コース' },
+  { label:'ターゲット（必須）', id:'f_target', note:'例：中小企業経営者、40代主婦' },
+  { label:'月予算・円（必須）', id:'f_budget', note:'例：100000' },
+  { label:'強み・USP（必須）', id:'f_usp', note:'例：専門家が伴走、地域密着、実績豊富' },
+  { label:'配信地域', id:'f_area', note:'例：神奈川県、東京都' },
+  { label:'最終URL（LP URL）', id:'f_final_url', note:'例：https://example.com/lp/' },
+  { label:'電話番号', id:'f_tel', note:'例：045-000-0000' },
+  { label:'サンキューページURL', id:'f_thanks_url', note:'例：https://example.com/thanks/' },
+  { label:'LINE登録URL', id:'f_line_url', note:'例：https://lin.ee/xxxxxx' },
+  { label:'競合情報・競合URL', id:'f_competitor', note:'例：競合A社URL、料金など' },
+  { label:'過去の広告実績', id:'f_past_ad', note:'例：初めて、CVR約2%' },
+  { label:'客単価・LTV', id:'f_ltv', note:'例：初回5万円、年間LTV30万円' },
+  { label:'問い合わせ〜成約の平均日数', id:'f_lead_time', note:'例：即日〜3日、平均2週間' },
+  { label:'訴求キーワード候補', id:'f_kw', note:'例：補助金申請、節税、確定申告' },
+  { label:'除外キーワード候補', id:'f_neg_kw', note:'例：無料、自分で、独学' },
+  { label:'LPの目的', id:'f_lp_goal', note:'例：問い合わせ獲得、初回相談申込' },
+  { label:'ユーザーの悩み', id:'f_pain', note:'例：どこに頼めばよいか分からない' },
+  { label:'伝えたいメッセージ', id:'f_message', note:'例：専門家が判断材料を整理します' },
+  { label:'デザイン方向性', id:'f_design', note:'例：信頼感・清潔感重視、煽りNG' },
+  { label:'CTA文言', id:'f_cta', note:'例：無料相談はこちら' },
+  { label:'NG表現・避けたい表現', id:'f_ng', note:'例：過度な断定、競合批判' },
+  { label:'備考', id:'f_memo', note:'その他特記事項' }
+];
+
+function downloadHearingSheet(){
+  // スタイル定義
+  // style 0: 通常セル（折り返し）
+  // style 1: ヘッダー（BLPカラー #1a1a1a 背景、白文字、太字）
+  // style 2: 注釈行（薄グレー背景）
+  // style 3: 必須項目ラベル（薄いクリーム背景）
+  // style 4: 任意項目ラベル（白背景）
+  // style 5: 回答欄（薄黄色背景、折り返し）
+  // style 6: 記入例（薄グレー文字）
+  var stylesXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+      '<fonts count="4">'+
+        '<font><sz val="11"/><name val="Yu Gothic UI"/><family val="2"/></font>'+
+        '<font><b/><sz val="12"/><name val="Yu Gothic UI"/><family val="2"/></font>'+
+        '<font><sz val="10"/><color rgb="FF888888"/><name val="Yu Gothic UI"/><family val="2"/></font>'+
+        '<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Yu Gothic UI"/><family val="2"/></font>'+
+      '</fonts>'+
+      '<fills count="7">'+
+        '<fill><patternFill patternType="none"/></fill>'+
+        '<fill><patternFill patternType="gray125"/></fill>'+
+        '<fill><patternFill patternType="solid"><fgColor rgb="FF1a1a1a"/></patternFill></fill>'+
+        '<fill><patternFill patternType="solid"><fgColor rgb="FFF5F4F0"/></patternFill></fill>'+
+        '<fill><patternFill patternType="solid"><fgColor rgb="FFFFFBF0"/></patternFill></fill>'+
+        '<fill><patternFill patternType="solid"><fgColor rgb="FFFFFFFA"/></patternFill></fill>'+
+        '<fill><patternFill patternType="solid"><fgColor rgb="FFEEEEEE"/></patternFill></fill>'+
+      '</fills>'+
+      '<borders count="2">'+
+        '<border><left/><right/><top/><bottom/><diagonal/></border>'+
+        '<border><left style="thin"><color rgb="FFDDDDDD"/></left><right style="thin"><color rgb="FFDDDDDD"/></right><top style="thin"><color rgb="FFDDDDDD"/></top><bottom style="thin"><color rgb="FFDDDDDD"/></bottom><diagonal/></border>'+
+      '</borders>'+
+      '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+      '<cellXfs count="7">'+
+        '<xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyAlignment="1" applyBorder="1" applyProtection="1"><alignment vertical="top" wrapText="1"/><protection locked="1"/></xf>'+
+        '<xf numFmtId="0" fontId="3" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1" applyProtection="1"><alignment horizontal="left" vertical="center" wrapText="1"/><protection locked="1"/></xf>'+
+        '<xf numFmtId="0" fontId="2" fillId="6" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment vertical="top" wrapText="1"/><protection locked="1"/></xf>'+
+        '<xf numFmtId="0" fontId="1" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment vertical="center" wrapText="1"/><protection locked="1"/></xf>'+
+        '<xf numFmtId="0" fontId="0" fillId="5" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment vertical="center" wrapText="1"/><protection locked="0"/></xf>'+
+        '<xf numFmtId="0" fontId="0" fillId="4" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment vertical="center" wrapText="1"/><protection locked="0"/></xf>'+
+        '<xf numFmtId="0" fontId="2" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1" applyProtection="1"><alignment vertical="top" wrapText="1"/><protection locked="1"/></xf>'+
+      '</cellXfs>'+
+      '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'+
+    '</styleSheet>';
+
+  var sheetRows = [];
+  var rowNum = 1;
+
+  function xCell(ref, value, styleId){
+    var safe = xmlEsc(value);
+    return '<c r="'+ref+'" t="inlineStr" s="'+styleId+'"><is><t xml:space="preserve">'+safe+'</t></is></c>';
+  }
+
+  // ヘッダー行
+  sheetRows.push('<row r="'+rowNum+'" ht="28" customHeight="1">'+
+    xCell('A'+rowNum, '項目', 1)+
+    xCell('B'+rowNum, '回答欄（こちらに記入してください）', 1)+
+    xCell('C'+rowNum, '記入例・補足', 1)+
+  '</row>'); rowNum++;
+
+  // 注釈行
+  sheetRows.push('<row r="'+rowNum+'" ht="20" customHeight="1">'+
+    xCell('A'+rowNum, '【記入方法】B列「回答欄」にご記入ください。A列・C列は変更しないでください。', 2)+
+    xCell('B'+rowNum, '', 2)+
+    xCell('C'+rowNum, '', 2)+
+  '</row>'); rowNum++;
+
+  // 必須・任意の区切りフラグ
+  var requiredDone = false;
+  HEARING_FIELDS.forEach(function(f){
+    var isRequired = f.label.indexOf('（必須）') >= 0;
+    // 任意項目の最初に区切り行を入れる
+    if(!isRequired && !requiredDone){
+      requiredDone = true;
+      sheetRows.push('<row r="'+rowNum+'" ht="18" customHeight="1">'+
+        xCell('A'+rowNum, '▼ 任意項目（入力できる範囲でご記入ください）', 2)+
+        xCell('B'+rowNum, '', 2)+
+        xCell('C'+rowNum, '', 2)+
+      '</row>'); rowNum++;
+    }
+    var labelStyle = isRequired ? 3 : 4;
+    var answerStyle = isRequired ? 5 : 0;
+    sheetRows.push('<row r="'+rowNum+'" ht="32" customHeight="1">'+
+      xCell('A'+rowNum, f.label, labelStyle)+
+      xCell('B'+rowNum, '', answerStyle)+
+      xCell('C'+rowNum, f.note, 6)+
+    '</row>'); rowNum++;
+  });
+
+  var sheetXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+    '<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>'+
+    '<sheetFormatPr defaultRowHeight="22"/>'+
+    '<cols>'+
+      '<col min="1" max="1" width="36" customWidth="1"/>'+
+      '<col min="2" max="2" width="52" customWidth="1"/>'+
+      '<col min="3" max="3" width="44" customWidth="1"/>'+
+    '</cols>'+
+    '<sheetData>'+sheetRows.join('')+'</sheetData>'+
+    '<sheetProtection sheet="1" objects="1" scenarios="1" selectLockedCells="0" selectUnlockedCells="0"/>'+
+    '<pageMargins left="0.5" right="0.5" top="0.75" bottom="0.75" header="0.3" footer="0.3"/>'+
+    '</worksheet>';
+
+  var workbookXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+
+    '<sheets><sheet name="ヒアリングシート" sheetId="1" r:id="rId1"/></sheets></workbook>';
+  var workbookRels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>'+
+    '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'+
+    '</Relationships>';
+  var relsXml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>'+
+    '</Relationships>';
+  var contentTypes = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+    '<Default Extension="xml" ContentType="application/xml"/>'+
+    '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+
+    '<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'+
+    '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+
+    '</Types>';
+
+  var zip = buildZip([
+    ['[Content_Types].xml', contentTypes],
+    ['_rels/.rels', relsXml],
+    ['xl/workbook.xml', workbookXml],
+    ['xl/_rels/workbook.xml.rels', workbookRels],
+    ['xl/styles.xml', stylesXml],
+    ['xl/worksheets/sheet1.xml', sheetXml]
+  ]);
+  var blob = new Blob([zip], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  downloadBlobObject('BLP_ヒアリングシート.xlsx', blob);
+}
+
+function parseCsvLine(line){
+  var result = [], cur = '', inQ = false;
+  for(var i = 0; i < line.length; i++){
+    var ch = line[i];
+    if(inQ){
+      if(ch === '"' && line[i+1] === '"'){ cur += '"'; i++; }
+      else if(ch === '"'){ inQ = false; }
+      else { cur += ch; }
+    } else {
+      if(ch === '"'){ inQ = true; }
+      else if(ch === ','){ result.push(cur); cur = ''; }
+      else { cur += ch; }
+    }
+  }
+  result.push(cur);
+  return result;
+}
+
+
+function normalizeHearingLabel(label){
+  return String(label||'')
+    .replace(/^\uFEFF/,'')
+    .replace(/[ \t\r\n　]/g,'')
+    .trim();
+}
+function applyHearingMap(map, sourceLabel){
+  var status = document.getElementById('hearing-import-status');
+  var normalizedMap = {};
+  Object.keys(map||{}).forEach(function(k){
+    normalizedMap[normalizeHearingLabel(k)] = map[k];
+  });
+
+  var filled = 0, skipped = 0;
+  HEARING_FIELDS.forEach(function(f){
+    var key = normalizeHearingLabel(f.label);
+    var val = normalizedMap[key];
+    if(val !== undefined && String(val).trim() !== ''){
+      var el = document.getElementById(f.id);
+      if(el){ el.value = String(val).trim(); filled++; }
+    } else {
+      skipped++;
+    }
+  });
+
+  if(filled === 0){
+    status.textContent = '⚠ 項目名が一致しませんでした。BLPが発行したヒアリングシートを使用し、A列の項目名を変更していないか確認してください。独自に保存形式を変更した場合は、.xlsx形式で保存し直すか、CSV UTF-8形式で予備読込を試してください。';
+    status.style.color = '#c62828';
+    return;
+  }
+
+  status.textContent = sourceLabel + 'から' + filled + '項目を自動入力しました。' + (skipped > 0 ? ' 未記入または未一致：' + skipped + '項目。' : '');
+  status.style.color = '#27500a';
+  document.getElementById('s0').scrollIntoView({behavior:'smooth'});
+}
+function importHearingXlsx(input){
+  var status = document.getElementById('hearing-import-status');
+  var file = input.files && input.files[0];
+  if(!file){ status.textContent = ''; return; }
+
+  if(typeof XLSX === 'undefined'){
+    status.textContent = 'Excel読込ライブラリを読み込めませんでした。ネット接続を確認するか、予備のCSV読込を使用してください。';
+    status.style.color = '#c62828';
+    input.value = '';
+    return;
+  }
+
+  var reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      var data = new Uint8Array(e.target.result);
+      var workbook = XLSX.read(data, {type:'array'});
+      var sheetName = workbook.SheetNames[0];
+      var sheet = workbook.Sheets[sheetName];
+      var rows = XLSX.utils.sheet_to_json(sheet, {header:1, defval:''});
+      var map = {};
+
+      rows.forEach(function(row){
+        var label = String(row[0]||'').trim();
+        var value = String(row[1]||'').trim();
+        if(label && label.indexOf('【記入方法】') === -1 && label.indexOf('▼ 任意項目') === -1 && label !== '項目'){
+          map[label] = value;
+        }
+      });
+
+      applyHearingMap(map, 'Excel');
+    } catch(err) {
+      console.error('Hearing XLSX import error:', err);
+      status.textContent = 'Excelの読み込みに失敗しました。BLPが発行したヒアリングシートか、A列の項目名を変更していないか確認してください。パスワード付きの場合は解除し、旧形式の.xlsやGoogleスプレッドシート経由で保存した場合は.xlsx形式で保存し直してください。それでも読み込めない場合はCSV UTF-8形式で予備読込を試してください。';
+      status.style.color = '#c62828';
+    }
+    input.value = '';
+  };
+  reader.onerror = function(){
+    status.textContent = 'Excelファイルの読み込みに失敗しました。パスワード付きの場合は解除し、.xlsx形式で保存し直してから再度読み込んでください。';
+    status.style.color = '#c62828';
+    input.value = '';
+  };
+  reader.readAsArrayBuffer(file);
+}
+function importHearingCsv(input){
+  var status = document.getElementById('hearing-import-status');
+  var file = input.files && input.files[0];
+  if(!file){ status.textContent = ''; return; }
+  var reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      var text = e.target.result.replace(/^\uFEFF/, '');
+      var lines = text.split(/\r?\n/).filter(function(l){ return l.trim(); });
+      var dataRows = lines.slice(2);
+      var map = {};
+      dataRows.forEach(function(line){
+        var cols = parseCsvLine(line);
+        var label = (cols[0]||'').trim();
+        var value = (cols[1]||'').trim();
+        if(label && label.indexOf('▼ 任意項目') === -1) map[label] = value;
+      });
+      applyHearingMap(map, 'CSV');
+    } catch(err) {
+      console.error('Hearing CSV import error:', err);
+      status.textContent = 'CSVの読み込みに失敗しました。CSV UTF-8で保存しているか、A列の項目名を変更していないか確認してください。';
+      status.style.color = '#c62828';
+    }
+    input.value = '';
+  };
+  reader.onerror = function(){
+    status.textContent = 'CSVファイルの読み込みに失敗しました。';
+    status.style.color = '#c62828';
+    input.value = '';
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+
+(function init(){for(let i=0;i<=24;i++){let o=document.createElement('option');o.value=o.textContent=i;$('f_time_from').appendChild(o.cloneNode(true));$('f_time_to').appendChild(o)}$('f_time_from').value='9';$('f_time_to').value='18';var saved=localStorage.getItem('blp_api_key');if(saved){$('api-key').placeholder='保存済み（変更する場合は新しいキーを入力）';$('api-status').textContent='✓ 保存済み';$('save-key-btn').textContent='更新';$('delete-key-btn').style.display='inline-block'}updateMode();refreshProjectSelect();refreshTemplateSelect()})();
+</script>
+</body>
+</html>
